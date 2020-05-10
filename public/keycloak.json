@@ -1,0 +1,8 @@
+{
+  "realm": "OIS",
+  "auth-server-url": "https://keycloak-beta.hsiang.me/auth/",
+  "ssl-required": "external",
+  "resource": "timelog",
+  "public-client": true,
+  "confidential-port": 0
+}

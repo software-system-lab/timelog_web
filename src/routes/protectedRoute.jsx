@@ -5,15 +5,21 @@ import Keycloak from 'keycloak-js'
 class ProtectedRoute extends Component {
 
     render() {
-        const { component: Component, authenticated: authenticated, ...props } = this.props
+        const { 
+            component: Component,
+            authenticated: authenticated,
+            login: login,
+            ...props } = this.props
+
         return (
             <Route
                 {...props}
-                render={props => (
-                this.authenticated ?
-                    <Component {...props} /> :
-                    <Redirect to="/login" />
-                )}
+                render={props => {
+                    if (!this.authenticated) {
+                        this.props.login()
+                    }
+                    return (<Component {...props}/>)
+                }}
             />
         )
     }

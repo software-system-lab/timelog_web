@@ -13,7 +13,9 @@ class App extends Component {
         <ul>
           <li><Link to="/welcome">public component</Link></li>
           <li><Link to="/secured">Login</Link></li>
+          <li><Link to="/profile">Profile</Link></li>
         </ul>
+        <h3>main page</h3>
         <AllRoutes/>
       </div>
     );

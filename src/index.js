@@ -14,9 +14,6 @@ import { Route, BrowserRouter } from 'react-router-dom';
 // import 'mdbootstrap/css/mdb.min.css';
 // import 'mdbootstrap/css/style.css';
 // import 'mdbootstrap/css/addons/datatables.min.css'
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'bootstrap-css-only/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
 
 ReactDOM.render(
   <React.StrictMode>

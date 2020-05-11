@@ -3,8 +3,6 @@ import { Switch, Route } from "react-router-dom";
 import appRoutes from "./route";
 import ProtectedRoute from "./protectedRoute";
 import Keycloak from 'keycloak-js'
-import Sidebar from 'views/Sidebar'
-import { Row, Col } from "react-bootstrap";
 
 class AllRoutes extends Component {
 
@@ -47,11 +45,11 @@ class AllRoutes extends Component {
                             )
                     })}
                 </Switch>
-                {this.state.authenticated && (
+                {/* {this.state.authenticated && (
                     <button type="button" onClick={this.logout}>
                         Logout
                     </button>
-                )}
+                )} */}
             </div>
         )
     }

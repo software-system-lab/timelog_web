@@ -5,6 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter } from 'react-router-dom';
 
+// import './assets/css/index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import './assets/css/animate.min.css';
+// import './assets/sass/light-bootstrap-dashboard.css';
+// import './assets/css/demo.css';
+// import './assets/css/pe-icon-7-stroke.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

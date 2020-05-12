@@ -15,8 +15,9 @@ class AllRoutes extends Component {
     }
 
     loginWithKeycloak() {
+        const keycloak = Keycloak('./keycloak.json')
+        document.keycloak = keycloak
         if (!this.state.authenticated) {
-            const keycloak = Keycloak('./keycloak.json')
             keycloak.init({onLoad: 'login-required'}).then(authenticated => {
                 this.setState({ keycloak: keycloak, authenticated: authenticated })
             })
@@ -34,7 +35,7 @@ class AllRoutes extends Component {
                 <Switch>
                     {appRoutes.map((prop, key) => {
                         return (
-                                <ProtectedRoute 
+                                <ProtectedRoute
                                     path={prop.path}
                                     component={prop.component}
                                     key={prop.path}

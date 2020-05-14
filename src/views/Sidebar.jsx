@@ -74,20 +74,22 @@ function Sidebar(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-      Timelog
+        <img src="timelog.png" className="logo"/>
       </div>
       <List>
         <ListItem >
           <Button startIcon={<AddIcon/>}
             className="sidebar-list-tiem"
-            onClick={ ()=>{ handleAddLogOpen() } }>
+            onClick={ ()=>{ handleAddLogOpen() } }
+            variant="contained"
+            color="primary">
             Add Log
           </Button>
         </ListItem>
       </List>
       <Divider />
       <List>
-        {['Board', 'History'].map((text, index) => (
+        {[].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />

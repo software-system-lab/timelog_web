@@ -21,6 +21,8 @@ class AllRoutes extends Component {
             keycloak.init({onLoad: 'login-required'}).then(authenticated => {
                 this.setState({ keycloak: keycloak, authenticated: authenticated })
             })
+        } else {
+          keycloak.init();
         }
     }
 

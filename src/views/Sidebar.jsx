@@ -8,6 +8,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import './Sidebar.css'
+import { withKeycloak } from '@react-keycloak/web'
 
 import AddLog from './AddLog'
 
@@ -118,4 +119,4 @@ function Sidebar(props) {
   )
 }
 
-export default Sidebar
+export default withKeycloak(Sidebar)

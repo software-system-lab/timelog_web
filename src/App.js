@@ -22,8 +22,7 @@ class App extends Component {
       <div className="container" style={{margin: 0, maxWidth: '100%'}}>
         <KeycloakProvider
           keycloak={this.state.keycloak}
-          initConfig={this.state.initConfig}
-          onTokens={(tokens) => { console.log(tokens) }} >
+          initConfig={this.state.initConfig} >
           <div>
             <Sidebar />
             <AllRoutes />

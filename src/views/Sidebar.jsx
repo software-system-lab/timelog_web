@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Sidebar(props) {
-  const { window } = props;
+  const { window, keycloak } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);

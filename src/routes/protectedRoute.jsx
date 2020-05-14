@@ -1,28 +1,11 @@
-import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import Keycloak from 'keycloak-js'
+import React from 'react'
+import { Route } from 'react-router-dom'
+import { withKeycloak } from '@react-keycloak/web'
 
-class ProtectedRoute extends Component {
-
-    render() {
-        const { 
-            component: Component,
-            authenticated: authenticated,
-            login: login,
-            ...props } = this.props
-
-        return (
-            <Route
-                {...props}
-                render={props => {
-                    if (!this.authenticated) {
-                        this.props.login()
-                    }
-                    return (<Component {...props}/>)
-                }}
-            />
-        )
-    }
+function ProtectedRoute({ component: Component, ...rest}) {
+    return rest.keycloakInitialized && <Route {...rest} render={props => (
+        rest.keycloak.authenticated ? <Component {...props} /> : rest.keycloak.login()
+    )} />
 }
 
-export default ProtectedRoute
+export default withKeycloak(ProtectedRoute)

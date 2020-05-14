@@ -1,35 +1,9 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import appRoutes from "./route";
 import ProtectedRoute from "./protectedRoute";
-import Keycloak from 'keycloak-js'
 
 class AllRoutes extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = { keycloak: null, authenticated: false };
-        this.loginWithKeycloak = this.loginWithKeycloak.bind(this)
-        this.logout = this.logout.bind(this)
-    }
-
-    loginWithKeycloak() {
-        const keycloak = Keycloak('./keycloak.json')
-        document.keycloak = keycloak
-        if (!this.state.authenticated) {
-            keycloak.init({onLoad: 'login-required'}).then(authenticated => {
-                this.setState({ keycloak: keycloak, authenticated: authenticated })
-            })
-        } else {
-          keycloak.init();
-        }
-    }
-
-    logout() {
-        this.state.keycloak.logout()
-        this.setState({ authenticated: false })
-    }
 
     render() {
         return (
@@ -41,18 +15,10 @@ class AllRoutes extends Component {
                                     path={prop.path}
                                     component={prop.component}
                                     key={prop.path}
-                                    authenticated={this.state.authenticated}
-                                    login={this.loginWithKeycloak}
-                                    keycloak={this.state.keycloak}
                                 />
                             )
                     })}
                 </Switch>
-                {/* {this.state.authenticated && (
-                    <button type="button" onClick={this.logout}>
-                        Logout
-                    </button>
-                )} */}
             </div>
         )
     }

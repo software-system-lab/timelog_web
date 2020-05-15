@@ -13,14 +13,17 @@ import {
 } from '@material-ui/core';
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { withKeycloak } from '@react-keycloak/web'
 import Cookies from 'js-cookie';
 
 import axios from 'axios'
-
+import moment from 'moment'
 class AddLog extends Component {
 
   constructor(props) {
     super(props)
+    const { window, keycloak } = props;
+    this.keycloak = keycloak;
 
     this.state = {
       title: "",
@@ -32,24 +35,24 @@ class AddLog extends Component {
   }
 
   submit() {
-    // const keycloakCookie = Cookies.withAttributes({ path: '/auth/realms/OIS/', domain: 'keycloak-beta.hsiang.me' })
     // send request to server
     this.props.handleClose()
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': document.keycloak.token
+      'Authorization': this.keycloak.token
     }
+
+    const dateFormat = 'yyyy/MM/DD HH:mm'
+
     const body = {
+      userID: this.keycloak.subject,
       title: this.state.title,
       description: this.state.description,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime
+      startTime: moment(this.state.startTime).format(dateFormat),
+      endTime: moment(this.state.endTime).format(dateFormat)
     }
 
-
-    console.log(headers, body)
-
-    axios.post('http://localhost:9000/log/record', body, { headers: headers })
+    axios.post('http://localhost:9000/api/log/record', body, { headers: headers })
       .then( response => {
         alert('Add log success');
       })
@@ -57,7 +60,7 @@ class AddLog extends Component {
         console.log(err);
         alert('Add log failed');
       })
-  }
+    }
 
   render() {
     return (
@@ -138,7 +141,7 @@ class AddLog extends Component {
 
 }
 
-export default AddLog
+export default withKeycloak(AddLog)
 
 /*
   title

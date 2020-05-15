@@ -63,7 +63,6 @@ function Sidebar(props) {
 
   const handleAddLogOpen = () => {
     setAddLogOpen(true);
-    console.log(keycloak.subject)
   };
 
   const handleAddLogClose = () => {

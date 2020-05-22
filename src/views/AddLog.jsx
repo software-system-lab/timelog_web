@@ -42,7 +42,7 @@ class AddLog extends Component {
       'Authorization': this.keycloak.token
     }
 
-    const dateFormat = 'yyyy/MM/DD HH:mm'
+    const dateFormat = 'YYYY/MM/DD HH:mm'
 
     const body = {
       userID: this.keycloak.subject,

@@ -1,0 +1,11 @@
+.view {
+    display: flex;
+}
+
+.main {
+    position: fixed;
+    top: 5vh;
+    left: 20vw;
+    width: 70vw;
+    margin: 0 5vw 0 5vw;
+}

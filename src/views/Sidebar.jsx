@@ -3,17 +3,19 @@ import { Drawer, List, ListItem, ListItemText, ListItemIcon,  Button, DialogTitl
 import Hidden from '@material-ui/core/Hidden';
 import MailIcon from '@material-ui/icons/Mail';
 import AddIcon from '@material-ui/icons/Add';
+import HistoryIcon from '@material-ui/icons/History';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
 import { withKeycloak } from '@react-keycloak/web'
 
 import AddLog from './AddLog'
 
 
-const drawerWidth = 240;
+const drawerWidth = '20vw';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    // height: '100vh',
+    // position: 'relative',
   },
   content: {
     flexGrow: 1,
@@ -51,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Sidebar(props) {
-  const { window, keycloak } = props;
+  const { window, keycloak,  } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -69,41 +73,62 @@ function Sidebar(props) {
     setAddLogOpen(false);
   };
 
+  const history = useHistory();
+
+  const goToHistory = () => {
+    history.push("/history")
+  };
+
+  const goToWelcome = () => {
+    history.push("/welcome")
+  };
+
   const container = window !== undefined ? () => window().document.body : undefined
 
 
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <img src="timelog.png" className="logo"/>
+        <img src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/>
       </div>
       <List>
-        <ListItem >
+        <ListItem className="sidebar-list">
           <Button startIcon={<AddIcon/>}
-            className="sidebar-list-tiem"
+            className="sidebar-list-item"
             onClick={ ()=>{ handleAddLogOpen() } }
             variant="contained"
             color="primary">
             Add Log
           </Button>
         </ListItem>
+        <ListItem className="sidebar-list">
+          <Button startIcon={<HistoryIcon/>}
+            className="sidebar-list-item"
+            onClick={ ()=> {goToHistory()} }
+            variant="contained"
+            color="primary">
+            History
+          </Button>
+        </ListItem>
       </List>
       <Divider />
-      <List>
-        {[].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      {/* <List>
+        <ListItem className="sidebar-list">
+          <Button startIcon={<HistoryIcon/>}
+            className="sidebar-list-item"
+            onClick={ ()=> {goToHistory()} }
+            to = "/history"
+            variant="contained"
+            color="primary">
+            History
+          </Button>
+        </ListItem>
+      </List> */}
     </div>
   )
 
   return (
-    <div>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-      {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+
         <Drawer
           classes={{
             paper: classes.drawerPaper,
@@ -113,10 +138,10 @@ function Sidebar(props) {
         >
           {drawer}
         </Drawer>
-      <AddLog open={addLogOpen} handleClose={handleAddLogClose}/>
-    </nav>
-    </div>
+      // <AddLog open={addLogOpen} handleClose={handleAddLogClose}/>
+
   )
 }
+
 
 export default withKeycloak(Sidebar)

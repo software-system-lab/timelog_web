@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import AllRoutes from './routes/allRoutes';
 import Sidebar from './views/Sidebar';
-import { KeycloakProvider } from '@react-keycloak/web'
-import Keycloak from 'keycloak-js'
+import { KeycloakProvider } from '@react-keycloak/web';
+import Keycloak from 'keycloak-js';
+import './App.css';
 
 class App extends Component {
 
@@ -19,13 +20,15 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container" style={{margin: 0, maxWidth: '100%'}}>
+      <div className="container" style={{maxWidth: '100%'}}>
         <KeycloakProvider
           keycloak={this.state.keycloak}
           initConfig={this.state.initConfig} >
-          <div>
+          <div class='view'>
             <Sidebar />
-            <AllRoutes />
+            <main class='main'>
+              <AllRoutes />
+            </main>
           </div>
         </KeycloakProvider>
       </div>

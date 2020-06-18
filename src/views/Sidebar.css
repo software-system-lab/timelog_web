@@ -1,5 +1,11 @@
-.sidebar-list-tiem {
+.sidebar-list-item {
   text-align: center;
+  display: block;
+}
+
+.sidebar-list {
+  orientation: vertical;
+  display: block;
 }
 
 .logo {

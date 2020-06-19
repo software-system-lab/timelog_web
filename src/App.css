@@ -1,11 +1,13 @@
 .view {
     display: flex;
+    overflow: scroll;
 }
 
 .main {
+    display: flex;
     position: fixed;
     top: 5vh;
-    left: 20vw;
-    width: 70vw;
+    left: 30%;
+    width: 50vw;
     margin: 0 5vw 0 5vw;
 }

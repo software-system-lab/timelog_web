@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
 import { forwardRef } from 'react';
+import { withKeycloak } from '@react-keycloak/web'
+import axios from 'axios'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -28,6 +30,41 @@ const tableIcons = {
 };
 
 class History extends Component {
+    constructor(props) {
+      super(props);
+      const { keycloak } = props;
+      this.keycloak = keycloak;
+      this.reload();
+      this.state = {
+        logList: []
+      }
+    }
+
+    reload() {
+      console.log(this.keycloak);
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': this.keycloak.token
+      }
+      const body = {
+        userID: this.keycloak.subject,
+        startDate: localStorage.getItem("startDate"),
+        endDate: localStorage.getItem("endDate")
+      }
+
+      axios.post('http://localhost:9000/api/log/history', body, { headers: headers })
+      .then( response => {
+        console.log(response);
+        this.response.data.foreach( data => {
+          this.logList.append(data);
+        })
+      })
+      .catch( err => {
+        console.log(err);
+        alert('Add log failed');
+      })
+    }
+
     render() {
       return (
         <div>
@@ -39,11 +76,7 @@ class History extends Component {
               { title: "Start Time", field: "startTime" },
               { title: "End Time", field: "endTime" }
             ]}
-            data={[
-              { title: "Course", activityType: "OOAD", startTime: "2020-06-05 16:00", endTime: "2020-06-05 17:00" },
-              { title: "Work", activityType: "OIS", startTime: "2020-06-07 10:00", endTime: "2020-06-07 12:00" },
-              { title: "Planning", activityType: "OIS", startTime: "2020-06-07 13:00", endTime: "2020-06-07 15:00" },
-            ]}
+            data={this.state.logList}
             options={{ 
               search: true,
             }}
@@ -53,4 +86,4 @@ class History extends Component {
     }
   }
 
-export default withRouter(History)
+export default withRouter(withKeycloak(History))

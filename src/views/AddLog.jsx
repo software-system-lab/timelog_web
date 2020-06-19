@@ -48,7 +48,8 @@ class AddLog extends Component {
       title: this.state.title,
       description: this.state.description,
       startTime: moment(this.state.startTime).format(dateFormat),
-      endTime: moment(this.state.endTime).format(dateFormat)
+      endTime: moment(this.state.endTime).format(dateFormat),
+      activityTypeName: 'Others'
     }
 
     axios.post('http://localhost:9000/api/log/record', body, { headers: headers })

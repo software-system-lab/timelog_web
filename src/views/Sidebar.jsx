@@ -133,8 +133,6 @@ function Sidebar(props) {
                     label="Start date"
                     value={ localStorage.getItem("startDate") }
                     format="yyyy/MM/dd"
-                    onChange={(date) => {
-                      this.setState({startDate: date, minimumDate: date})}}
                     disabled={true}
                   />
                 </FormControl>
@@ -152,8 +150,6 @@ function Sidebar(props) {
                     label="End date"
                     value={ localStorage.getItem("endDate") }
                     format="yyyy/MM/dd"
-                    onChange={(date) => {
-                      this.setState({endDate: date, maximumDate: date})}}
                     disabled={true}
                   />
                 </FormControl>
@@ -215,7 +211,7 @@ function Sidebar(props) {
         </Drawer>
       </Hidden>
       <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
-      <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose}/>
+      <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose} startDate={props.startDate} endDate={props.endDate} updateDates={props.updateDates}/>
       <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/>
     </nav>
   )

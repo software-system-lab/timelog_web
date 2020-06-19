@@ -22,24 +22,20 @@ class Duration extends Component {
     this.keycloak = keycloak;
 
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
-      minimumDate: new Date(),
-      maximumDate: new Date(),
+      startDate: props.startDate,
+      endDate: props.endDate,
+      minimumDate: props.startDate,
+      maximumDate: props.endDate,
     }
-    localStorage.setItem('startDate', this.state.startDate);
-    localStorage.setItem('endDate', this.state.endDate);
+
     this.submit = this.submit.bind(this)
   }
   
   submit() {
     // send request to server
     this.props.handleClose()
-    localStorage.setItem('startDate', this.state.startDate);
-    localStorage.setItem('endDate', this.state.endDate);
+    this.props.updateDates(this.state.startDate, this.state.endDate);
 
-    console.log(localStorage.getItem('startDate'));
-    console.log(localStorage.getItem('endDate'));
     // const headers = {
     //   'Content-Type': 'application/json',
     //   'Authorization': this.keycloak.token

@@ -16,31 +16,42 @@ class App extends Component {
         pkceMethod: 'S256',
         onLoad: 'login-required'
       },
-      mobileOpen: false
+      mobileOpen: false,
+      startDate: new Date(),
+      endDate: new Date()
     }
-
+    localStorage.setItem('startDate', this.state.startDate);
+    localStorage.setItem('endDate', this.state.endDate);
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
+    this.updateDates = this.updateDates.bind(this)
   }
 
   handleDrawerToggle () {
     this.setState({
       mobileOpen: !this.mobileOpen
     })
-    console.log(this.state.mobileOpen + "rrr")
   };
 
-  render() {
+  updateDates(startDate, endDate){
+    this.setState({
+      startDate: startDate,
+      endDate: endDate
+    })
+    localStorage.setItem('startDate', startDate)
+    localStorage.setItem('endDate', endDate)
+  }
 
+  render() {
     return (
       <div className="container" style={{maxWidth: '100%'}}>
         <KeycloakProvider
           keycloak={this.state.keycloak}
           initConfig={this.state.initConfig} >
           <div className="view">
-            <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle}/>
-            <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle}/>
+            <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
+            <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
             <div className="main">
-              <AllRoutes />
+              <AllRoutes startDate={this.state.startDate} endDate={this.state.endDate} />
             </div>
           </div>
         </KeycloakProvider>

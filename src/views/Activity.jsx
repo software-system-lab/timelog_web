@@ -39,7 +39,8 @@ function Activity() {
   const [data, setData] = useState([
     { activityType: "OIS", private: false, disable: false },
     { activityType: "OOAD", private: false, disable: false },
-    { activityType: "TDCC", private: false, disable: false }
+    { activityType: "SA", private: false, disable: false },
+    { activityType: "STV", private: false, disable: false },
   ]);
 
   return (

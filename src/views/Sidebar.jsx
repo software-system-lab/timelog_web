@@ -1,16 +1,22 @@
 import React from 'react'
-import { Drawer, List, ListItem, ListItemText, ListItemIcon,  Button } from '@material-ui/core'
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, Button,
+  Grid, FormControl } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
+import AvTimerIcon from '@material-ui/icons/AvTimer';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import HistoryIcon from '@material-ui/icons/History';
 import Hidden from '@material-ui/core/Hidden';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Divider from '@material-ui/core/Divider';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
 import { withKeycloak } from '@react-keycloak/web'
 import AddLog from './AddLog'
+import Duration from './Duration'
 import UserProfile from './UserProfile';
 
 const drawerWidth = '15vw';
@@ -40,6 +46,7 @@ function Sidebar(props) {
   const theme = useTheme();
   // const [mobileOpen, setMobileOpen] = React.useState(false);
   const [addLogOpen, setAddLogOpen] = React.useState(false);
+  const [durationOpen, setDurationOpen] = React.useState(false);
   const [userProfileOpen, setUserProfileOpen] = React.useState(false);
 
   // const handleDrawerToggle = () => {
@@ -55,6 +62,14 @@ function Sidebar(props) {
     setAddLogOpen(false);
   };
 
+  const handleDurationOpen = () => {
+    setDurationOpen(true);
+  };
+
+  const handleDurationClose = () => {
+    setDurationOpen(false);
+  };
+
   const handleUserProfileOpen = () => {
     setUserProfileOpen(true);
   };
@@ -64,6 +79,10 @@ function Sidebar(props) {
   };
 
   const history = useHistory();
+
+  const goToBoard = () => {
+    history.push("/board")
+  };
 
   const goToHistory = () => {
     history.push("/history")
@@ -95,9 +114,60 @@ function Sidebar(props) {
             Add Log
           </Button>
         </ListItem>
+        <ListItem className="sidebar-list">
+          <Button startIcon={<AvTimerIcon/>}
+            className="sidebar-list-item"
+            onClick={ ()=>{ handleDurationOpen() } }
+            variant="contained"
+            color="primary">
+            Duration
+          </Button>
+        </ListItem>
+        <ListItem className="sidebar-list">
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container spacing={3}>
+              <Grid item xs={10}>
+                <FormControl className="">
+                  <DatePicker
+                    autoOk
+                    label="Start date"
+                    value={ localStorage.getItem("startDate") }
+                    format="yyyy/MM/dd"
+                    onChange={(date) => {
+                      this.setState({startDate: date, minimumDate: date})}}
+                    disabled={true}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </ListItem>
+        <ListItem className="sidebar-list">
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container spacing={3}>
+              <Grid item xs={10}>
+                <FormControl>
+                  <DatePicker
+                    autoOk
+                    label="End date"
+                    value={ localStorage.getItem("endDate") }
+                    format="yyyy/MM/dd"
+                    onChange={(date) => {
+                      this.setState({endDate: date, maximumDate: date})}}
+                    disabled={true}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </ListItem>
       </List>
       <Divider/>
       <List>
+      <ListItem button key="Board" onClick={ ()=> {goToBoard()} }>
+          <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
+          <ListItemText primary="Board" />
+        </ListItem>
         <ListItem button key="History" onClick={ ()=> {goToHistory()} }>
           <ListItemIcon>{<HistoryIcon />}</ListItemIcon>
           <ListItemText primary="History" />
@@ -145,6 +215,7 @@ function Sidebar(props) {
         </Drawer>
       </Hidden>
       <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
+      <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose}/>
       <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/>
     </nav>
   )

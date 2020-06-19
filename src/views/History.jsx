@@ -34,15 +34,15 @@ class History extends Component {
           <MaterialTable title="Log History" 
             icons={tableIcons}
             columns={[
-              { title: "Activity Type", field: "activityType" },
               { title: "Title", field: "title" },
+              { title: "Activity Type", field: "activityType" },
               { title: "Start Time", field: "startTime" },
               { title: "End Time", field: "endTime" }
             ]}
             data={[
-              { activityType: "OIS", title: "Work", startTime: "2020-06-07 10:00", endTime: "2020-06-07 12:00" },
-              { activityType: "OIS", title: "Work", startTime: "2020-06-07 13:00", endTime: "2020-06-07 15:00" },
-              { activityType: "TDCC", title: "Work", startTime: "2020-06-08 11:00", endTime: "2020-06-08 12:00" }
+              { title: "Course", activityType: "OOAD", startTime: "2020-06-05 16:00", endTime: "2020-06-05 17:00" },
+              { title: "Work", activityType: "OIS", startTime: "2020-06-07 10:00", endTime: "2020-06-07 12:00" },
+              { title: "Planning", activityType: "OIS", startTime: "2020-06-07 13:00", endTime: "2020-06-07 15:00" },
             ]}
             options={{ 
               search: true,

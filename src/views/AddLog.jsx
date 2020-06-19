@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './AddLog.css';
+
 import {
   FormControl,
   InputLabel,
@@ -14,7 +14,6 @@ import {
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { withKeycloak } from '@react-keycloak/web'
-import Cookies from 'js-cookie';
 
 import axios from 'axios'
 import moment from 'moment'
@@ -22,7 +21,7 @@ class AddLog extends Component {
 
   constructor(props) {
     super(props)
-    const { window, keycloak } = props;
+    const { keycloak } = props;
     this.keycloak = keycloak;
 
     this.state = {
@@ -68,7 +67,7 @@ class AddLog extends Component {
         <DialogTitle id="add-log-dialog-title">Add Log</DialogTitle>
         <DialogContent>
           <form>
-            <FormControl>
+            <FormControl fullWidth={true}>
               <InputLabel htmlFor="title">Title</InputLabel>
               <Input id="title" onChange={(e) => {this.setState({title: e.target.value})}} />
             </FormControl>
@@ -94,7 +93,6 @@ class AddLog extends Component {
                       label="Start time"
                       value={this.state.startTime}
                       onChange={(date) => {this.setState({startTime: date})}}
-                      
                     />
                   </FormControl>
                 </Grid>
@@ -125,7 +123,7 @@ class AddLog extends Component {
               </Grid>
             </MuiPickersUtilsProvider>
             <br/>
-            <FormControl>
+            <FormControl fullWidth={true}>
               <InputLabel htmlFor="description">Description</InputLabel>
               <Input id="description" onChange={(e) => {this.setState({description: e.target.value})}}/>
             </FormControl>

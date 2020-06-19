@@ -15,22 +15,34 @@ class App extends Component {
       initConfig: {
         pkceMethod: 'S256',
         onLoad: 'login-required'
-      }
+      },
+      mobileOpen: false
     }
+
+    this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
   }
 
+  handleDrawerToggle () {
+    this.setState({
+      mobileOpen: !this.mobileOpen
+    })
+    console.log(this.state.mobileOpen + "rrr")
+  };
+
   render() {
+
     return (
       <div className="container" style={{maxWidth: '100%'}}>
         <KeycloakProvider
           keycloak={this.state.keycloak}
           initConfig={this.state.initConfig} >
-        <div className="view">
-            <Sidebar />
+          <div className="view">
+            <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle}/>
+            <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle}/>
             <div className="main">
               <AllRoutes />
             </div>
-           </div>
+          </div>
         </KeycloakProvider>
       </div>
     );

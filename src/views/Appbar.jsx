@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import { withKeycloak } from '@react-keycloak/web';
 import { makeStyles} from '@material-ui/core/styles';
-
+// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 const drawerWidth = '15vw';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
+      width: `calc(100% - ${drawerWidth})`,
       marginLeft: drawerWidth,
     },
   },
@@ -31,27 +31,26 @@ const useStyles = makeStyles((theme) => ({
 function Appbar(props) {
   const classes = useStyles();
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    props.handleDrawerToggle();
   };
+
   return (
-    <AppBar position="fixed" className='appBar'>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            History
-          </Typography>
-        </Toolbar>
+    <AppBar position="fixed" className={classes.appBar}>
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+        >
+        <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" noWrap>
+          Timelog
+        </Typography>
+      </Toolbar>
     </AppBar>
   )
 }

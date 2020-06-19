@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Keycloak from 'keycloak-js';
+// import Keycloak from 'keycloak-js';
 
 class Secured extends Component {
 

@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
 import { forwardRef } from 'react';
-import './History.css';
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -46,12 +45,7 @@ class History extends Component {
               { activityType: "TDCC", title: "Work", startTime: "2020-06-08 11:00", endTime: "2020-06-08 12:00" }
             ]}
             options={{ 
-              // paging: true,
               search: true,
-              // searchFieldStyle: {
-              //   width: "30%",
-              //   marginRight: "0%"
-              // }
             }}
           />
         </div>

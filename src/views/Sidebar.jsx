@@ -1,18 +1,17 @@
-import React, { Component } from 'react'
-import { Drawer, List, ListItem, ListItemText, ListItemIcon,  Button, DialogTitle } from '@material-ui/core'
-import Toolbar from '@material-ui/core/Toolbar';
+import React from 'react'
+import { Drawer, List, ListItem, ListItemText, ListItemIcon,  Button } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import HistoryIcon from '@material-ui/icons/History';
+import Hidden from '@material-ui/core/Hidden';
+import SettingsIcon from '@material-ui/icons/Settings';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Divider from '@material-ui/core/Divider';
-import AppBar from './Appbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
 import { withKeycloak } from '@react-keycloak/web'
 import AddLog from './AddLog'
+import UserProfile from './UserProfile';
 
 const drawerWidth = '15vw';
 
@@ -21,12 +20,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
     },
   },
   // necessary for content to be below app bar
@@ -42,15 +35,17 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Sidebar(props) {
-  const { window, keycloak,  } = props;
+  const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  // const [mobileOpen, setMobileOpen] = React.useState(false);
   const [addLogOpen, setAddLogOpen] = React.useState(false);
+  const [userProfileOpen, setUserProfileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  // const handleDrawerToggle = () => {
+  //   setMobileOpen(!mobileOpen);
+  //   props.mobileOpen = !props.handleDrawerToggle();
+  // };
 
   const handleAddLogOpen = () => {
     setAddLogOpen(true);
@@ -60,10 +55,22 @@ function Sidebar(props) {
     setAddLogOpen(false);
   };
 
+  const handleUserProfileOpen = () => {
+    setUserProfileOpen(true);
+  };
+
+  const handleUserProfileClose = () => {
+    setUserProfileOpen(false);
+  };
+
   const history = useHistory();
 
   const goToHistory = () => {
     history.push("/history")
+  };
+
+  const goToActivity = () => {
+    history.push("/activity")
   };
 
   const goToWelcome = () => {
@@ -76,7 +83,7 @@ function Sidebar(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <img src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/>
+        <img alt="Timelog" src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/>
       </div>
       <List>
         <ListItem className="sidebar-list">
@@ -88,28 +95,20 @@ function Sidebar(props) {
             Add Log
           </Button>
         </ListItem>
-        <ListItem className="sidebar-list">
-          <Button startIcon={<HistoryIcon/>}
-            className="sidebar-list-item"
-            style={{textOverflow: "clip"}}
-            onClick={ ()=> {goToHistory()} }
-            variant="contained"
-            color="primary">
-            History
-          </Button>
-        </ListItem>
       </List>
-      <Divider />
+      <Divider/>
       <List>
-        <ListItem className="sidebar-list">
-          <Button startIcon={<HistoryIcon/>}
-            className="sidebar-list-item"
-            onClick={ ()=> {goToHistory()} }
-            to = "/history"
-            variant="contained"
-            color="primary">
-            History
-          </Button>
+        <ListItem button key="History" onClick={ ()=> {goToHistory()} }>
+          <ListItemIcon>{<HistoryIcon />}</ListItemIcon>
+          <ListItemText primary="History" />
+        </ListItem>
+        <ListItem button key="Activity" onClick={ ()=> {goToActivity()} }>
+          <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
+          <ListItemText primary="Activity" />
+        </ListItem>
+        <ListItem button key="Profile" onClick={ ()=> {handleUserProfileOpen()} }>
+          <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
+          <ListItemText primary="Profile" />
         </ListItem>
       </List>
     </div>
@@ -117,16 +116,36 @@ function Sidebar(props) {
 
   return (
     <nav className={classes.drawer}>
-      <Drawer
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        variant="permanent"
-        open
-      >
-        {drawer}
-      </Drawer>
+      <Hidden smUp implementation="css">
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          container={container}
+          variant="temporary"
+          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+          open={props.mobileOpen}
+          onClose={props.handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Hidden>
+      <Hidden xsDown implementation="css">
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant="permanent"
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Hidden>
       <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
+      <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/>
     </nav>
   )
 }

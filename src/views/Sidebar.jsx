@@ -1,36 +1,26 @@
 import React, { Component } from 'react'
 import { Drawer, List, ListItem, ListItemText, ListItemIcon,  Button, DialogTitle } from '@material-ui/core'
-import Hidden from '@material-ui/core/Hidden';
-import MailIcon from '@material-ui/icons/Mail';
+import Toolbar from '@material-ui/core/Toolbar';
 import AddIcon from '@material-ui/icons/Add';
 import HistoryIcon from '@material-ui/icons/History';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from './Appbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
 import { withKeycloak } from '@react-keycloak/web'
-
 import AddLog from './AddLog'
 
-
-const drawerWidth = '20vw';
+const drawerWidth = '15vw';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-    },
-  },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
     },
   },
   menuButton: {
@@ -46,10 +36,7 @@ const useStyles = makeStyles((theme) => ({
     // height: '100vh',
     // position: 'relative',
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
+  
 }));
 
 
@@ -104,6 +91,7 @@ function Sidebar(props) {
         <ListItem className="sidebar-list">
           <Button startIcon={<HistoryIcon/>}
             className="sidebar-list-item"
+            style={{textOverflow: "clip"}}
             onClick={ ()=> {goToHistory()} }
             variant="contained"
             color="primary">
@@ -128,18 +116,18 @@ function Sidebar(props) {
   )
 
   return (
-
-        <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          variant="permanent"
-          open
-        >
-          {drawer}
-        </Drawer>
-      // <AddLog open={addLogOpen} handleClose={handleAddLogClose}/>
-
+    <nav className={classes.drawer}>
+      <Drawer
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        variant="permanent"
+        open
+      >
+        {drawer}
+      </Drawer>
+      <AddLog open={addLogOpen} handleClose={handleAddLogClose}/>
+    </nav>
   )
 }
 

@@ -8,7 +8,6 @@ const appRoutes = [
   {path: "/welcome", name:"Welcome", component: Welcome},
   {path: "/profile", name: "Profile", component: Profile},
   {path: "/secured", name:"Secured", component: Secured},
-  {path: "/addLog", name: "AddLog", component: AddLog},
   {path: "/history", name: "History", component: History}
 ]
 

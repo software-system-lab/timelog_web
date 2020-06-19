@@ -31,13 +31,8 @@ const tableIcons = {
 class History extends Component {
     render() {
       return (
-        <div className="history">
-          <MaterialTable options={{ 
-            paging: false,
-            headerStyle: {
-              width: "70%"
-            }
-          }}
+        <div>
+          <MaterialTable title="Log History" 
             icons={tableIcons}
             columns={[
               { title: "Activity Type", field: "activityType" },
@@ -50,7 +45,14 @@ class History extends Component {
               { activityType: "OIS", title: "Work", startTime: "2020-06-07 13:00", endTime: "2020-06-07 15:00" },
               { activityType: "TDCC", title: "Work", startTime: "2020-06-08 11:00", endTime: "2020-06-08 12:00" }
             ]}
-            title="Log History" className="history-table"
+            options={{ 
+              paging: true,
+              search: true,
+              // searchFieldStyle: {
+              //   width: "30%",
+              //   marginRight: "0%"
+              // }
+            }}
           />
         </div>
       );

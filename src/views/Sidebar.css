@@ -6,6 +6,7 @@
 .sidebar-list {
   orientation: vertical;
   display: block;
+  overflow: scroll;
 }
 
 .logo {

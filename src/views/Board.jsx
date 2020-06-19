@@ -3,23 +3,66 @@ import { withRouter } from "react-router-dom";
 import { Button } from '@material-ui/core'
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { withKeycloak } from '@react-keycloak/web'
 import "./Board.css";
 import Export from '../export/export.js'
+import axios from 'axios'
+import moment from 'moment'
 
 class Board extends Component {
 
   constructor(props) {
     super(props)
+    const { keycloak } = props;
+    this.keycloak = keycloak;
     this.state = {
-      totalTime: "00:00"
+      totalTime: "00:00",
+      pieData: [
+        ['Task', 'Hours per Day']
+      ]
     }
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
   }
 
+  componentDidMount() {
+    this.reload();
+  }
+
   exportReport() {
     Export.exportHTML(this.reportElement)
   };
+
+  reload() {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': this.keycloak.token
+    }
+    const body = {
+      userID: this.keycloak.subject,
+      startDate: moment(localStorage.getItem("startDate")).format("YYYY/MM/DD"),
+      endDate: moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
+    }
+
+    axios.post('http://localhost:9000/api/dash-board/spent-time', body, { headers: headers })
+    .then( response => {
+      const pieData = [
+        ['Task', 'Hours per Day']
+      ]
+      const dataMap = response.data.dataMap
+      Object.keys(dataMap).forEach((key) => {
+        pieData.push([key, dataMap[key].timeLength])
+      })
+      this.setState({
+        totalTime: response.data.totalTime,
+        pieData: pieData
+      })
+    })
+    .catch( err => {
+      console.log(err);
+      alert('Get spent time failed');
+    })
+  }
 
   render() {
     return (
@@ -38,14 +81,7 @@ class Board extends Component {
               height={'35vh'}
               chartType="PieChart"
               loader={<div>Loading Chart</div>}
-              data={[
-                ['Task', 'Hours per Day'],
-                ['Work', 11],
-                ['Eat', 2],
-                ['Commute', 2],
-                ['Watch TV', 2],
-                ['Sleep', 7],
-              ]}
+              data={this.state.pieData}
               options={{
                 chartArea: { width: '100%', height: '100%', left: '5%'},
                 title: 'DashBoard',
@@ -64,4 +100,4 @@ class Board extends Component {
     }
   }
 
-export default withRouter(Board)
+export default withRouter(withKeycloak(Board))

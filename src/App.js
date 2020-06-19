@@ -17,8 +17,8 @@ class App extends Component {
         onLoad: 'login-required'
       },
       mobileOpen: false,
-      startDate: new Date(),
-      endDate: new Date()
+      startDate: localStorage.getItem('startDate') ? localStorage.getItem('startDate') : new Date(),
+      endDate: localStorage.getItem('endDate') ? localStorage.getItem('endDate') : new Date()
     }
     localStorage.setItem('startDate', this.state.startDate);
     localStorage.setItem('endDate', this.state.endDate);

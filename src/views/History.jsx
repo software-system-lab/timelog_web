@@ -4,6 +4,7 @@ import MaterialTable from "material-table";
 import { forwardRef } from 'react';
 import { withKeycloak } from '@react-keycloak/web'
 import axios from 'axios'
+import moment from 'moment'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -34,41 +35,42 @@ class History extends Component {
       super(props);
       const { keycloak } = props;
       this.keycloak = keycloak;
-      this.reload();
       this.state = {
         logList: []
       }
     }
 
+    componentDidMount() {
+      this.reload();
+    }
+
     reload() {
-      console.log(this.keycloak);
       const headers = {
         'Content-Type': 'application/json',
         'Authorization': this.keycloak.token
       }
       const body = {
         userID: this.keycloak.subject,
-        startDate: localStorage.getItem("startDate"),
-        endDate: localStorage.getItem("endDate")
+        startDate: moment(localStorage.getItem("startDate")).format("YYYY/MM/DD"),
+        endDate: moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
       }
 
       axios.post('http://localhost:9000/api/log/history', body, { headers: headers })
       .then( response => {
-        console.log(response);
-        this.response.data.foreach( data => {
-          this.logList.append(data);
+        this.setState({
+          logList: response.data.logItemList
         })
       })
       .catch( err => {
         console.log(err);
-        alert('Add log failed');
+        alert('Get history failed');
       })
     }
 
     render() {
       return (
         <div>
-          <MaterialTable title="Log History" 
+          <MaterialTable title="Log History"
             icons={tableIcons}
             columns={[
               { title: "Title", field: "title" },
@@ -77,7 +79,7 @@ class History extends Component {
               { title: "End Time", field: "endTime" }
             ]}
             data={this.state.logList}
-            options={{ 
+            options={{
               search: true,
             }}
           />

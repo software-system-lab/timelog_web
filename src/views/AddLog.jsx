@@ -83,7 +83,6 @@ class AddLog extends Component {
                       value={this.state.startTime}
                       format="yyyy/MM/dd"
                       onChange={(date) => {this.setState({startTime: date})}}
-                      minDate={new Date()}    // +
                     />
                   </FormControl>
                 </Grid>
@@ -114,7 +113,7 @@ class AddLog extends Component {
                     <TimePicker
                       autoOk
                       label="End time"
-                      //value={this.state.endTime}  // - 
+                      //value={this.state.endTime}  // -
                       //defaultValue={this.state.endTime.setHours(this.state.startTime.getHours()+1)}
                       value={this.state.endTime}
                       onChange={(time) => {this.setState({endTime: time})}}
@@ -145,4 +144,3 @@ class AddLog extends Component {
 }
 
 export default withKeycloak(AddLog)
-

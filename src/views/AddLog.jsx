@@ -76,7 +76,7 @@ class AddLog extends Component {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  <FormControl>
+                  <FormControl className="">
                     <DatePicker
                       autoOk
                       label="Start date"
@@ -147,10 +147,3 @@ class AddLog extends Component {
 
 export default withKeycloak(AddLog)
 
-/*
-  title
-  activity
-  start time
-  end time
-  description
-*/

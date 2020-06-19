@@ -100,7 +100,7 @@ function Sidebar(props) {
         </ListItem>
       </List>
       <Divider />
-      {/* <List>
+      <List>
         <ListItem className="sidebar-list">
           <Button startIcon={<HistoryIcon/>}
             className="sidebar-list-item"
@@ -111,7 +111,7 @@ function Sidebar(props) {
             History
           </Button>
         </ListItem>
-      </List> */}
+      </List>
     </div>
   )
 
@@ -126,7 +126,7 @@ function Sidebar(props) {
       >
         {drawer}
       </Drawer>
-      <AddLog open={addLogOpen} handleClose={handleAddLogClose}/>
+      <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
     </nav>
   )
 }

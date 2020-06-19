@@ -46,7 +46,7 @@ class History extends Component {
               { activityType: "TDCC", title: "Work", startTime: "2020-06-08 11:00", endTime: "2020-06-08 12:00" }
             ]}
             options={{ 
-              paging: true,
+              // paging: true,
               search: true,
               // searchFieldStyle: {
               //   width: "30%",

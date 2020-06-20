@@ -5,6 +5,8 @@ import Appbar from './views/Appbar';
 import { KeycloakProvider } from '@react-keycloak/web';
 import Keycloak from 'keycloak-js';
 import './App.css';
+import { enterTimelog } from 'actions';
+import { connect } from 'react-redux';
 
 class App extends Component {
 
@@ -46,7 +48,11 @@ class App extends Component {
       <div className="container" style={{maxWidth: '100%'}}>
         <KeycloakProvider
           keycloak={this.state.keycloak}
-          initConfig={this.state.initConfig} >
+          initConfig={this.state.initConfig}
+          onEvent={(event, error)=>{
+            if(event==="onReady") {
+              this.props.enterTimelog(this.state.keycloak.subject, this.state.keycloak.token)
+            }}} >
           <div className="view">
             <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
             <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
@@ -59,4 +65,18 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+
+function mapStateToProps(state) {
+  return {
+    activityTypeList: state.activityTypeList
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    enterTimelog: (userID, token) => dispatch(enterTimelog(userID, token))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

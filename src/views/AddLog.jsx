@@ -9,14 +9,17 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Select,
+  MenuItem
 } from '@material-ui/core';
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { withKeycloak } from '@react-keycloak/web'
-
 import axios from 'axios'
 import moment from 'moment'
+import { connect } from 'react-redux'
+
 class AddLog extends Component {
 
   constructor(props) {
@@ -28,7 +31,8 @@ class AddLog extends Component {
       title: "",
       description: "",
       startTime: new Date(),
-      endTime: new Date()
+      endTime: new Date(),
+      activityTypeName: ""
     }
     this.submit = this.submit.bind(this)
   }
@@ -49,7 +53,7 @@ class AddLog extends Component {
       description: this.state.description,
       startTime: moment(this.state.startTime).format(dateFormat),
       endTime: moment(this.state.endTime).format(dateFormat),
-      activityTypeName: 'Others'
+      activityTypeName: this.state.activityTypeName
     }
 
     axios.post('http://localhost:9000/api/log/record', body, { headers: headers })
@@ -71,6 +75,25 @@ class AddLog extends Component {
             <FormControl fullWidth={true}>
               <InputLabel htmlFor="title">Title</InputLabel>
               <Input id="title" onChange={(e) => {this.setState({title: e.target.value})}} />
+            </FormControl>
+            <br/><br/>
+            <FormControl fullWidth>
+            <InputLabel id="activity-type-select-label">Activity Type</InputLabel>
+              <Select
+                labelId="activity-type-select-label"
+                id="activity-type-select"
+                value={this.state.activityTypeName}
+                onChange={(event) => this.setState({activityTypeName: event.target.value})}
+                input={<Input />}
+              >
+                {
+                  this.props.activityTypeList.map((activityType, key) => {
+                    return (
+                      <MenuItem value={activityType.name}>{activityType.name}</MenuItem>
+                    )
+                  })
+                }
+              </Select>
             </FormControl>
             <br/><br/>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -143,4 +166,10 @@ class AddLog extends Component {
 
 }
 
-export default withKeycloak(AddLog)
+function mapStateToProps(state) {
+  return {
+    activityTypeList: state.activityTypeList
+  }
+}
+
+export default connect(mapStateToProps, null)(withKeycloak(AddLog))

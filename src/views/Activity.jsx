@@ -1,11 +1,15 @@
-import React from "react"
+import React, { Component } from "react"
 import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
 import { forwardRef } from 'react';
+import { editActivityType, addActivityType, removeActivityType } from 'actions';
+import { connect } from 'react-redux';
+import { withKeycloak } from '@react-keycloak/web'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
   Remove, SaveAlt, Search, ViewColumn } from '@material-ui/icons';
+import { th } from "date-fns/locale";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -27,67 +31,102 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-function Activity() {
-  const { useState } = React;
+class Activity extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      columns: [
+        {
+          title: "Activity Type",
+          field: "name"
+        },{
+          title: "private",
+          field: "private",
+          type: "boolean"
+        },{
+          title: "enable",
+          field: "enable",
+          type: "boolean"
+        }
+      ]
+    }
+  }
 
-  const [columns] = useState([
-    { title: "Activity Type", field: "activityType"},
-    { title: "private", field: "private", type: "boolean" },
-    { title: "disable", field: "disable", type: "boolean" }
-  ]);
-
-  const [data, setData] = useState([
-    { activityType: "OIS", private: false, disable: false },
-    { activityType: "OOAD", private: false, disable: false },
-    { activityType: "SA", private: false, disable: false },
-    { activityType: "STV", private: false, disable: false },
-  ]);
-
-  return (
-    <div>
+  render() {
+    return (
+      <div>
         <MaterialTable title="Activity" 
           icons={tableIcons}
-          columns={columns}
-          data={data}
+          columns={this.state.columns}
+          data={this.props.activityTypeList}
           options={{ 
             search: true,
             sorting: true,
           }}
           editable={{
-            onRowAdd: newData =>
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        setData([...data, newData]);
-    
-                        resolve();
-                    }, 1000);
-                }),
-            onRowUpdate: (newData, oldData) =>
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const dataUpdate = [...data];
-                        const index = oldData.tableData.id;
-                        dataUpdate[index] = newData;
-                        setData([...dataUpdate]);
-    
-                        resolve();
-                    }, 1000);
-                }),
+            onRowAdd: newData => 
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  this.props.addActivityType(
+                    this.props.keycloak.subject,
+                    this.props.keycloak.token,
+                    newData.name,
+                    newData.enable,
+                    newData.private
+                  )
+                  resolve();
+                }, 1000)
+              })
+            ,
+            onRowUpdate: (newData, oldData) => 
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  this.props.editActivityType(
+                    this.props.keycloak.subject,
+                    this.props.keycloak.token,
+                    oldData.name,
+                    newData.name,
+                    newData.enable,
+                    newData.private
+                  )
+
+                  resolve();
+                }, 1000);
+              })
+            ,
             onRowDelete: oldData =>
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const dataDelete = [...data];
-                        const index = oldData.tableData.id;
-                        dataDelete.splice(index, 1);
-                        setData([...dataDelete]);
-                        
-                        resolve();
-                    }, 1000);
-                })
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                this.props.removeActivityType(
+                  this.props.keycloak.subject,
+                  this.props.keycloak.token,
+                  oldData.name
+                )
+                resolve();
+              }, 1000);
+            })
         }}
         />
       </div>
-  )
+    )
+  }
 }
 
-export default withRouter(Activity)
+function mapStateToProps(state) {
+  return {
+    activityTypeList: state.activityTypeList
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) => 
+      dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
+    addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) => 
+      dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
+    removeActivityType: (userID, token, activityTypeName) =>
+      dispatch(removeActivityType(userID, token, activityTypeName))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withKeycloak(withRouter(Activity)))

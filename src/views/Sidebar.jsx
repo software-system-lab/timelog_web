@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Button,
   Grid, FormControl } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
@@ -52,7 +52,7 @@ function Sidebar(props) {
   // const handleDrawerToggle = () => {
   //   setMobileOpen(!mobileOpen);
   //   props.mobileOpen = !props.handleDrawerToggle();
-  // };
+  // };  
 
   const handleAddLogOpen = () => {
     setAddLogOpen(true);
@@ -217,5 +217,4 @@ function Sidebar(props) {
   )
 }
 
-
-export default withKeycloak(Sidebar)
+export default withKeycloak(Sidebar);

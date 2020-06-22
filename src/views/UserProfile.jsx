@@ -27,13 +27,13 @@ class UserProfile extends Component {
 
   componentDidMount() {
     setInterval(()=> {
-      if (this.keycloak.idTokenParsed) {
+      if (this.props.keycloak.idTokenParsed) {
         this.setState({
-          name: this.keycloak.idTokenParsed.given_name,
-          email: this.keycloak.idTokenParsed.email,
+          name: this.props.keycloak.idTokenParsed.preferred_username,
+          email: this.props.keycloak.idTokenParsed.email,
         })
       }
-    }, 100);
+    }, 1000);
   }
 
   submit() {

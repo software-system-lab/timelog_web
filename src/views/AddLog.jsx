@@ -56,7 +56,7 @@ class AddLog extends Component {
       activityTypeName: this.state.activityTypeName
     }
 
-    axios.post('http://localhost:9000/api/log/record', body, { headers: headers })
+    axios.post(process.env.REACT_APP_HOST + '/log/record', body, { headers: headers })
       .then( response => {
         alert('Add log success');
       })

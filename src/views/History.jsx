@@ -55,11 +55,12 @@ class History extends Component {
         endDate: moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
       }
 
-      axios.post('http://localhost:9000/api/log/history', body, { headers: headers })
+      axios.post(process.env.REACT_APP_HOST + '/log/history', body, { headers: headers })
       .then( response => {
         this.setState({
           logList: response.data.logItemList
         })
+        console.log(response.data.logItemList)
       })
       .catch( err => {
         console.log(err);
@@ -74,7 +75,7 @@ class History extends Component {
             icons={tableIcons}
             columns={[
               { title: "Title", field: "title" },
-              { title: "Activity Type", field: "activityType" },
+              { title: "Activity Type", field: "activityTypeName" },
               { title: "Start Time", field: "startTime" },
               { title: "End Time", field: "endTime" }
             ]}

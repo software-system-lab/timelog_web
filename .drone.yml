@@ -1,0 +1,146 @@
+kind: secret
+name: timelog_docker_user
+---
+kind: secret
+name: timelog_docker_passwd
+---
+kind: secret
+name: rancher_cluster_token
+---
+kind: secret
+name: rancher_host
+---
+kind: secret
+name: sonar_host
+---
+kind: secret
+name: sonar_project_key
+---
+kind: secret
+name: sonar_project_token
+---
+
+kind: pipeline
+type: docker
+name: Analysis
+
+steps:
+  - name: Install node modules
+    image: node:10.16.3
+    commands:
+      - yarn install
+
+  - name: Sonar Scanner
+    image: aosapps/drone-sonar-plugin
+    settings:
+        sonar_host:
+            from_secret: sonar_host
+        sonar_token:
+            from_secret: sonar_project_token
+        ver: 1.0
+        sources: .
+
+trigger:
+    branch:
+      - master
+      - beta
+      - dev
+
+---
+
+kind: pipeline
+type: docker
+name: Build
+
+steps:
+  - name: Install node modules
+    image: node:10.16.3
+    commands:
+      - yarn install
+
+  - name: Build production web
+    image: node:10.16.3
+    commands:
+      - yarn run build
+    when:
+        branch:
+          - master
+
+  - name: Build beta web
+    image: node:10.16.3
+    commands:
+      - yarn run build-beta
+    when:
+        branch:
+          - beta
+
+  - name: Publish
+    image: plugins/docker
+    settings:
+        repo: ssl1321ois/timelog_web
+        tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+        username:
+            from_secret: timelog_docker_user
+        password:
+            from_secret: timelog_docker_passwd
+
+trigger:
+    branch:
+      - beta
+      - master
+
+depends_on:
+  - Analysis
+
+---
+
+kind: pipeline
+type: docker
+name: Deployment
+
+steps:
+  - name: Deploy Beta
+    image: nightlord851108/kustomize
+    environment:
+        RANCHER_HOST:
+            from_secret:
+                rancher_host
+        CLUSTER_TOKEN:
+            from_secret:
+                rancher_cluster_token
+    commands:
+      - cd kustomize/overlays/beta
+      - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+      - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-beta -f -
+    when:
+        branch:
+          - beta
+        event:
+          - push
+
+  - name: Deploy Production
+    image: nightlord851108/kustomize
+    environment:
+        RANCHER_HOST:
+            from_secret:
+                rancher_host
+        CLUSTER_TOKEN:
+            from_secret:
+                rancher_cluster_token
+    commands:
+        - cd kustomize/overlays/production
+        - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+        - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-production -f -
+    when:
+        branch:
+          - master
+        event:
+          - push
+
+trigger:
+    branch:
+      - beta
+      - master
+
+depends_on:
+  - Build

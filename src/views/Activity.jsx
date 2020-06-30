@@ -55,16 +55,16 @@ class Activity extends Component {
   render() {
     return (
       <div>
-        <MaterialTable title="Activity" 
+        <MaterialTable title="Activity"
           icons={tableIcons}
           columns={this.state.columns}
           data={this.props.activityTypeList}
-          options={{ 
+          options={{
             search: true,
             sorting: true,
           }}
           editable={{
-            onRowAdd: newData => 
+            onRowAdd: newData =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
                   this.props.addActivityType(
@@ -78,7 +78,7 @@ class Activity extends Component {
                 }, 1000)
               })
             ,
-            onRowUpdate: (newData, oldData) => 
+            onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
                   this.props.editActivityType(
@@ -89,7 +89,6 @@ class Activity extends Component {
                     newData.enable,
                     newData.private
                   )
-
                   resolve();
                 }, 1000);
               })
@@ -120,9 +119,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) => 
+    editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
       dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
-    addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) => 
+    addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
       dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
     removeActivityType: (userID, token, activityTypeName) =>
       dispatch(removeActivityType(userID, token, activityTypeName))

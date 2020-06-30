@@ -13,6 +13,8 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "date-fns": "^2.13.0",
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^3.2.0",
     "file-saver": "^2.0.2",
     "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
@@ -30,6 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-beta": "dotenv -e .env.development react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

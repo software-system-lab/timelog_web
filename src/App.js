@@ -13,7 +13,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      keycloak: new Keycloak('keycloak.json'),
+      keycloak: new Keycloak(process.env.REACT_APP_KEYCLOAK_FILE_PATH),
       initConfig: {
         pkceMethod: 'S256',
         onLoad: 'login-required'

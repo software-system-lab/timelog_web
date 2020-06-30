@@ -1,6 +1,3 @@
-import { act } from "react-dom/test-utils"
-import { is } from "date-fns/locale"
-
 export function loadActivityTypeList(userID, token) {
     return {
         type: "LOAD_ACTIVITY_TYPE_LIST",

@@ -35,10 +35,76 @@ const useStyles = makeStyles((theme) => ({
     // height: '100vh',
     // position: 'relative',
   },
-  
+
 }));
 
-
+// class Sidebar extends Component {
+//
+//     constructor(props) {
+//         super(props);
+//         this.classes = useStyles();
+//         this.theme = useTheme();
+//         this.history = useHistory();
+//
+//         this.state = {
+//             addLogOpen: false,
+//             durationOpen: false,
+//             userProfileOpen: false
+//         }
+//
+//         this.handleAddLogOpen = this.handleAddLogOpen.bind(this);
+//         this.handleAddLogClose = this.handleAddLogClose.bind(this);
+//         this.handleDurationOpen = this.handleDurationOpen.bind(this);
+//         this.handleDurationClose = this.handleDurationClose.bind(this);
+//         this.handleUserProfileOpen = this.handleUserProfileOpen.bind(this);
+//         this.handleUserProfileClose = this.handleUserProfileClose.bind(this);
+//
+//         this.goToBoard = this.goToBoard.bind(this);
+//         this.goToHistory = this.goToHistory.bind(this);
+//         this.goToActivity = this.goToActivity.bind(this);
+//         this.goToWelcome = this.goToWelcome.bind(this);
+//     }
+//
+//     handleAddLogOpen() {
+//         this.setState({addLogOpen: true});
+//     }
+//
+//     handleAddLogClose() {
+//         this.setState({addLogOpen: false});
+//     }
+//
+//     handleDurationOpen() {
+//         this.setState({durationOpen: true});
+//     }
+//
+//     handleDurationClose() {
+//         this.setState({durationOpen: false});
+//     }
+//
+//     handleUserProfileOpen() {
+//         this.setState({userProfileOpen: true});
+//     }
+//
+//     handleUserProfileClose() {
+//         this.setState({userProfileOpen: false});
+//     }
+//
+//     goToBoard() {
+//         this.history.push('/board');
+//     }
+//
+//     goToHistory() {
+//         this.history.push('/history');
+//     }
+//
+//     goToActivity() {
+//         this.history.push('/activity');
+//     }
+//
+//     goToWelcome() {
+//         this.history.push('/welcome');
+//     }
+// }
 
 function Sidebar(props) {
   const { window } = props;
@@ -52,7 +118,7 @@ function Sidebar(props) {
   // const handleDrawerToggle = () => {
   //   setMobileOpen(!mobileOpen);
   //   props.mobileOpen = !props.handleDrawerToggle();
-  // };  
+  // };
 
   const handleAddLogOpen = () => {
     setAddLogOpen(true);

@@ -44,12 +44,13 @@ class Board extends Component {
       endDate: moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
     }
 
-    axios.post('http://localhost:9000/api/dash-board/spent-time', body, { headers: headers })
+    axios.post(process.env.REACT_APP_HOST + '/dash-board/spent-time', body, { headers: headers })
     .then( response => {
       const pieData = [
         ['Task', 'Hours per Day']
       ]
       const dataMap = response.data.dataMap
+      console.log(response.data.dataMap)
       Object.keys(dataMap).forEach((key) => {
         pieData.push([key, dataMap[key].timeLength])
       })

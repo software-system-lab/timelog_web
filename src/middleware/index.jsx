@@ -17,7 +17,7 @@ const myMiddleware = store => next => action => {
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
         const body = getBody(action.userID)
-        axios.post('http://localhost:9000/api/activity/all', body, { headers: headers })
+        axios.post(process.env.REACT_APP_HOST + '/activity/all', body, { headers: headers })
         .then( response => {
             action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
         })
@@ -28,7 +28,7 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "ENTER_TIMELOG") {
         const headers = getHeaders(action.token)
         const body = getBody(action.userID)
-        axios.post('http://localhost:9000/login', body, { headers: headers})
+        axios.post(process.env.REACT_APP_HOST + '/login', body, { headers: headers})
         .then( response => {
             action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
         })
@@ -45,7 +45,7 @@ const myMiddleware = store => next => action => {
             isEnable: action.isEnable,
             isPrivate: action.isPrivate
         }
-        axios.post('http://localhost:9000/api/activity/edit', body, { headers: headers})
+        axios.post(process.env.REACT_APP_HOST + '/activity/edit', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
         })
@@ -61,7 +61,7 @@ const myMiddleware = store => next => action => {
             isEnable: action.isEnable,
             isPrivate: action.isPrivate
         }
-        axios.post('http://localhost:9000/api/activity/add', body, { headers: headers})
+        axios.post(process.env.REACT_APP_HOST + '/activity/add', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
         })
@@ -74,8 +74,8 @@ const myMiddleware = store => next => action => {
         const body = {
             userID: action.userID,
             activityTypeName: action.activityTypeName
-        } 
-        axios.post('http://localhost:9000/api/activity/remove', body, { headers: headers})
+        }
+        axios.post(process.env.REACT_APP_HOST + '/activity/remove', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
         })

@@ -50,7 +50,6 @@ class Board extends Component {
         ['Task', 'Hours per Day']
       ]
       const dataMap = response.data.dataMap
-      console.log(response.data.dataMap)
       Object.keys(dataMap).forEach((key) => {
         pieData.push([key, dataMap[key].timeLength])
       })

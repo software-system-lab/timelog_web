@@ -60,7 +60,6 @@ class History extends Component {
         this.setState({
           logList: response.data.logItemList
         })
-        console.log(response.data.logItemList)
       })
       .catch( err => {
         console.log(err);

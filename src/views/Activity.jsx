@@ -9,7 +9,6 @@ import { withKeycloak } from '@react-keycloak/web'
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
   Remove, SaveAlt, Search, ViewColumn } from '@material-ui/icons';
-import { th } from "date-fns/locale";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),

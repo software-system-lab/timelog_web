@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Button,
   Grid, FormControl } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';

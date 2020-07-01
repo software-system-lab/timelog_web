@@ -14,9 +14,6 @@ kind: secret
 name: sonar_host
 ---
 kind: secret
-name: sonar_project_key
----
-kind: secret
 name: sonar_project_token
 ---
 

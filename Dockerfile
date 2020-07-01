@@ -1,5 +1,4 @@
-FROM nginx
+FROM nginx:1.14
 
-RUN mkdir -p /var/www/html
-COPY ./public/* /var/www/html/
-COPY nginx.conf /etc/nginx/conf.d/timelog_web.conf
+ADD ./public/ /var/www/
+ADD nginx.conf /etc/nginx/nginx.conf

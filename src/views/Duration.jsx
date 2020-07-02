@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { loadDashBoard } from 'actions/DashBoard';
+import { loadLogHistory } from 'actions/History';
+import { connect } from 'react-redux'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -30,12 +33,13 @@ class Duration extends Component {
 
     this.submit = this.submit.bind(this)
   }
-  
+
   submit() {
     // send request to server
     this.props.handleClose()
-    this.props.updateDates(this.state.startDate, this.state.endDate);
-
+    this.props.updateDates(this.state.startDate, this.state.endDate)
+    this.props.updateHistory(this.props.keycloak.subject, this.props.keycloak.token)
+    this.props.updateDashBoard(this.props.keycloak.subject, this.props.keycloak.token)
     // const headers = {
     //   'Content-Type': 'application/json',
     //   'Authorization': this.keycloak.token
@@ -112,5 +116,11 @@ class Duration extends Component {
 
 }
 
-export default withKeycloak(Duration)
+function mapDispatchToProps(dispatch) {
+  return {
+    updateDashBoard: (userID, token) => dispatch(loadDashBoard(userID, token)),
+    updateHistory: (userID, token) => dispatch(loadLogHistory(userID, token))
+  }
+}
 
+export default connect(null, mapDispatchToProps)(withKeycloak(Duration))

@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom";
-import MaterialTable from "material-table";
-import { forwardRef } from 'react';
+import { withRouter } from "react-router-dom"
+import MaterialTable from "material-table"
+import { forwardRef } from 'react'
 import { withKeycloak } from '@react-keycloak/web'
-import axios from 'axios'
-import moment from 'moment'
+import { connect } from 'react-redux'
+import { removeLog } from 'actions'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -31,61 +31,75 @@ const tableIcons = {
 };
 
 class History extends Component {
-    constructor(props) {
-      super(props);
-      const { keycloak } = props;
-      this.keycloak = keycloak;
-      this.state = {
-        logList: []
-      }
-    }
-
-    componentDidMount() {
-      this.reload();
-    }
-
-    reload() {
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': this.keycloak.token
-      }
-      const body = {
-        userID: this.keycloak.subject,
-        startDate: moment(localStorage.getItem("startDate")).format("YYYY/MM/DD"),
-        endDate: moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
-      }
-
-      axios.post(process.env.REACT_APP_HOST + '/log/history', body, { headers: headers })
-      .then( response => {
-        this.setState({
-          logList: response.data.logItemList
-        })
-      })
-      .catch( err => {
-        console.log(err);
-        alert('Get history failed');
-      })
-    }
-
-    render() {
-      return (
-        <div>
-          <MaterialTable title="Log History"
-            icons={tableIcons}
-            columns={[
-              { title: "Title", field: "title" },
-              { title: "Activity Type", field: "activityTypeName" },
-              { title: "Start Time", field: "startTime" },
-              { title: "End Time", field: "endTime" }
-            ]}
-            data={this.state.logList}
-            options={{
-              search: true,
-            }}
-          />
-        </div>
-      );
-    }
+  constructor(props) {
+    super(props);
+    const { keycloak } = props;
+    this.keycloak = keycloak;
   }
 
-export default withRouter(withKeycloak(History))
+  render() {
+    return (
+      <div>
+        <MaterialTable title="Log History"
+          icons={ tableIcons }
+          columns={[
+            { title: "Title", field: "title" },
+            { title: "Activity Type", field: "activityTypeName" },
+            { title: "Start Time", field: "startTime" },
+            { title: "End Time", field: "endTime" }
+          ]}
+          data={ this.props.logHistory }
+          options={{
+            search: true,
+          }}
+          editable={{
+            onRowAdd: newData =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  console.log("new")
+                  resolve();
+                }, 1000);
+              })
+            ,
+            // onRowUpdate: (newData, oldData) =>
+            //   new Promise((resolve, reject) => {
+            //     setTimeout(() => {
+            //       console.log("update")
+            //       resolve();
+            //     }, 1000);
+            //   })
+            // ,
+            onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                this.props.removeLog(
+                  this.props.keycloak.subject,
+                  this.props.keycloak.token,
+                  oldData.id
+                )
+                resolve();
+              }, 1000);
+            })
+        }}
+
+        />
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    logHistory: state.logHistory
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    removeLog: (userID, token, logID) => {
+      dispatch(removeLog(userID, token, logID))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withKeycloak(History)))

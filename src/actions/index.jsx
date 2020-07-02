@@ -1,3 +1,6 @@
+import { setHistory, loadLogHistory } from './History'
+import { loadDashBoard } from './DashBoard'
+
 export function loadActivityTypeList(userID, token) {
     return {
         type: "LOAD_ACTIVITY_TYPE_LIST",
@@ -54,6 +57,34 @@ export function enterTimelog(userID, token) {
         type: "ENTER_TIMELOG",
         userID: userID,
         token: token,
-        setActivityTypeList: (activityTypeList, dispatch) => dispatch(setActivityTypeList(activityTypeList))
+        setActivityTypeList: (activityTypeList, dispatch) => dispatch(setActivityTypeList(activityTypeList)),
+        setHistory: (logHistory, dispatch) => dispatch(setHistory(logHistory)),
+        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
     }
+}
+
+export function newLog(userID, token, title, activityTypeName, startTime, endTime, description) {
+  return {
+    type: "NEW_LOG",
+    userID: userID,
+    token: token,
+    title: title,
+    activityTypeName: activityTypeName,
+    startTime: startTime,
+    endTime: endTime,
+    description: description,
+    loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
+    loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+  }
+}
+
+export function removeLog(userID, token, logID) {
+  return {
+    type: "REMOVE_LOG",
+    userID: userID,
+    token: token,
+    logID: logID,
+    loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
+    loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+  }
 }

@@ -16,9 +16,9 @@ import {
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { withKeycloak } from '@react-keycloak/web'
-import axios from 'axios'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { newLog } from 'actions'
 
 class AddLog extends Component {
 
@@ -40,30 +40,18 @@ class AddLog extends Component {
   submit() {
     // send request to server
     this.props.handleClose()
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': this.keycloak.token
-    }
 
     const dateFormat = 'YYYY/MM/DD HH:mm'
 
-    const body = {
-      userID: this.keycloak.subject,
-      title: this.state.title,
-      description: this.state.description,
-      startTime: moment(this.state.startTime).format(dateFormat),
-      endTime: moment(this.state.endTime).format(dateFormat),
-      activityTypeName: this.state.activityTypeName
-    }
-
-    axios.post(process.env.REACT_APP_HOST + '/log/record', body, { headers: headers })
-      .then( response => {
-        alert('Add log success');
-      })
-      .catch( err => {
-        console.log(err);
-        alert('Add log failed');
-      })
+      this.props.newLog(
+        this.keycloak.subject,
+        this.keycloak.token,
+        this.state.title,
+        this.state.activityTypeName,
+        moment(this.state.startTime).format(dateFormat),
+        moment(this.state.endTime).format(dateFormat),
+        this.state.description
+      )
     }
 
   render() {
@@ -103,6 +91,8 @@ class AddLog extends Component {
                     <DatePicker
                       autoOk
                       label="Start date"
+                      maxDate={this.state.maxDate}
+
                       value={this.state.startTime}
                       format="yyyy/MM/dd"
                       onChange={(date) => {this.setState({startTime: date})}}
@@ -114,6 +104,7 @@ class AddLog extends Component {
                     <TimePicker
                       autoOk
                       label="Start time"
+                      minutesStep={5}
                       value={this.state.startTime}
                       onChange={(date) => {this.setState({startTime: date})}}
                     />
@@ -136,8 +127,8 @@ class AddLog extends Component {
                     <TimePicker
                       autoOk
                       label="End time"
-                      //value={this.state.endTime}  // -
-                      //defaultValue={this.state.endTime.setHours(this.state.startTime.getHours()+1)}
+                      minutesStep={5}
+                      defaultValue={this.state.endTime.setHours(this.state.startTime.getHours()+1)}
                       value={this.state.endTime}
                       onChange={(time) => {this.setState({endTime: time})}}
                     />
@@ -172,4 +163,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(withKeycloak(AddLog))
+function mapDispatchToProps(dispatch) {
+  return {
+    newLog: (userID, token, title, activityTypeName, startTime, endTime, description) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withKeycloak(AddLog))

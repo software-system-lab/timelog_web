@@ -7,6 +7,7 @@ import Keycloak from 'keycloak-js';
 import './App.css';
 import { enterTimelog } from 'actions';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 class App extends Component {
 
@@ -19,8 +20,8 @@ class App extends Component {
         onLoad: 'login-required'
       },
       mobileOpen: false,
-      startDate: localStorage.getItem('startDate') ? localStorage.getItem('startDate') : new Date(),
-      endDate: localStorage.getItem('endDate') ? localStorage.getItem('endDate') : new Date()
+      startDate: moment().add(-7, "days").toDate(),
+      endDate: moment().toDate()
     }
     localStorage.setItem('startDate', this.state.startDate);
     localStorage.setItem('endDate', this.state.endDate);

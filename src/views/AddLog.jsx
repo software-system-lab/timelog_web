@@ -58,7 +58,6 @@ class AddLog extends Component {
       return
     }
 
-
     const dateFormat = 'YYYY/MM/DD HH:mm'
     // send request to server
     this.props.handleClose()

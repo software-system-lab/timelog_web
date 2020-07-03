@@ -40,28 +40,6 @@ class Duration extends Component {
     this.props.updateDates(this.state.startDate, this.state.endDate)
     this.props.updateHistory(this.props.keycloak.subject, this.props.keycloak.token)
     this.props.updateDashBoard(this.props.keycloak.subject, this.props.keycloak.token)
-    // const headers = {
-    //   'Content-Type': 'application/json',
-    //   'Authorization': this.keycloak.token
-    // }
-
-    // const dateFormat = 'YYYY/MM/DD HH:mm'
-
-    // const body = {
-    //   userID: this.keycloak.subject,
-    //   title: this.state.title,
-    //   description: this.state.description,
-    //   birthday: moment(this.state.startTime).format(dateFormat)
-    // }
-
-    // axios.post('http://localhost:9000/api/log/record', body, { headers: headers })
-    //   .then( response => {
-    //     alert('Add log success');
-    //   })
-    //   .catch( err => {
-    //     console.log(err);
-    //     alert('Add log failed');
-    //   })
     }
 
   render() {

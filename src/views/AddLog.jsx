@@ -27,11 +27,15 @@ class AddLog extends Component {
     const { keycloak } = props;
     this.keycloak = keycloak;
 
+    const currentTime = moment();
+    const endTime = currentTime.toDate()
+    const startTime = currentTime.add(-1, "hours").toDate()
+
     this.state = {
       title: "",
       description: "",
-      startTime: new Date(),
-      endTime: new Date(),
+      startTime: startTime,
+      endTime: endTime,
       activityTypeName: ""
     }
     this.submit = this.submit.bind(this)
@@ -43,16 +47,16 @@ class AddLog extends Component {
 
     const dateFormat = 'YYYY/MM/DD HH:mm'
 
-      this.props.newLog(
-        this.keycloak.subject,
-        this.keycloak.token,
-        this.state.title,
-        this.state.activityTypeName,
-        moment(this.state.startTime).format(dateFormat),
-        moment(this.state.endTime).format(dateFormat),
-        this.state.description
-      )
-    }
+    this.props.newLog(
+      this.keycloak.subject,
+      this.keycloak.token,
+      this.state.title,
+      this.state.activityTypeName,
+      moment(this.state.startTime).format(dateFormat),
+      moment(this.state.endTime).format(dateFormat),
+      this.state.description
+    )
+  }
 
   render() {
     return (
@@ -91,11 +95,20 @@ class AddLog extends Component {
                     <DatePicker
                       autoOk
                       label="Start date"
-                      maxDate={this.state.maxDate}
-
+                      maxDate={moment().toDate()}
                       value={this.state.startTime}
                       format="yyyy/MM/dd"
-                      onChange={(date) => {this.setState({startTime: date})}}
+                      onChange={ date => {
+                        const startTime = moment(date)
+                        const endTime = moment(this.state.endTime)
+                        endTime.year(startTime.year())
+                          .month(startTime.month())
+                          .date(startTime.date())
+                        this.setState({
+                          startTime: startTime,
+                          endTime: endTime
+                        })
+                      } }
                     />
                   </FormControl>
                 </Grid>
@@ -106,7 +119,28 @@ class AddLog extends Component {
                       label="Start time"
                       minutesStep={5}
                       value={this.state.startTime}
-                      onChange={(date) => {this.setState({startTime: date})}}
+                      onChange={ time => {
+                        console.log(time)
+                        const startTime = moment(time)
+                        let endTime = moment(this.state.endTime)
+
+                        const dateFormat = "yyyy/MM/DD"
+                        console.log(startTime)
+                        console.log(startTime.format(dateFormat))
+                        const startDate = moment(startTime.format(dateFormat))
+                        const endDate = moment(endTime.format(dateFormat))
+                        console.log(startDate)
+                        console.log(endDate)
+                        if (startDate.isSame(endDate)) {
+                          console.log("this is end date")
+                          endTime = startTime.add(1, "hours")
+                          console.log(startTime)
+                          console.log(endTime)
+                          this.setState({ endTime: endTime.toDate() })
+                        }
+
+                        this.setState({ startTime: time })
+                      } }
                     />
                   </FormControl>
                 </Grid>
@@ -118,7 +152,26 @@ class AddLog extends Component {
                       label="End date"
                       value={this.state.endTime}
                       format="yyyy/MM/dd"
-                      onChange={(time) => {this.setState({endTime: time})}}
+                      onChange={ date => {
+                        const startTime = moment(this.state.startTime)
+                        const endTime = moment(date)
+                        const dateFormat = "yyyy/MM/dd"
+                        const startDate = moment(startTime.format(dateFormat))
+                        const endDate = moment(endTime.format(dateFormat))
+
+                        if (startDate < endDate) {
+                          startTime.year(endTime.year())
+                            .month(endTime.month())
+                            .date(endTime.date())
+                          this.setState({
+                            startTime: startTime
+                          })
+                        }
+                        this.setState({
+                          endTime: endTime
+                        })
+                      } }
+                      maxDate={moment().toDate()}
                     />
                   </FormControl>
                 </Grid>
@@ -128,7 +181,6 @@ class AddLog extends Component {
                       autoOk
                       label="End time"
                       minutesStep={5}
-                      defaultValue={this.state.endTime.setHours(this.state.startTime.getHours()+1)}
                       value={this.state.endTime}
                       onChange={(time) => {this.setState({endTime: time})}}
                     />

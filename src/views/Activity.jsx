@@ -63,6 +63,8 @@ class Activity extends Component {
             sorting: true,
           }}
           editable={{
+            isEditable: rowData => rowData.name !== "LabProject",
+            isDeletable: rowData => rowData.name !== "LabProject",
             onRowAdd: newData =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {

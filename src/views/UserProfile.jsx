@@ -21,6 +21,7 @@ class UserProfile extends Component {
     this.state = {
       name: "",
       email: "",
+      displayName: ""
     }
     this.submit = this.submit.bind(this)
   }
@@ -31,6 +32,7 @@ class UserProfile extends Component {
         this.setState({
           name: this.props.keycloak.idTokenParsed.preferred_username,
           email: this.props.keycloak.idTokenParsed.email,
+          displayName: this.props.keycloak.idTokenParsed.name
         })
       }
     }, 1000);
@@ -56,6 +58,12 @@ class UserProfile extends Component {
             <FormControl fullWidth={true}>
               <InputLabel htmlFor="email">Email</InputLabel>
               <Input id="email" value = {this.state.email} disabled/>
+            </FormControl>
+            <br/>
+            <div className="profile-split"></div>
+            <FormControl fullWidth={true}>
+              <InputLabel htmlFor="displayName">display name</InputLabel>
+              <Input id="displayName" value = {this.state.displayName} disabled/>
             </FormControl>
           </form>
         </DialogContent>

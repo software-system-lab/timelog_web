@@ -71,6 +71,14 @@ class AddLog extends Component {
       moment(this.state.endTime).format(dateFormat),
       this.state.description
     )
+
+    this.setState({
+        title: "",
+        activityTypeName: "",
+        startTime: moment().add(-1, "hours").toDate(),
+        endTime: moment().toDate(),
+        description: ""
+    })
   }
 
   render() {

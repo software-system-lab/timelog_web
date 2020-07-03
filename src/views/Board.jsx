@@ -27,7 +27,7 @@ class Board extends Component {
         <div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title">
-              Dash Board
+              {`${this.props.keycloak.idTokenParsed.name}'s Dash Board`}
             </h1>
             <h3 className="board-spent-time">
               Spent Time : {this.props.dashBoardData.totalTime}

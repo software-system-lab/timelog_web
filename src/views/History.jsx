@@ -53,14 +53,14 @@ class History extends Component {
             search: true,
           }}
           editable={{
-            onRowAdd: newData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  console.log("new")
-                  resolve();
-                }, 1000);
-              })
-            ,
+            // onRowAdd: newData =>
+            //   new Promise((resolve, reject) => {
+            //     setTimeout(() => {
+            //       console.log("new")
+            //       resolve();
+            //     }, 1000);
+            //   })
+            // ,
             // onRowUpdate: (newData, oldData) =>
             //   new Promise((resolve, reject) => {
             //     setTimeout(() => {

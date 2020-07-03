@@ -42,10 +42,26 @@ class AddLog extends Component {
   }
 
   submit() {
-    // send request to server
-    this.props.handleClose()
+
+    if (!this.state.title || this.state.title === ''){
+      alert("Title should not be empty.")
+      return
+    }
+
+    if (!this.state.activityTypeName || this.state.activityTypeName === ''){
+      alert("Activity Type is not selected.")
+      return
+    }
+
+    if (moment(this.state.endTime) <= moment(this.state.startTime)){
+      alert("Start Time should be eariler than End Time.")
+      return
+    }
+
 
     const dateFormat = 'YYYY/MM/DD HH:mm'
+    // send request to server
+    this.props.handleClose()
 
     this.props.newLog(
       this.keycloak.subject,
@@ -64,13 +80,13 @@ class AddLog extends Component {
         <DialogTitle id="add-log-dialog-title">Add Log</DialogTitle>
         <DialogContent>
           <form>
-            <FormControl fullWidth={true}>
-              <InputLabel htmlFor="title">Title</InputLabel>
+            <FormControl fullWidth={true} required={true}>
+              <InputLabel htmlFor="title" required={true} >Title</InputLabel>
               <Input id="title" onChange={(e) => {this.setState({title: e.target.value})}} />
             </FormControl>
             <br/><br/>
             <FormControl fullWidth>
-            <InputLabel id="activity-type-select-label">Activity Type</InputLabel>
+            <InputLabel id="activity-type-select-label" required={true} >Activity Type</InputLabel>
               <Select
                 labelId="activity-type-select-label"
                 id="activity-type-select"
@@ -95,6 +111,7 @@ class AddLog extends Component {
                     <DatePicker
                       autoOk
                       label="Start date"
+                      required={true}
                       maxDate={moment().toDate()}
                       value={this.state.startTime}
                       format="yyyy/MM/dd"
@@ -117,28 +134,20 @@ class AddLog extends Component {
                     <TimePicker
                       autoOk
                       label="Start time"
+                      required={true}
                       minutesStep={5}
                       value={this.state.startTime}
                       onChange={ time => {
                         console.log(time)
                         const startTime = moment(time)
                         let endTime = moment(this.state.endTime)
-
                         const dateFormat = "yyyy/MM/DD"
-                        console.log(startTime)
-                        console.log(startTime.format(dateFormat))
                         const startDate = moment(startTime.format(dateFormat))
                         const endDate = moment(endTime.format(dateFormat))
-                        console.log(startDate)
-                        console.log(endDate)
                         if (startDate.isSame(endDate)) {
-                          console.log("this is end date")
-                          endTime = startTime.add(1, "hours")
-                          console.log(startTime)
-                          console.log(endTime)
+                          endTime = moment(time).add(1, "hours")
                           this.setState({ endTime: endTime.toDate() })
                         }
-
                         this.setState({ startTime: time })
                       } }
                     />
@@ -150,6 +159,7 @@ class AddLog extends Component {
                     <DatePicker
                       autoOk
                       label="End date"
+                      required={true}
                       value={this.state.endTime}
                       format="yyyy/MM/dd"
                       onChange={ date => {
@@ -180,6 +190,7 @@ class AddLog extends Component {
                     <TimePicker
                       autoOk
                       label="End time"
+                      required={true}
                       minutesStep={5}
                       value={this.state.endTime}
                       onChange={(time) => {this.setState({endTime: time})}}

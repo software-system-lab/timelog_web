@@ -145,7 +145,6 @@ class AddLog extends Component {
                       minutesStep={5}
                       value={this.state.startTime}
                       onChange={ time => {
-                        console.log(time)
                         const startTime = moment(time)
                         let endTime = moment(this.state.endTime)
                         const dateFormat = "yyyy/MM/DD"

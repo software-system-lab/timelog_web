@@ -160,11 +160,9 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "REMOVE_LOG") {
       const headers = getHeaders(action.token)
       const body = getBody(action.userID)
-      console.log(action.logID)
       body.logID = action.logID
       axios.post(API_HOST + '/log/remove', body, {headers: headers})
       .then(response => {
-        console.log(response)
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
       })

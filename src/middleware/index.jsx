@@ -16,6 +16,22 @@ function getBody(userID) {
     })
 }
 
+function paddingLeft (str, len) {
+  if (str.toString().length >= len) {
+    return str
+  } else {
+    return paddingLeft('0' + str, len)
+  }
+}
+
+function getHour (time) {
+  return paddingLeft(Math.floor(time / 60), 2)
+}
+
+function getMinute (time) {
+  return paddingLeft((time % 60).toFixed(0), 2)
+}
+
 const myMiddleware = store => next => action => {
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
@@ -140,22 +156,30 @@ const myMiddleware = store => next => action => {
       body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
       axios.post(API_HOST + '/dash-board/spent-time', body, {headers: headers})
       .then( response => {
+        const totalTimeString = response.data.totalTime
+        const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
+
         const pieData = [
-          ['Task', 'Hours per Day']
+          ['Task', 'Hours per Project']
         ]
+        const tableData = []
         const dataMap = response.data.dataMap
         Object.keys(dataMap).forEach((key) => {
-          pieData.push([key, dataMap[key].timeLength])
+          const timeLength = dataMap[key].timeLength
+          const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
+          pieData.push([key, timeLength])
+          tableData.push({activityTypeName: key, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %"})
         })
         const result = {
           totalTime: response.data.totalTime,
-          pieData: pieData
+          pieData: pieData,
+          tableData: tableData
         }
         action.setDashBoard(result, store.dispatch)
       })
       .catch ( err => {
         console.log(err)
-        alert("Get history logs failed");
+        alert("Get dash board data failed");
       })
     } else if(action.type === "REMOVE_LOG") {
       const headers = getHeaders(action.token)

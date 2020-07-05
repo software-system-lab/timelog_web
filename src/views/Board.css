@@ -1,11 +1,12 @@
-.board-title {
-    text-align: center;
-}
-
-.board-spent-time {
+.board-text {
     text-align: center;
 }
 
 .board-split {
     margin-top: 50px;
+}
+
+.export-button {
+    position: absolute;
+    left: 0;
 }

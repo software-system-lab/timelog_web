@@ -20,7 +20,7 @@ class App extends Component {
         onLoad: 'login-required'
       },
       mobileOpen: false,
-      startDate: moment().add(-7, "days").toDate(),
+      startDate: moment().add(-6, "days").toDate(),
       endDate: moment().toDate()
     }
     localStorage.setItem('startDate', this.state.startDate);

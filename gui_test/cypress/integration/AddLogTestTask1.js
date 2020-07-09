@@ -39,7 +39,7 @@ describe("AddLogTask1",() => {
         //duration button
         cy.xpath(durationBtn).click();
         cy.xpath('//span[contains(text(),"Submit")]').click();
-    });
+    //});
 */
     it("Press add log button",()=>{
         //add log button

@@ -1,6 +1,9 @@
+//import {login} from './export/login.js';
+
 const have_value = "have.value";
 
 describe("AddLogTask1",() => {
+
     const addLogBtn       = '//div[@id="root"]//li[1]//button[1]';
     const title           = '//input[@id="title"]';
     const activityType    = '//div[@id="activity-type-select"]';
@@ -15,24 +18,41 @@ describe("AddLogTask1",() => {
     const clock           = '//div[@class="MuiPickersClock-squareMask"]';
     const description     = '//input[@id="description"]';
     const submitBtn       = '//span[contains(text(),"Submit")]';
+
+    /*
+    it("It will visit the website",()=>{
+        cy.visit("https://keycloak-beta.hsiang.me/auth/realms/OIS/protocol/openid-connect/auth?client_id=timelog&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=767eb54d-bccd-4fa2-8cca-2379befcb658&response_mode=fragment&response_type=code&scope=openid&nonce=d01888f5-cf4f-4dd5-8d24-d095b6d254e0&code_challenge=tMRafhLcHYLVT8oep70S8eHvp9-eB548bB4Cl9OeZvg&code_challenge_method=S256");
+    });
+
+    it("Login to the website",login("ssl1321ois","lab1321bal"));
+    */
+
+    
     it("Login to the website",()=>{  
+
+        
         const userName        = '//input[@id="username"]';
         const password        = '//input[@id="password"]';
         const loginBtn        = '//input[@id="kc-login"]';
+
         cy.visit("https://keycloak-beta.hsiang.me/auth/realms/OIS/protocol/openid-connect/auth?client_id=timelog&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=767eb54d-bccd-4fa2-8cca-2379befcb658&response_mode=fragment&response_type=code&scope=openid&nonce=d01888f5-cf4f-4dd5-8d24-d095b6d254e0&code_challenge=tMRafhLcHYLVT8oep70S8eHvp9-eB548bB4Cl9OeZvg&code_challenge_method=S256");
         //-------------login---------------
         //username
         cy.xpath(userName)
-        .type("ssl1321ois")
-        .should(have_value,"ssl1321ois"); 
+          .type("ssl1321ois")
+          .should(have_value,"ssl1321ois"); 
         //password
         cy.xpath(password)
-        .type("lab1321bal")
-        .should(have_value,"lab1321bal");
+          .type("lab1321bal")
+          .should(have_value,"lab1321bal");
         //click login
         cy.xpath(loginBtn).click();
         //----------------------------------
+        
+
+        
     });
+    
 /*
     it("Set duration",()=>{
         const durationBtn ='//div[@id="root"]//li[2]//button[1]';
@@ -41,6 +61,8 @@ describe("AddLogTask1",() => {
         cy.xpath('//span[contains(text(),"Submit")]').click();
     //});
 */
+
+ /*
     it("Press add log button",()=>{
         //add log button
         cy.xpath(addLogBtn).click();
@@ -49,8 +71,8 @@ describe("AddLogTask1",() => {
     it("Add title",()=>{
         //title
         cy.xpath(title)
-        .type("Self Reading")
-        .should(have_value,"Self Reading");
+          .type("Self Reading")
+          .should(have_value,"Self Reading");
     });
 
     it("Add activity type",()=>{
@@ -67,7 +89,7 @@ describe("AddLogTask1",() => {
         cy.xpath(startDateBox).click();
         cy.xpath(date_7).click();
         cy.xpath(startDateBox)
-        .should(have_value,"2020/07/07");
+          .should(have_value,"2020/07/07");
     });
 
     it("Select start time",()=>{
@@ -80,7 +102,7 @@ describe("AddLogTask1",() => {
         //00
         cy.xpath(clock).click(130,10);
         cy.xpath(startTimeBox)
-        .should(have_value,"09:00 AM");
+          .should(have_value,"09:00 AM");
     });
     
     it("Select end date",()=>{
@@ -101,29 +123,29 @@ describe("AddLogTask1",() => {
         //00
         cy.xpath(clock).click(130,10);
         cy.xpath(endTimeBox)
-        .should(have_value,"12:00 PM");
+          .should(have_value,"12:00 PM");
     });
 
     it("Add description",()=>{
         //desc
         cy.xpath(description)
-        .type("Haaaaaaaaaaa")
-        .should(have_value,"Haaaaaaaaaaa"); 
+          .type("Haaaaaaaaaaa")
+          .should(have_value,"Haaaaaaaaaaa"); 
     });
 
     it("Press Submit Button",()=>{
         //submit
         cy.xpath(submitBtn).click();
     });
+    
 
     it("Set duration",()=>{
         const durationBtn ='//div[@id="root"]//li[2]//button[1]';
         //duration button
         cy.xpath(durationBtn).click();
         cy.xpath('//span[contains(text(),"Submit")]').click();
-    });    
-
-
+    }); 
+    */   
 
     it("Go To History",()=>{
         const historyBtn = '//body/div[@id="root"]/div[@class="container"]/div[@class="view"]/nav[@class="makeStyles-drawer-5"]/div[@class="PrivateHiddenCss-xsDown-10"]/div[@class="MuiDrawer-root MuiDrawer-docked"]/div[@class="MuiPaper-root MuiDrawer-paper makeStyles-drawerPaper-7 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"]/div/ul[@class="MuiList-root MuiList-padding"]/div[2]';
@@ -131,13 +153,10 @@ describe("AddLogTask1",() => {
        
         //history button
         cy.xpath(historyBtn).click();
-
-        //
         const durationBtn ='//div[@id="root"]//li[2]//button[1]';
         //duration button
         cy.xpath(durationBtn).click();
         cy.xpath('//span[contains(text(),"Submit")]').click();
-        //
 
         //verify title
         let index = 0;
@@ -145,13 +164,18 @@ describe("AddLogTask1",() => {
             //if(cy.xpath('//tr['+ i +']//td[2]'). )
             let td = document.evaluate('//tr['+ i +']//td[2]', document, null, XPathResult.ANY_TYPE, null);
             if(td.value == "Self Reading"){
-                index = i;
+                index = i;        
+                cy.xpath('//tr['+ index +']//td[2]')
+                .should(have_value,"Self Reading");
                 break;
             }
+
+            console.log(i);
         }
         console.log(index);
+
         cy.xpath('//tr['+ index +']//td[2]')
-        .should(have_value,"Self Reading");
+          .should(have_value,"Self Reading");
 
         //verify activity type
         //cy.xpath(historyTable).

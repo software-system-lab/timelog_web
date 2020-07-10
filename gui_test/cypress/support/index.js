@@ -20,3 +20,8 @@ import './commands'
 // require('./commands')
 
 require('cypress-xpath')
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false
+})
+  

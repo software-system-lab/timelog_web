@@ -22,4 +22,31 @@
 //
 //
 // -- This will overwrite an existing command --
+
+
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+const have_value      = 'have.value';
+
+Cypress.Commands.add('login',(inputUserName,inputPassword) =>{
+
+    const userName        = '//input[@id="username"]';
+    const password        = '//input[@id="password"]';
+    const loginBtn        = '//input[@id="kc-login"]';
+    
+    //username
+    cy.xpath(userName)
+      .type(inputUserName)
+      .should(have_value,inputUserName); 
+    //password
+    cy.xpath(password)
+      .type(inputPassword)
+      .should(have_value,inputPassword);
+    //click login
+    cy.xpath(loginBtn).click();
+})
+
+Cypress.Commands.add('ClickTo',(path)=>{
+    cy.xpath(path).click();
+})
+
+cy.xpath().click();

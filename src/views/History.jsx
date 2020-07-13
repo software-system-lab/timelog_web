@@ -51,6 +51,7 @@ class History extends Component {
           data={ this.props.logHistory }
           options={{
             search: true,
+            paging: false
           }}
           editable={{
             // onRowAdd: newData =>

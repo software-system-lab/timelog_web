@@ -48,5 +48,3 @@ Cypress.Commands.add('login',(inputUserName,inputPassword) =>{
 Cypress.Commands.add('ClickTo',(path)=>{
     cy.xpath(path).click();
 })
-
-cy.xpath().click();

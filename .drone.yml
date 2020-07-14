@@ -30,7 +30,6 @@ steps:
 trigger:
     branch:
       - master
-      - beta
       - dev
 
 ---
@@ -53,14 +52,6 @@ steps:
         branch:
           - master
 
-  - name: Build beta web
-    image: node:10.16.3
-    commands:
-      - yarn run build-beta
-    when:
-        branch:
-          - beta
-
   - name: Publish
     image: plugins/docker
     settings:
@@ -73,7 +64,6 @@ steps:
 
 trigger:
     branch:
-      - beta
       - master
 
 depends_on:
@@ -86,25 +76,6 @@ type: docker
 name: Deployment
 
 steps:
-  - name: Deploy Beta
-    image: nightlord851108/kustomize
-    environment:
-        RANCHER_HOST:
-            from_secret:
-                rancher_host
-        CLUSTER_TOKEN:
-            from_secret:
-                rancher_cluster_token
-    commands:
-      - cd kustomize/overlays/beta
-      - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-      - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-beta -f -
-    when:
-        branch:
-          - beta
-        event:
-          - push
-
   - name: Deploy Production
     image: nightlord851108/kustomize
     environment:
@@ -126,7 +97,6 @@ steps:
 
 trigger:
     branch:
-      - beta
       - master
 
 depends_on:

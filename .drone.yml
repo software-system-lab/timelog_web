@@ -64,7 +64,7 @@ steps:
   - name: Publish
     image: plugins/docker
     settings:
-        repo: ssl1321ois/timelog_web
+        repo: nightlord851108/timelog_web
         tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
         username:
             from_secret: timelog_docker_user

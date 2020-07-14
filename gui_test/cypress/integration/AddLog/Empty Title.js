@@ -1,7 +1,7 @@
-const have_value = "have.value";
+import {have_value, address} from '../../util/commands';
 
-//Empty Activity
-describe("AddLogTask4",() => {
+//Empty Title
+describe("Empty Title",() => {
 
     const hourAM          = '//span[@class="MuiButton-label"]/h6[text()="AM"]';
     const hourPM          = '//span[@class="MuiButton-label"]/h6[text()="PM"]';
@@ -19,7 +19,7 @@ describe("AddLogTask4",() => {
         const userID          = "ssl1321ois";
         const userPassword    = "lab1321bal";
 
-        cy.visit("https://keycloak-beta.hsiang.me/auth/realms/OIS/protocol/openid-connect/auth?client_id=timelog&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=767eb54d-bccd-4fa2-8cca-2379befcb658&response_mode=fragment&response_type=code&scope=openid&nonce=d01888f5-cf4f-4dd5-8d24-d095b6d254e0&code_challenge=tMRafhLcHYLVT8oep70S8eHvp9-eB548bB4Cl9OeZvg&code_challenge_method=S256");
+        cy.visit(address);
         
         cy.login(userID,userPassword);
     });
@@ -30,14 +30,14 @@ describe("AddLogTask4",() => {
         cy.ClickTo(addLogBtn);
     });
 
-    it("Add title",()=>{
-        const title           = '//input[@id="title"]';
-        //title
-        cy.xpath(title)
-          .type("Self Reading")
-          .should(have_value,"Self Reading");
-    });
-    
+    // it("Add title",()=>{
+    //     const title           = '//input[@id="title"]';
+    //     //title
+    //     cy.xpath(title)
+    //       .type("")
+    //       .should(have_value,"");
+    // });
+
     it("Add activity type",()=>{
         const activityType    = '//div[@id="activity-type-select"]';
         const labProject      = '//li[contains(text(),"LabProject")]';
@@ -50,7 +50,7 @@ describe("AddLogTask4",() => {
         });
     });
 
-   it("Select start date",()=>{
+    it("Select start date",()=>{
         const startDateBox    = '//div[@class="MuiPaper-root MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-elevation24 MuiPaper-rounded"]//div[1]//div[1]//div[1]//div[1]//input[1]';
         const startYear       = '//div[contains(text(),"' + yyyy + '")]';
         const startMonth      = '//p[@class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"]'
@@ -148,7 +148,6 @@ describe("AddLogTask4",() => {
           .should(have_value,"12:00 PM");
     });
 
-    /*
     it("Add description",()=>{
         const description     = '//input[@id="description"]';
 
@@ -157,12 +156,16 @@ describe("AddLogTask4",() => {
           .type("Haaaaaaaaaaa")
           .should(have_value,"Haaaaaaaaaaa"); 
     });
-    */
 
-    it("Press Submit Button",()=>{
+    it("Press Submit Button and Get Alert",()=>{
         const submitBtn       = '//span[contains(text(),"Submit")]';
 
         //submit
         cy.ClickTo(submitBtn);
+
+        //alert box
+        cy.on('window:alert',(str)=>{
+            expect(str).to.equal('Title should not be empty.')
+        });
     });
 });

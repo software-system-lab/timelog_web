@@ -3,10 +3,23 @@
 }
 
 .board-split {
-    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px; 
 }
 
 .export-button {
     position: absolute;
     left: 0;
+}
+
+.reactgooglegraph-1{
+    width: 80%;
+}
+.chart{
+    width: 50%;
+}
+.table{
+    margin-left: 5%;
+    width: 40%;
 }

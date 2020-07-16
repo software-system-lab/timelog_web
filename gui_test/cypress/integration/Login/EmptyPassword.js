@@ -1,21 +1,21 @@
 import {have_value, address} from '../../util/commands.js'
 
-describe("Empty userID", () =>{
-
+describe("Empty Password", () =>{
+    
     it("Login to the website", ()=>{
-        const userPassword    = "lab1321bal";
-        const password        = '//input[@id="password"]';
+        const userID          = "ssl1321ois";
+        const userName        = '//input[@id="username"]';
         const loginBtn        = '//input[@id="kc-login"]';
 
         cy.visit(address);
         
-        //password
-        cy.xpath(password)
-          .type(userPassword)
-          .should(have_value, userPassword);
-
-        //click login
-        cy.ClickTo(loginBtn);
+        //username
+        cy.xpath(userName)
+         .type(userID)
+         .should(have_value, userID); 
+        
+         //click login
+         cy.ClickTo(loginBtn);
     });
 
     it("Assert Feedback", () =>{

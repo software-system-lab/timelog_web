@@ -17,3 +17,16 @@
   width: 100%;
   margin: 10px;
 }
+
+.sidebar-button { 
+  margin: 10px 10%;
+  width: 80%;
+}
+
+.ReportText{
+  position: absolute;
+  bottom: 0;
+  text-decoration: none;
+  color: black;
+  width: 100%;
+}

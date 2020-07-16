@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
+import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
 import { editActivityType, addActivityType, removeActivityType } from 'actions';
 import { connect } from 'react-redux';
@@ -37,7 +38,10 @@ class Activity extends Component {
       columns: [
         {
           title: "Activity Type",
-          field: "name"
+          field: "name",
+          editComponent: props => (
+              <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+          )
         },{
           title: "private",
           field: "private",

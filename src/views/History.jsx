@@ -45,7 +45,7 @@ class History extends Component {
           columns={[
             { title: "Title", field: "title" },
             { title: "Activity Type", field: "activityTypeName" },
-            { title: "Start Time", field: "startTime" },
+            { title: "Start Time", field: "startTime", defaultSort: "desc" },
             { title: "End Time", field: "endTime" }
           ]}
           data={ this.props.logHistory }

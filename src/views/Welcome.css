@@ -4,3 +4,22 @@
   top: 150px;
   left: 30%;
 }
+
+body {
+  overflow: hidden;
+  background-color: #3C3D42;
+}
+
+.Welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcomeLogo {
+  max-width: 300px;
+}
+
+.getStarted {
+  margin-top: 10%;
+}

@@ -25,12 +25,14 @@ class Board extends Component {
   };
 
   render() {
+    const white = '#FFFFFF';
     return (
         <div>
           <div className="export-button">
             <Button startIcon={<GetAppIcon/>}
               onClick={ this.exportReport }
-              variant="outlined">
+              variant="outlined"
+              style={{color: white, borderColor: white}}>
               Export
             </Button>
           </div>
@@ -59,8 +61,10 @@ class Board extends Component {
                     chartArea: { width: '80%', height: '95%', left: '15%',right: '5%'},
                     title: 'DashBoard',
                     tooltip: { trigger:'none'},
-                    legend: 'left',
-                    
+                    legend: {position: 'left'},
+                    legendTextStyle: {color:white},
+                    backgroundColor: '#3C3D42',
+                    color: white,
                   }}
                   rootProps={{ 'data-testid': '1' }}
                 />
@@ -69,7 +73,7 @@ class Board extends Component {
               <div class="table">
                 <MaterialTable title=""
                   columns={[
-                    { title: "Activity Type", field: "activityTypeName"},
+                    { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
                     { title: "Spent Time", field: "timeLength" },
                     { title: "Percentage", field: "percentage" },
                   ]}
@@ -78,6 +82,7 @@ class Board extends Component {
                     search: false,
                     paging: false,
                     toolbar: false,
+                    sorting: false,
                     tableLayout: "fixed"
                   }}
                 />

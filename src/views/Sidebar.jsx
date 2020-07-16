@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     // height: '100vh',
     // position: 'relative',
   },
-
+  
 }));
 
 // class Sidebar extends Component {
@@ -173,24 +173,30 @@ function Sidebar(props) {
         {/* <img alt="Timelog" src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/> */}
       </div>
       <List>
-        <ListItem className="sidebar-list">
-          <Button startIcon={<AddIcon/>}
-            className="sidebar-list-item"
-            onClick={ ()=>{ handleAddLogOpen() } }
-            variant="contained"
-            color="primary">
-            Add Log
-          </Button>
-        </ListItem>
-        <ListItem className="sidebar-list">
-          <Button startIcon={<AvTimerIcon/>}
-            className="sidebar-list-item"
-            onClick={ ()=>{ handleDurationOpen() } }
-            variant="contained"
-            color="primary">
-            Duration
-          </Button>
-        </ListItem>
+        <div className="sidebar-button">
+          <ListItem className="sidebar-list">
+            <Button startIcon={<AddIcon/>}
+              className="sidebar-list-item"
+              onClick={ ()=>{ handleAddLogOpen() } }
+              variant="contained"
+              fullWidth={true}
+              style={{backgroundColor:"#00C6CF", color:"#FFFFFF"}}
+              >
+              Add Log
+            </Button>
+          </ListItem>
+          <ListItem className="sidebar-list">
+            <Button startIcon={<AvTimerIcon/>}
+              className="sidebar-list-item"
+              onClick={ ()=>{ handleDurationOpen() } }
+              variant="contained"
+              fullWidth={true}
+              style={{backgroundColor:"#00C6CF", color:"#FFFFFF"}}
+              >
+              Duration
+            </Button>
+          </ListItem>
+        </div>
         <ListItem className="sidebar-list">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={3}>

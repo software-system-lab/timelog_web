@@ -3,9 +3,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
 import { withKeycloak } from '@react-keycloak/web';
 import { makeStyles} from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import './Appbar.css';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 const drawerWidth = '15vw';
 
@@ -30,13 +31,18 @@ const useStyles = makeStyles((theme) => ({
 
 function Appbar(props) {
   const classes = useStyles();
+  const history = useHistory();
 
   const handleDrawerToggle = () => {
     props.handleDrawerToggle();
   };
 
+  const goToWelcome = () => {
+    history.push("/welcome")
+  };
+
   return (
-    <AppBar position="fixed" className={classes.appBar}>
+    <AppBar position="fixed" className={classes.appBar} style={{background:'#303030'}}>
       <Toolbar>
         <IconButton
           color="inherit"
@@ -47,9 +53,10 @@ function Appbar(props) {
         >
         <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
-          Timelog
-        </Typography>
+        <div className="appbar-LOGO">
+          <img src="TIME_LOG.png" onClick={ ()=>{ goToWelcome() } }>
+          </img>
+        </div>
       </Toolbar>
     </AppBar>
   )

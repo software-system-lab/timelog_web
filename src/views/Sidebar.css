@@ -23,10 +23,12 @@
   width: 80%;
 }
 
-.ReportText{
-  position: absolute;
+.report-button{
+  position: relative;
   bottom: 0;
   text-decoration: none;
   color: black;
   width: 100%;
 }
+
+

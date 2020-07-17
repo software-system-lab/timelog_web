@@ -12,6 +12,19 @@ div.drop-container {
     width: 300px;
   }
   
+
+  div.drop.water {
+    position: absolute;
+    top: -25%;
+    width: 100%; 
+    height: 100%;
+    border-radius: 100% 5% 100% 100%;
+    transform: rotate(-45deg);
+    margin: 0px;
+    background: deepskyblue;
+    animation: drip 4s forwards;
+  }
+
   div.drop {
     position: absolute;
     top: -25%;
@@ -43,7 +56,7 @@ div.drop-container {
     opacity: 0;
     width: 75%;
     height: 75%;
-    border: 5px solid skyblue;
+    border: 5px solid #e0ffe4;
     animation: dripple 2s ease-out 1s;
     animation-iteration-count: infinite;
   }
@@ -80,7 +93,7 @@ div.drop-container {
 
   /* --------------------- Fade In Button ------------------- */
 
-  .fadeIn {
+  .fade-in {
     animation: fadeIn ease 6s;
     -webkit-animation: fadeIn ease 6s;
     -moz-animation: fadeIn ease 6s;

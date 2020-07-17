@@ -28,15 +28,12 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
       height: `calc(100%)`,
-      // overflow: 'auto',
     },
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    // height: '100vh',
-    // position: 'relative',
   },
   
 }));
@@ -170,7 +167,6 @@ function Sidebar(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        {/* <img alt="Timelog" src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/> */}
       </div>
       <List>
         <div className="sidebar-button">
@@ -250,13 +246,15 @@ function Sidebar(props) {
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
+        <Divider style={{margin:'20px '}}/>
+        <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
+          <ListItem button key="Report Issue">
+            <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
+            <ListItemText primary="Report Issue" />
+          </ListItem>          
+        </a>
       </List>
-      <a class="ReportText" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
-        <ListItem button key="Report Issue">
-          <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
-          <ListItemText primary="Report Issue" />
-        </ListItem>          
-      </a>
+      
     </div>
   )
 

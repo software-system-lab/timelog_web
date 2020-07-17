@@ -1,9 +1,9 @@
 import {address} from '../../util/constant';
 
-describe("Incorrect Password", () =>{
+describe("Incorrect userID", () =>{
     it("Login to the website", ()=>{
-        const userID          = "ssl1321ois";
-        const userPassword    = "321cba";
+        const userID          = "abc123";
+        const userPassword    = "lab1321bal";
 
         cy.visit(address);
         cy.login(userID, userPassword);

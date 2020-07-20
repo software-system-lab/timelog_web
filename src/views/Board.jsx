@@ -64,37 +64,7 @@ class Board extends Component {
                     legend: {position: 'left'},
                     legendTextStyle: {color:white},
                     backgroundColor: '#3C3D42',
-                    color: white,
-                    slices: [
-                      {
-                        //color: "#0857C3"
-                        color: "#E06666"
-                      },
-                      {
-                        //color: "#05C3DD"
-                        color: "#FF9C54"
-                      },
-                      {
-                        //color: "#2CD5C4"
-                        color: "#FFA187"
-                      },
-                      {
-                        //color: "#47D7AC"
-                        color: "#FFD877"
-                      },
-                      {
-                        //color: "#6CACE4"
-                        color: "#FFA8A8"
-                      },
-                      {
-                        //color: "#99D6EA"
-                        color: "#FFDAB3"
-                      },
-                      {
-                        //color: "#B1E4E3"
-                        color: "#FFE8A5"
-                      },
-                    ]
+                    color: white
                   }}
                   rootProps={{ 'data-testid': '1' }}
                 />

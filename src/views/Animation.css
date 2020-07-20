@@ -43,16 +43,13 @@ div.drop-container {
     height: 100%;
     margin: 0px;
     animation: appear 2s ease 2s 1 both;
-    /* animation-duration: bounce 4s; */
   }
 
   @keyframes disappear {
     0% {
-
       opacity: 0.86;
     }
     100% {
-
       opacity: 0;
     }
   }
@@ -135,31 +132,31 @@ div.drop-container {
     -moz-animation: fadeIn ease 6s;
     -o-animation: fadeIn ease 6s;
     -ms-animation: fadeIn ease 6s;
-    
-    }
-    @keyframes fadeIn {
+  }
+  
+  @keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
-    
-    @-moz-keyframes fadeIn {
+  }
+
+  @-moz-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
     
-    @-webkit-keyframes fadeIn {
+  @-webkit-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
     
-    @-o-keyframes fadeIn {
+  @-o-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
     
-    @-ms-keyframes fadeIn {
+  @-ms-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
 
   /* ------------------------------------------------*/

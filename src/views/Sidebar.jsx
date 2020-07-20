@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
-  
+
 }));
 
 // class Sidebar extends Component {
@@ -158,10 +158,6 @@ function Sidebar(props) {
     history.push("/activity")
   };
 
-  const goToWelcome = () => {
-    history.push("/welcome")
-  };
-
   const container = window !== undefined ? () => window().document.body : undefined
 
   const drawer = (
@@ -171,7 +167,7 @@ function Sidebar(props) {
       <List>
         <div className="sidebar-button">
           <ListItem className="sidebar-list">
-            <Button startIcon={<AddIcon/>}
+            <Button startIcon={<AddIcon className="icon"/>}
               className="sidebar-list-item"
               onClick={ ()=>{ handleAddLogOpen() } }
               variant="contained"
@@ -182,7 +178,7 @@ function Sidebar(props) {
             </Button>
           </ListItem>
           <ListItem className="sidebar-list">
-            <Button startIcon={<AvTimerIcon/>}
+            <Button startIcon={<AvTimerIcon className="icon"/>}
               className="sidebar-list-item"
               onClick={ ()=>{ handleDurationOpen() } }
               variant="contained"
@@ -246,7 +242,7 @@ function Sidebar(props) {
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <Divider style={{margin:'20px '}}/>
+        <Divider style={{margin:'40px 20px'}}/>
         <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>

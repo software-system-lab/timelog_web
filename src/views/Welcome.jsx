@@ -8,6 +8,9 @@ class Welcome extends Component {
   render() {
     return (
       <div className="welcome">
+        <div className="dropwater-container">
+          <div className="dropwater" ></div>
+        </div>
         <div className="drop-container">
           <div className="drop" >
             <img className="welcome-logo" src="WelcomeLOGO.png"></img>

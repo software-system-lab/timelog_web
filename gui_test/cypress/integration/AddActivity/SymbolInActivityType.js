@@ -1,32 +1,34 @@
-import {have_value, have_attr, have_text, address} from '../../util/commands';
+import {have_value, have_attr, have_text} from '../../util/commands';
+import {address} from '../../util/constant';
 
 //Symbol in Activity Type
 describe("Symbol in Activity Type", () => {
-    const inputActivityType = 'DB%%';
+    const inputActivityType = 'WorkOut%%';
 
     it("Login to the website", ()=>{
-
         const userID          = "ssl1321ois";
         const userPassword    = "lab1321bal";
 
         cy.visit(address);
-        
         cy.login(userID, userPassword);
     });
 
     it("Press Activity Button", () => {
         const activityBtn = '//nav[@class="makeStyles-drawer-5"]//div[3]';
+        
         cy.ClickTo(activityBtn);
     });
 
     it("Press Add Button", () => {
         const addBtn = '//div[@class="MTableToolbar-actions-30"]//div//div//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"]';
+        
         cy.ClickTo(addBtn);
     });
 
     it("Add Activity Type", () => {
         const activityTypeXPath = '//input[@class="MuiInputBase-input MuiInput-input"]';
         const saveBtn = '//tr[@class="MuiTableRow-root"]//button[1]';
+        
         cy.xpath(activityTypeXPath)
           .type(inputActivityType)
           .should(have_value, inputActivityType);
@@ -49,7 +51,6 @@ describe("Symbol in Activity Type", () => {
         cy.xpath(activityBox).should(($el) => {
             expect($el).to.contain(inputActivityType);
         })
-        
         cy.xpath(privateBox).should(have_attr, 'value').and('equal', 'false');
         cy.xpath(enableBox).should(have_attr, 'value').and('equal', 'false');
     })
@@ -59,6 +60,7 @@ describe("Symbol in Activity Type", () => {
         const activityType    = '//div[@id="activity-type-select"]';
         const activityList    = '//li[contains(text(), "' + inputActivityType + '")]';
         const cancelBtn       = '//button[@class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary"]';
+        
         cy.ClickTo(addLogBtn);
         cy.ClickTo(activityType);
         cy.xpath(activityList).should(have_text, inputActivityType);
@@ -69,6 +71,7 @@ describe("Symbol in Activity Type", () => {
     it("TearDown", () => {
         const deleteBtn = '//body//tr[1]//button[2]';
         const saveBtn = '//div[@class="Component-horizontalScrollContainer-34"]//button[1]';
+        
         cy.ClickTo(deleteBtn);
         cy.ClickTo(saveBtn);
     })

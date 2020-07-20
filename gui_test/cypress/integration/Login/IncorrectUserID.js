@@ -1,13 +1,11 @@
-import {address} from '../../util/commands.js'
+import {address} from '../../util/constant';
 
 describe("Incorrect userID", () =>{
-
     it("Login to the website", ()=>{
         const userID          = "abc123";
         const userPassword    = "lab1321bal";
 
         cy.visit(address);
-        
         cy.login(userID, userPassword);
     });
 

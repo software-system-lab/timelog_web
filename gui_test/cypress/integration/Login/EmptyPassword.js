@@ -1,19 +1,17 @@
-import {have_value, address} from '../../util/commands.js'
+import {have_value} from '../../util/commands';
+import {address} from '../../util/constant';
 
 describe("Empty Password", () =>{
-    
     it("Login to the website", ()=>{
         const userID          = "ssl1321ois";
         const userName        = '//input[@id="username"]';
         const loginBtn        = '//input[@id="kc-login"]';
 
         cy.visit(address);
-        
         //username
         cy.xpath(userName)
          .type(userID)
          .should(have_value, userID); 
-        
          //click login
          cy.ClickTo(loginBtn);
     });

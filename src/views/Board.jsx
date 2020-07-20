@@ -64,12 +64,11 @@ class Board extends Component {
                     legend: {position: 'left'},
                     legendTextStyle: {color:white},
                     backgroundColor: '#3C3D42',
-                    color: white,
+                    color: white
                   }}
                   rootProps={{ 'data-testid': '1' }}
                 />
               </div>
-              {/* <div className="board-split"></div> */}
               <div class="table">
                 <MaterialTable title=""
                   columns={[

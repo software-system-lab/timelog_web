@@ -19,14 +19,23 @@
 }
 
 .sidebar-button { 
-  margin: 10px 10%;
-  width: 80%;
+  margin: 10px 0%;
+  width: 100%;
 }
 
-.ReportText{
-  position: absolute;
+.report-button{
+  position: relative;
   bottom: 0;
   text-decoration: none;
   color: black;
-  width: 100%;
+  width: 15%;
+}
+
+@media screen and (min-width: 1024px){
+  .report-button{
+    position: fixed;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+  }
 }

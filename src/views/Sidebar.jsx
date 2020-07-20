@@ -28,17 +28,14 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
       height: `calc(100%)`,
-      // overflow: 'auto',
     },
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    // height: '100vh',
-    // position: 'relative',
   },
-  
+
 }));
 
 // class Sidebar extends Component {
@@ -161,21 +158,16 @@ function Sidebar(props) {
     history.push("/activity")
   };
 
-  const goToWelcome = () => {
-    history.push("/welcome")
-  };
-
   const container = window !== undefined ? () => window().document.body : undefined
 
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        {/* <img alt="Timelog" src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/> */}
       </div>
       <List>
         <div className="sidebar-button">
           <ListItem className="sidebar-list">
-            <Button startIcon={<AddIcon/>}
+            <Button startIcon={<AddIcon className="icon"/>}
               className="sidebar-list-item"
               onClick={ ()=>{ handleAddLogOpen() } }
               variant="contained"
@@ -186,7 +178,7 @@ function Sidebar(props) {
             </Button>
           </ListItem>
           <ListItem className="sidebar-list">
-            <Button startIcon={<AvTimerIcon/>}
+            <Button startIcon={<AvTimerIcon className="icon"/>}
               className="sidebar-list-item"
               onClick={ ()=>{ handleDurationOpen() } }
               variant="contained"
@@ -250,13 +242,15 @@ function Sidebar(props) {
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
+        <Divider style={{margin:'40px 20px'}}/>
+        <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
+          <ListItem button key="Report Issue">
+            <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
+            <ListItemText primary="Report Issue" />
+          </ListItem>          
+        </a>
       </List>
-      <a class="ReportText" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
-        <ListItem button key="Report Issue">
-          <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
-          <ListItemText primary="Report Issue" />
-        </ListItem>          
-      </a>
+      
     </div>
   )
 

@@ -12,14 +12,46 @@ div.drop-container {
     width: 300px;
   }
   
-  div.drop {
+  div.dropwater-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 90px;
+    width: 90px;
+  }
+  
+  div.dropwater {
     position: absolute;
     top: -25%;
+    width: 100%; 
+    height: 100%;
+    border-radius: 100% 5% 100% 100%;
+    transform: rotate(-45deg);
+    margin: 8px 3px;
+    background: #e0ffe4;
+    animation: dropwater 4s both, disappear 2s ease 2s both;
+  }
+
+  div.drop {
+    opacity: 0;
+    position: absolute;
+    top: 0%;
     width: 100%;
     height: 100%;
     margin: 0px;
-    animation: drip 4s forwards;
-    animation-duration: bounce 4s;
+    animation: appear 2s ease 2s 1 both;
+  }
+
+  @keyframes disappear {
+    0% {
+      opacity: 0.86;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 
   @keyframes appear {
@@ -43,7 +75,7 @@ div.drop-container {
     opacity: 0;
     width: 75%;
     height: 75%;
-    border: 5px solid skyblue;
+    border: 5px solid #e0ffe4;
     animation: dripple 2s ease-out 1s;
     animation-iteration-count: infinite;
   }
@@ -53,6 +85,20 @@ div.drop-container {
     animation-iteration-count: infinite;
   }
   
+  @keyframes dropwater {
+    45% {
+      top: 0;
+      border-radius: 100% 5% 100% 100%;
+      transform: rotate(-45deg);
+    }
+    100% {
+      top: 0;
+      transform: rotate(0deg);
+      border-radius: 100%;
+      background-color: #00c6cf;
+    }
+  }
+
   @keyframes drip {
     45% {
       top: 0;
@@ -80,37 +126,37 @@ div.drop-container {
 
   /* --------------------- Fade In Button ------------------- */
 
-  .fadeIn {
+  .fade-in {
     animation: fadeIn ease 6s;
     -webkit-animation: fadeIn ease 6s;
     -moz-animation: fadeIn ease 6s;
     -o-animation: fadeIn ease 6s;
     -ms-animation: fadeIn ease 6s;
-    
-    }
-    @keyframes fadeIn {
+  }
+  
+  @keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
-    
-    @-moz-keyframes fadeIn {
+  }
+
+  @-moz-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
     
-    @-webkit-keyframes fadeIn {
+  @-webkit-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
     
-    @-o-keyframes fadeIn {
+  @-o-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
     
-    @-ms-keyframes fadeIn {
+  @-ms-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
-    }
+  }
 
   /* ------------------------------------------------*/

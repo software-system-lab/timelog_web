@@ -27,11 +27,9 @@ function html (content) {
         text-align: center;
         color: #FFFFFF;
       }
-
       .board-split {
         margin-top: 50px;
       }
-
       .export-button {
         position: absolute;
         left: 0;
@@ -265,18 +263,15 @@ tr {
 .board-text {
   text-align: center;
 }
-
 .board-split {
   display: flex;
   flex-direction: row;
   margin-top: 50px; 
 }
-
 .export-button {
   position: absolute;
   left: 0;
 }
-
 .reactgooglegraph-1{
   width: 80%;
 }

@@ -1,7 +1,7 @@
 import {have_value} from '../../util/commands';
 import {address} from '../../util/constant';
 
-describe("Happy Path", () =>{
+describe("Success Login", () =>{
     const userID = "ssl1321ois";
 
     it("Login to the website", ()=>{

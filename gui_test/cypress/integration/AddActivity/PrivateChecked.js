@@ -1,5 +1,5 @@
-import {have_value, have_attr, have_text} from '../../util/commands';
-import {address} from '../../util/constant';
+import {have_value, have_attr, have_text, equal_to} from '../../util/commands';
+import {address, be_false, be_true, be_value} from '../../util/constant';
 
 //Private Checked
 describe("Private Checked", () => {
@@ -53,8 +53,8 @@ describe("Private Checked", () => {
         cy.xpath(activityBox).should(($el) => {
             expect($el).to.contain(inputActivityType);
         })
-        cy.xpath(privateBox).should(have_attr, 'value').and('equal', 'true');
-        cy.xpath(enableBox).should(have_attr, 'value').and('equal', 'false');
+        cy.xpath(privateBox).should(have_attr, be_value).and(equal_to, be_true);
+        cy.xpath(enableBox).should(have_attr, be_value).and(equal_to, be_false);
     })
 
     it("Confirm Activity type in Add Log Box", () => {

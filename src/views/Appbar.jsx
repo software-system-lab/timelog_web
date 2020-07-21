@@ -7,8 +7,6 @@ import { withKeycloak } from '@react-keycloak/web';
 import { makeStyles} from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Appbar.css';
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-const drawerWidth = '15vw';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +52,7 @@ function Appbar(props) {
         <MenuIcon />
         </IconButton>
         <div className="appbar-LOGO">
-          <img src="TIME_LOG.png" onClick={ ()=>{ goToWelcome() } }>
+          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome() } }>
           </img>
         </div>
       </Toolbar>

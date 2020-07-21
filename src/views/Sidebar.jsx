@@ -243,7 +243,7 @@ function Sidebar(props) {
           <ListItemText primary="Profile" />
         </ListItem>
         <Divider style={{margin:'25px 20px'}}/>
-        <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
+        <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank" rel="noopener noreferrer">
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
             <ListItemText primary="Report Issue" />

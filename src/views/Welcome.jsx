@@ -13,7 +13,7 @@ class Welcome extends Component {
         </div>
         <div className="drop-container">
           <div className="drop" >
-            <img className="welcome-logo" src="WelcomeLOGO.png"></img>
+            <img className="welcome-logo" alt="welcome" src="WelcomeLOGO.png"></img>
           </div>
         </div>
         <div className="get-started-button fade-in">

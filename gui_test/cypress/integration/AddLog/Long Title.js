@@ -10,7 +10,7 @@ describe("Long Title",() => {
     const YearBtn         = '//div[@class="MuiToolbar-root MuiToolbar-regular MuiPickersToolbar-toolbar MuiPickersDatePickerRoot-toolbar MuiToolbar-gutters"]//button[1]//span[1]';
     const chooseUpMonth   = '//div[@class="MuiPickersCalendarHeader-switchHeader"]//button[1]';
     
-    it("Login to the website",()=>{
+    it.skip("Login to the website",()=>{
 
         const userID          = "ssl1321ois";
         const userPassword    = "lab1321bal";
@@ -20,13 +20,13 @@ describe("Long Title",() => {
         cy.login(userID,userPassword);
     });
 
-    it("Press add log button",()=>{
+    it.skip("Press add log button",()=>{
         const addLogBtn       = '//div[@id="root"]//li[1]//button[1]';
         //add log button
         cy.ClickTo(addLogBtn);
     });
 
-    it("Add title",()=>{
+    it.skip("Add title",()=>{
         const title           = '//input[@id="title"]';
         //title
         cy.xpath(title)
@@ -34,7 +34,7 @@ describe("Long Title",() => {
           .should(have_value,"SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSelf Reading");
     });
 
-    it("Add activity type",()=>{
+    it.skip("Add activity type",()=>{
         const activityType    = '//div[@id="activity-type-select"]';
         const labProject      = '//li[contains(text(),"LabProject")]';
     
@@ -46,7 +46,7 @@ describe("Long Title",() => {
         });
     });
 
-    it("Select start date",()=>{
+    it.skip("Select start date",()=>{
         const startDateBox    = '//div[@class="MuiPaper-root MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-elevation24 MuiPaper-rounded"]//div[1]//div[1]//div[1]//div[1]//input[1]';
         const startYear       = '//div[contains(text(),"2019")]';
         const startMonth      = '//p[@class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"]'
@@ -79,7 +79,7 @@ describe("Long Title",() => {
           .should(have_value,"2019/05/01");
     });
 
-    it("Select start time",()=>{
+    it.skip("Select start time",()=>{
         const startTimeBox    = '//div[@class="MuiDialogContent-root"]//div[2]//div[1]//div[1]//div[1]//input[1]';
     
         //start time
@@ -94,7 +94,7 @@ describe("Long Title",() => {
           .should(have_value,"09:00 AM");
     });
     
-    it("Select end date",()=>{
+    it.skip("Select end date",()=>{
         const endDateBox      = '//div[@class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"]//div[3]//div[1]//div[1]//div[1]//input[1]';
         
         //end date
@@ -104,7 +104,7 @@ describe("Long Title",() => {
           .should(have_value,"2020/07/01");
     });
     
-    it("Select end time",()=>{
+    it.skip("Select end time",()=>{
         const endTimeBox      = '//div[4]//div[1]//div[1]//div[1]//input[1]';
     
         //end time
@@ -119,7 +119,7 @@ describe("Long Title",() => {
           .should(have_value,"12:00 PM");
     });
 
-    it("Add description",()=>{
+    it.skip("Add description",()=>{
         const description     = '//input[@id="description"]';
 
         //desc
@@ -128,7 +128,7 @@ describe("Long Title",() => {
           .should(have_value,"Haaaaaaaaaaa"); 
     });
 
-    it("Press Submit Button and Get Alert",()=>{
+    it.skip("Press Submit Button and Get Alert",()=>{
         const submitBtn       = '//span[contains(text(),"Submit")]';
 
         //submit

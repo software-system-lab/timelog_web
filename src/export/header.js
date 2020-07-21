@@ -17,14 +17,19 @@ function html (content) {
         height: 100%;
         margin: 0;
       }
+      body {
+        background-color: #3C3D42;
+      }
+      tr {
+        color: #FFFFFF;
+      }
       .board-text {
         text-align: center;
+        color: #FFFFFF;
       }
-
       .board-split {
         margin-top: 50px;
       }
-
       .export-button {
         position: absolute;
         left: 0;
@@ -121,7 +126,7 @@ function html (content) {
   vertical-align: inherit;
 }
 .MuiTableCell-head {
-  color: rgba(0, 0, 0, 0.87);
+  color: #FFFFFF;
   font-weight: 500;
   line-height: 1.5rem;
 }
@@ -221,7 +226,7 @@ function html (content) {
   color: rgba(0, 0, 0, 0.54);
 }
 .MuiTableSortLabel-root:hover {
-  color: rgba(0, 0, 0, 0.54);
+  color: #FFFFFF;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active {
   color: rgba(0, 0, 0, 0.87);
@@ -247,6 +252,37 @@ function html (content) {
 .MuiTableSortLabel-iconDirectionAsc {
   transform: rotate(180deg);
 }
+table {
+  border: solid;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+tr {
+  color: #FFFFFF;
+}
+.board-text {
+  text-align: center;
+}
+.board-split {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px; 
+}
+.export-button {
+  position: absolute;
+  left: 0;
+}
+.reactgooglegraph-1{
+  width: 80%;
+}
+.chart{
+  width: 50%;
+}
+.table{
+  margin-left: 5%;
+  width: 40%;
+}
+
 </style>
   </head>
   <body>

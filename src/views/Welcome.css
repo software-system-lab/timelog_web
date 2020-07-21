@@ -1,6 +1,18 @@
-.welcome-bg {
-  position: fixed;
-  padding: auto;
-  top: 150px;
-  left: 30%;
+body {
+  background-color: #3C3D42;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-logo {
+  max-width: 300px;
+}
+
+.get-started-button {
+  margin-top: 10%;
+  display: none;
 }

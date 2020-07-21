@@ -1,0 +1,7 @@
+.appbar-LOGO {
+    transition: all 1s;
+}
+
+.appbar-LOGO:hover {
+    transform: scale(1.2);
+}

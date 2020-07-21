@@ -8,6 +8,7 @@ import HistoryIcon from '@material-ui/icons/History';
 import Hidden from '@material-ui/core/Hidden';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ReportIcon from '@material-ui/icons/Report'
 import Divider from '@material-ui/core/Divider';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -26,14 +27,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
+      height: `calc(100%)`,
     },
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    // height: '100vh',
-    // position: 'relative',
   },
 
 }));
@@ -158,37 +158,37 @@ function Sidebar(props) {
     history.push("/activity")
   };
 
-  const goToWelcome = () => {
-    history.push("/welcome")
-  };
-
   const container = window !== undefined ? () => window().document.body : undefined
-
 
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <img alt="Timelog" src="timelog.png" className="logo" onClick={ ()=>{ goToWelcome() } }/>
       </div>
       <List>
-        <ListItem className="sidebar-list">
-          <Button startIcon={<AddIcon/>}
-            className="sidebar-list-item"
-            onClick={ ()=>{ handleAddLogOpen() } }
-            variant="contained"
-            color="primary">
-            Add Log
-          </Button>
-        </ListItem>
-        <ListItem className="sidebar-list">
-          <Button startIcon={<AvTimerIcon/>}
-            className="sidebar-list-item"
-            onClick={ ()=>{ handleDurationOpen() } }
-            variant="contained"
-            color="primary">
-            Duration
-          </Button>
-        </ListItem>
+        <div className="sidebar-button">
+          <ListItem className="sidebar-list">
+            <Button startIcon={<AddIcon/>}
+              className="sidebar-list-item"
+              onClick={ ()=>{ handleAddLogOpen() } }
+              variant="contained"
+              fullWidth={true}
+              style={{backgroundColor:"#00C6CF", color:"#FFFFFF"}}
+              >
+              Add Log
+            </Button>
+          </ListItem>
+          <ListItem className="sidebar-list">
+            <Button startIcon={<AvTimerIcon/>}
+              className="sidebar-list-item"
+              onClick={ ()=>{ handleDurationOpen() } }
+              variant="contained"
+              fullWidth={true}
+              style={{backgroundColor:"#00C6CF", color:"#FFFFFF"}}
+              >
+              Duration
+            </Button>
+          </ListItem>
+        </div>
         <ListItem className="sidebar-list">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={3}>
@@ -226,7 +226,7 @@ function Sidebar(props) {
       </List>
       <Divider/>
       <List>
-      <ListItem button key="Board" onClick={ ()=> {goToBoard()} }>
+        <ListItem button key="Board" onClick={ ()=> {goToBoard()} }>
           <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
           <ListItemText primary="Board" />
         </ListItem>
@@ -242,6 +242,13 @@ function Sidebar(props) {
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
+        <Divider style={{margin:'25px 20px'}}/>
+        <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank" rel="noopener noreferrer">
+          <ListItem button key="Report Issue">
+            <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
+            <ListItemText primary="Report Issue" />
+          </ListItem>          
+        </a>
       </List>
     </div>
   )

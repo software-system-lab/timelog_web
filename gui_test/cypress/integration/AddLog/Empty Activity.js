@@ -14,7 +14,7 @@ describe("Empty Activity",() => {
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     const yyyy = today.getFullYear();
     
-    it("Login to the website",()=>{
+    it.skip("Login to the website",()=>{
 
         const userID          = "ssl1321ois";
         const userPassword    = "lab1321bal";
@@ -24,13 +24,13 @@ describe("Empty Activity",() => {
         cy.login(userID,userPassword);
     });
 
-    it("Press add log button",()=>{
+    it.skip("Press add log button",()=>{
         const addLogBtn       = '//div[@id="root"]//li[1]//button[1]';
         //add log button
         cy.ClickTo(addLogBtn);
     });
 
-    it("Add title",()=>{
+    it.skip("Add title",()=>{
         const title           = '//input[@id="title"]';
         //title
         cy.xpath(title)
@@ -38,7 +38,7 @@ describe("Empty Activity",() => {
           .should(have_value,"Self Reading");
     });
     /*
-    it("Add activity type",()=>{
+    it.skip("Add activity type",()=>{
         const activityType    = '//div[@id="activity-type-select"]';
         const labProject      = '//li[contains(text(),"LabProject")]';
     
@@ -51,7 +51,7 @@ describe("Empty Activity",() => {
     });
     */
 
-   it("Select start date",()=>{
+   it.skip("Select start date",()=>{
         const startDateBox    = '//div[@class="MuiPaper-root MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiPaper-elevation24 MuiPaper-rounded"]//div[1]//div[1]//div[1]//div[1]//input[1]';
         const startYear       = '//div[contains(text(),"' + yyyy + '")]';
         const startMonth      = '//p[@class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"]'
@@ -88,7 +88,7 @@ describe("Empty Activity",() => {
         .should(have_value,yyyy + "/" + mm + "/" + dd);
     });
 
-    it("Select start time",()=>{
+    it.skip("Select start time",()=>{
         const startTimeBox    = '//div[@class="MuiDialogContent-root"]//div[2]//div[1]//div[1]//div[1]//input[1]';
     
         //start time
@@ -103,7 +103,7 @@ describe("Empty Activity",() => {
           .should(have_value,"09:00 AM");
     });
     
-    it("Select end date",()=>{
+    it.skip("Select end date",()=>{
         const endDateBox      = '//div[@class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"]//div[3]//div[1]//div[1]//div[1]//input[1]';
         const endYear         = '//div[contains(text(),"' + yyyy +'")]';
         const endMonth        = '//p[@class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"]';
@@ -134,7 +134,7 @@ describe("Empty Activity",() => {
           .should(have_value, yyyy + "/" + mm + "/" + dd);
     });
     
-    it("Select end time",()=>{
+    it.skip("Select end time",()=>{
         const endTimeBox      = '//div[4]//div[1]//div[1]//div[1]//input[1]';
     
         //end time
@@ -149,7 +149,7 @@ describe("Empty Activity",() => {
           .should(have_value,"12:00 PM");
     });
 
-    it("Add description",()=>{
+    it.skip("Add description",()=>{
         const description     = '//input[@id="description"]';
 
         //desc
@@ -158,7 +158,7 @@ describe("Empty Activity",() => {
           .should(have_value,"Haaaaaaaaaaa"); 
     });
 
-    it("Press Submit Button and Get Alert",()=>{
+    it.skip("Press Submit Button and Get Alert",()=>{
         const submitBtn       = '//span[contains(text(),"Submit")]';
 
         //submit

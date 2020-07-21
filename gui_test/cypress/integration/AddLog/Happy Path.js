@@ -17,16 +17,9 @@ describe("Happy Path",() => {
     const description     = '//input[@id="description"]';
     const submitBtn       = '//span[contains(text(),"Submit")]';
 
-    /*
-    it("It will visit the website",()=>{
-        cy.visit("https://keycloak-beta.hsiang.me/auth/realms/OIS/protocol/openid-connect/auth?client_id=timelog&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=767eb54d-bccd-4fa2-8cca-2379befcb658&response_mode=fragment&response_type=code&scope=openid&nonce=d01888f5-cf4f-4dd5-8d24-d095b6d254e0&code_challenge=tMRafhLcHYLVT8oep70S8eHvp9-eB548bB4Cl9OeZvg&code_challenge_method=S256");
-    });
-
-    it("Login to the website",login("ssl1321ois","lab1321bal"));
-    */
 
     
-    it("Login to the website",()=>{  
+    it.skip("Login to the website",()=>{  
 
         
         const userName        = '//input[@id="username"]';
@@ -52,7 +45,7 @@ describe("Happy Path",() => {
     });
     
 /*
-    it("Set duration",()=>{
+    it.skip("Set duration",()=>{
         const durationBtn ='//div[@id="root"]//li[2]//button[1]';
         //duration button
         cy.xpath(durationBtn).click();
@@ -61,19 +54,19 @@ describe("Happy Path",() => {
 */
 
  /*
-    it("Press add log button",()=>{
+    it.skip("Press add log button",()=>{
         //add log button
         cy.xpath(addLogBtn).click();
     });
 
-    it("Add title",()=>{
+    it.skip("Add title",()=>{
         //title
         cy.xpath(title)
           .type("Self Reading")
           .should(have_value,"Self Reading");
     });
 
-    it("Add activity type",()=>{
+    it.skip("Add activity type",()=>{
         //activity type
         cy.xpath(activityType).click();
         cy.xpath(labProject).click();
@@ -82,7 +75,7 @@ describe("Happy Path",() => {
         });
     });
 
-    it("Select start date",()=>{
+    it.skip("Select start date",()=>{
         //start date
         cy.xpath(startDateBox).click();
         cy.xpath(date_7).click();
@@ -90,7 +83,7 @@ describe("Happy Path",() => {
           .should(have_value,"2020/07/07");
     });
 
-    it("Select start time",()=>{
+    it.skip("Select start time",()=>{
         //start time
         cy.xpath(startTimeBox).click();
         //AM
@@ -103,7 +96,7 @@ describe("Happy Path",() => {
           .should(have_value,"09:00 AM");
     });
     
-    it("Select end date",()=>{
+    it.skip("Select end date",()=>{
         //end date
         cy.xpath(endDateBox).click();
         cy.xpath(date_7).click();
@@ -111,7 +104,7 @@ describe("Happy Path",() => {
         .should(have_value,"2020/07/07");
     });
     
-    it("Select end time",()=>{
+    it.skip("Select end time",()=>{
         //end time
         cy.xpath(endTimeBox).click();
         //PM
@@ -124,20 +117,20 @@ describe("Happy Path",() => {
           .should(have_value,"12:00 PM");
     });
 
-    it("Add description",()=>{
+    it.skip("Add description",()=>{
         //desc
         cy.xpath(description)
           .type("Haaaaaaaaaaa")
           .should(have_value,"Haaaaaaaaaaa"); 
     });
 
-    it("Press Submit Button",()=>{
+    it.skip("Press Submit Button",()=>{
         //submit
         cy.xpath(submitBtn).click();
     });
     
 
-    it("Set duration",()=>{
+    it.skip("Set duration",()=>{
         const durationBtn ='//div[@id="root"]//li[2]//button[1]';
         //duration button
         cy.xpath(durationBtn).click();
@@ -145,7 +138,7 @@ describe("Happy Path",() => {
     }); 
     */   
 
-    it("Go To History",()=>{
+    it.skip("Go To History",()=>{
         const historyBtn = '//body/div[@id="root"]/div[@class="container"]/div[@class="view"]/nav[@class="makeStyles-drawer-5"]/div[@class="PrivateHiddenCss-xsDown-10"]/div[@class="MuiDrawer-root MuiDrawer-docked"]/div[@class="MuiPaper-root MuiDrawer-paper makeStyles-drawerPaper-7 MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"]/div/ul[@class="MuiList-root MuiList-padding"]/div[2]';
         const historyTable = '//tbody[@class="MuiTableBody-root"]//td[text()="Self Reading"]';
        

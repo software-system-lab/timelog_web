@@ -1,5 +1,5 @@
 import {have_value} from '../../util/commands';
-import {address} from '../../util/constant';
+import {address, invalid_login} from '../../util/constant';
 
 describe("Empty userID", () =>{
     it("Login to the website", ()=>{
@@ -20,7 +20,7 @@ describe("Empty userID", () =>{
         const feedbackPath    = '//span[@class="kc-feedback-text"]';
 
         cy.xpath(feedbackPath).should(($el) =>{
-            expect($el).to.have.text("Invalid username or password.");
+            expect($el).to.have.text(invalid_login);
         });
     });
     

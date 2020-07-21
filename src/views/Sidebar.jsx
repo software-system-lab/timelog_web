@@ -167,7 +167,7 @@ function Sidebar(props) {
       <List>
         <div className="sidebar-button">
           <ListItem className="sidebar-list">
-            <Button startIcon={<AddIcon className="icon"/>}
+            <Button startIcon={<AddIcon/>}
               className="sidebar-list-item"
               onClick={ ()=>{ handleAddLogOpen() } }
               variant="contained"
@@ -178,7 +178,7 @@ function Sidebar(props) {
             </Button>
           </ListItem>
           <ListItem className="sidebar-list">
-            <Button startIcon={<AvTimerIcon className="icon"/>}
+            <Button startIcon={<AvTimerIcon/>}
               className="sidebar-list-item"
               onClick={ ()=>{ handleDurationOpen() } }
               variant="contained"
@@ -242,7 +242,7 @@ function Sidebar(props) {
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <Divider style={{margin:'40px 20px'}}/>
+        <Divider style={{margin:'25px 20px'}}/>
         <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank">
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
@@ -250,7 +250,6 @@ function Sidebar(props) {
           </ListItem>          
         </a>
       </List>
-      
     </div>
   )
 

@@ -1,6 +1,6 @@
 import {have_value, address} from '../../util/commands';
 
-describe("Happy Path",() => {
+describe("AddLog",() => {
 
     const addLogBtn       = '//div[@id="root"]//li[1]//button[1]';
     const title           = '//input[@id="title"]';

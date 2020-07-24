@@ -43,11 +43,11 @@ class Activity extends Component {
               <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
           )
         },{
-          title: "private",
+          title: "Private",
           field: "private",
           type: "boolean"
         },{
-          title: "enable",
+          title: "Enable",
           field: "enable",
           type: "boolean"
         }
@@ -66,6 +66,7 @@ class Activity extends Component {
             search: true,
             sorting: true,
           }}
+          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity ?' } } }}
           editable={{
             isEditable: rowData => rowData.name !== "LabProject",
             isDeletable: rowData => rowData.name !== "LabProject",

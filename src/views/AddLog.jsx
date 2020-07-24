@@ -117,7 +117,7 @@ class AddLog extends Component {
                   <FormControl className="">
                     <DatePicker
                       autoOk
-                      label="Start date"
+                      label="Start Date"
                       required={true}
                       maxDate={moment().toDate()}
                       value={this.state.startTime}
@@ -140,7 +140,7 @@ class AddLog extends Component {
                   <FormControl>
                     <TimePicker
                       autoOk
-                      label="Start time"
+                      label="Start Time"
                       required={true}
                       minutesStep={5}
                       value={this.state.startTime}
@@ -164,7 +164,7 @@ class AddLog extends Component {
                   <FormControl>
                     <DatePicker
                       autoOk
-                      label="End date"
+                      label="End Date"
                       required={true}
                       value={this.state.endTime}
                       format="yyyy/MM/dd"
@@ -195,7 +195,7 @@ class AddLog extends Component {
                   <FormControl>
                     <TimePicker
                       autoOk
-                      label="End time"
+                      label="End Time"
                       required={true}
                       minutesStep={5}
                       value={this.state.endTime}

@@ -62,7 +62,7 @@ class UserProfile extends Component {
             <br/>
             <div className="profile-split"></div>
             <FormControl fullWidth={true}>
-              <InputLabel htmlFor="displayName">display name</InputLabel>
+              <InputLabel htmlFor="displayName">Display Name</InputLabel>
               <Input id="displayName" value = {this.state.displayName} disabled/>
             </FormControl>
           </form>

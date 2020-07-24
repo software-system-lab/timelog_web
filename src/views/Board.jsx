@@ -38,7 +38,7 @@ class Board extends Component {
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">
-              {`${this.props.keycloak.idTokenParsed.name}'s Dash Board`}
+              {`${this.props.keycloak.idTokenParsed.name}'s Dashboard`}
             </h1>
             <h2 className="board-duration board-text">
               {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}

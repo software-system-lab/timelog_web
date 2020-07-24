@@ -196,9 +196,9 @@ function Sidebar(props) {
                 <FormControl className="">
                   <DatePicker
                     autoOk
-                    label="Start date"
+                    label="Start Date"
                     value={ localStorage.getItem("startDate") }
-                    format="yyyy/MM/dd"
+                    format="yyyy/mm/dd"
                     disabled={true}
                   />
                 </FormControl>
@@ -213,9 +213,9 @@ function Sidebar(props) {
                 <FormControl>
                   <DatePicker
                     autoOk
-                    label="End date"
+                    label="End Date"
                     value={ localStorage.getItem("endDate") }
-                    format="yyyy/MM/dd"
+                    format="yyyy/mm/dd"
                     disabled={true}
                   />
                 </FormControl>

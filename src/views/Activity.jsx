@@ -66,7 +66,7 @@ class Activity extends Component {
             search: true,
             sorting: true,
           }}
-          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity ?' } } }}
+          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity?' } } }}
           editable={{
             isEditable: rowData => rowData.name !== "LabProject",
             isDeletable: rowData => rowData.name !== "LabProject",

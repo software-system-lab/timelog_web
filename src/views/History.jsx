@@ -53,7 +53,7 @@ class History extends Component {
             search: true,
             paging: false
           }}
-          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this log ?' } } }}
+          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this log?' } } }}
           editable={{
             // onRowAdd: newData =>
             //   new Promise((resolve, reject) => {

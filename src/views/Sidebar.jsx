@@ -198,7 +198,7 @@ function Sidebar(props) {
                     autoOk
                     label="Start Date"
                     value={ localStorage.getItem("startDate") }
-                    format="yyyy/mm/dd"
+                    format="yyyy/MM/dd"
                     disabled={true}
                   />
                 </FormControl>
@@ -215,7 +215,7 @@ function Sidebar(props) {
                     autoOk
                     label="End Date"
                     value={ localStorage.getItem("endDate") }
-                    format="yyyy/mm/dd"
+                    format="yyyy/MM/dd"
                     disabled={true}
                   />
                 </FormControl>

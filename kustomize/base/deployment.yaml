@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: timelog-v2-web
-          image: ssl1321ois/timelog_web
+          image: nightlord851108/timelog_web
           imagePullPolicy: Always
           ports:
             - name: timelog-http

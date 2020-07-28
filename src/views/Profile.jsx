@@ -7,14 +7,7 @@ class Profile extends Component {
         super(props);
         this.state = { username: "" };
       }
-    
-      componentDidMount() {
-        const keycloak = Keycloak('./keycloak.json');
-        keycloak.loadUserProfile(() => {
-          this.setState({username: keycloak.profile.username})
-        })
-      }
-    
+
       render() {
         return (
           <div>

@@ -61,4 +61,4 @@ function Appbar(props) {
 }
 
 
-export default withKeycloak(Appbar)
+export default Appbar

@@ -104,7 +104,7 @@ class AddLog extends Component {
                 {
                   this.props.activityTypeList.map((activityType, key) => {
                     return (
-                      <MenuItem value={activityType.name}>{activityType.name}</MenuItem>
+                      <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                     )
                   })
                 }
@@ -238,4 +238,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withKeycloak(AddLog))
+export default connect(mapStateToProps, mapDispatchToProps)(AddLog)

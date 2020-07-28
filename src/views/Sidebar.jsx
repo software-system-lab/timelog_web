@@ -247,7 +247,7 @@ function Sidebar(props) {
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
             <ListItemText primary="Report Issue" />
-          </ListItem>          
+          </ListItem>
         </a>
       </List>
     </div>
@@ -290,4 +290,4 @@ function Sidebar(props) {
   )
 }
 
-export default withKeycloak(Sidebar);
+export default Sidebar;

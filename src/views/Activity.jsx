@@ -133,4 +133,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withKeycloak(withRouter(Activity)))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))

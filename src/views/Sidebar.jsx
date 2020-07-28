@@ -19,7 +19,6 @@ import { withKeycloak } from '@react-keycloak/web'
 import AddLog from './AddLog'
 import Duration from './Duration'
 import UserProfile from './UserProfile';
-import Slide from '@material-ui/core/Slide';
 
 const drawerWidth = '15vw';
 
@@ -162,7 +161,6 @@ function Sidebar(props) {
   const container = window !== undefined ? () => window().document.body : undefined
 
   const drawer = (
-    // <Slide direction="right" in={true} timeout={{appear:500,enter:500,exit:500}}>
     <div>
       <div className={classes.toolbar}>
       </div>
@@ -253,7 +251,6 @@ function Sidebar(props) {
         </a>
       </List>
     </div>
-    {/* </Slide> */}
   )
 
   return (

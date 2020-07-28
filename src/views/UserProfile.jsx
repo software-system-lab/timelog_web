@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './UserProfile.css'
-
 import {
   FormControl,
   InputLabel,
@@ -9,7 +8,6 @@ import {
   DialogTitle,
   DialogContent
 } from '@material-ui/core';
-
 import { withKeycloak } from '@react-keycloak/web'
 
 class UserProfile extends Component {
@@ -41,7 +39,7 @@ class UserProfile extends Component {
   submit() {
     // send request to server
     this.props.handleClose()
-    }
+  }
 
   render() {
     return (

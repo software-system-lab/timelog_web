@@ -8,6 +8,9 @@ import './App.css';
 import { enterTimelog } from 'actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import theme from './theme'
 
 class App extends Component {
 
@@ -46,23 +49,27 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container" style={{maxWidth: '100%'}}>
-        <KeycloakProvider
-          keycloak={this.state.keycloak}
-          initConfig={this.state.initConfig}
-          onEvent={(event, error)=>{
-            if(event==="onReady") {
-              this.props.enterTimelog(this.state.keycloak.subject, this.state.keycloak.token)
-            }}} >
-          <div className="view">
-            <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
-            <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
-            <div className="main">
-              <AllRoutes startDate={this.state.startDate} endDate={this.state.endDate} />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="container" style={{maxWidth: '100%'}}>
+          <KeycloakProvider
+            keycloak={this.state.keycloak}
+            initConfig={this.state.initConfig}
+            onEvent={(event, error)=>{
+              if(event==="onReady") {
+                this.props.enterTimelog(this.state.keycloak.subject, this.state.keycloak.token)
+              }}} >
+            <div className="view">
+              <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
+              <Sidebar mobileOpen
+              ={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
+              <div className="main">
+                <AllRoutes startDate={this.state.startDate} endDate={this.state.endDate} />
+              </div>
             </div>
-          </div>
-        </KeycloakProvider>
-      </div>
+          </KeycloakProvider>
+        </div>
+      </ThemeProvider>
     );
   }
 }

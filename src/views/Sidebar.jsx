@@ -19,6 +19,7 @@ import { withKeycloak } from '@react-keycloak/web'
 import AddLog from './AddLog'
 import Duration from './Duration'
 import UserProfile from './UserProfile';
+import Slide from '@material-ui/core/Slide';
 
 const drawerWidth = '15vw';
 
@@ -166,89 +167,108 @@ function Sidebar(props) {
       </div>
       <List>
         <div className="sidebar-button">
-          <ListItem className="sidebar-list">
-            <Button startIcon={<AddIcon/>}
-              className="sidebar-list-item"
-              onClick={ ()=>{ handleAddLogOpen() } }
-              variant="contained"
-              fullWidth={true}
-              style={{backgroundColor:'#00C6CF', color:"#FFFFFF"}}
-              >
-              Add Log
-            </Button>
-          </ListItem>
-          <ListItem className="sidebar-list">
-            <Button startIcon={<AvTimerIcon/>}
-              className="sidebar-list-item"
-              onClick={ ()=>{ handleDurationOpen() } }
-              variant="contained"
-              fullWidth={true}
-              style={{backgroundColor:'#00C6CF', color:"#FFFFFF"}}
-              >
-              Duration
-            </Button>
-          </ListItem>
+          <Slide direction="right" in={true} timeout={{appear:500,enter:500,exit:500}}>
+            <ListItem className="sidebar-list">
+              <Button startIcon={<AddIcon/>}
+                className="sidebar-list-item"
+                onClick={ ()=>{ handleAddLogOpen() } }
+                variant="contained"
+                fullWidth={true}
+                style={{backgroundColor:'#00C6CF', color:"#FFFFFF"}}
+                >
+                Add Log
+              </Button>
+            </ListItem>
+          </Slide>
+          <Slide direction="right" in={true} timeout={{appear:800,enter:800,exit:800}}>
+            <ListItem className="sidebar-list">
+              <Button startIcon={<AvTimerIcon/>}
+                className="sidebar-list-item"
+                onClick={ ()=>{ handleDurationOpen() } }
+                variant="contained"
+                fullWidth={true}
+                style={{backgroundColor:'#00C6CF', color:"#FFFFFF"}}
+                >
+                Duration
+              </Button>
+            </ListItem>
+          </Slide>
         </div>
-        <ListItem className="sidebar-list">
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container spacing={3}>
-              <Grid item xs={10}>
-                <FormControl className="">
-                  <DatePicker
-                    autoOk
-                    label="Start Date"
-                    value={ localStorage.getItem("startDate") }
-                    format="yyyy/MM/dd"
-                    disabled={true}
-                  />
-                </FormControl>
+        <Slide direction="right" in={true} timeout={{appear:1200,enter:1200,exit:1200}}>
+          <ListItem className="sidebar-list">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container spacing={3}>
+                <Grid item xs={10}>
+                  <FormControl className="">
+                    <DatePicker
+                      autoOk
+                      label="Start Date"
+                      value={ localStorage.getItem("startDate") }
+                      format="yyyy/MM/dd"
+                      disabled={true}
+                    />
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </ListItem>
-        <ListItem className="sidebar-list">
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container spacing={3}>
-              <Grid item xs={10}>
-                <FormControl>
-                  <DatePicker
-                    autoOk
-                    label="End Date"
-                    value={ localStorage.getItem("endDate") }
-                    format="yyyy/MM/dd"
-                    disabled={true}
-                  />
-                </FormControl>
+            </MuiPickersUtilsProvider>
+          </ListItem>
+        </Slide>
+        <Slide direction="right" in={true} timeout={{appear:1200,enter:1200,exit:1200}}>
+          <ListItem className="sidebar-list">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container spacing={3}>
+                <Grid item xs={10}>
+                  <FormControl>
+                    <DatePicker
+                      autoOk
+                      label="End Date"
+                      value={ localStorage.getItem("endDate") }
+                      format="yyyy/MM/dd"
+                      disabled={true}
+                    />
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </ListItem>
+            </MuiPickersUtilsProvider>
+          </ListItem>
+        </Slide>
       </List>
       <Divider/>
       <List>
+      <Slide direction="right" in={true} timeout={{appear:1500,enter:1500,exit:1500}}>
         <ListItem button key="Board" onClick={ ()=> {goToBoard()} }>
           <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
           <ListItemText primary="Board" />
         </ListItem>
+      </Slide>
+      <Slide direction="right" in={true} timeout={{appear:1800,enter:1800,exit:1800}}>
         <ListItem button key="History" onClick={ ()=> {goToHistory()} }>
           <ListItemIcon>{<HistoryIcon />}</ListItemIcon>
           <ListItemText primary="History" />
         </ListItem>
+      </Slide>
+      <Slide direction="right" in={true} timeout={{appear:2100,enter:2100,exit:2100}}>
         <ListItem button key="Activity" onClick={ ()=> {goToActivity()} }>
           <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
           <ListItemText primary="Activity" />
         </ListItem>
+      </Slide>
+      <Slide direction="right" in={true} timeout={{appear:2400,enter:2400,exit:2400}}>
         <ListItem button key="Profile" onClick={ ()=> {handleUserProfileOpen()} }>
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <Divider style={{margin:'25px 20px'}}/>
+        
+      </Slide>
+      <Divider style={{margin:'25px 20px'}}/>
+      <Slide direction="right" in={true} timeout={{appear:2700,enter:2700,exit:2700}}>
         <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank" rel="noopener noreferrer">
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
             <ListItemText primary="Report Issue" />
           </ListItem>          
         </a>
+      </Slide>
       </List>
     </div>
   )

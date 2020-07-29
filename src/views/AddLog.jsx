@@ -63,8 +63,8 @@ class AddLog extends Component {
     this.props.handleClose()
 
     this.props.newLog(
-      this.keycloak.subject,
-      this.keycloak.token,
+      localStorage.getItem("uid"),
+      null,
       this.state.title,
       this.state.activityTypeName,
       moment(this.state.startTime).format(dateFormat),

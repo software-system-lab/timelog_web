@@ -3,7 +3,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { withKeycloak } from '@react-keycloak/web';
 import { makeStyles} from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Appbar.css';
@@ -61,4 +60,4 @@ function Appbar(props) {
 }
 
 
-export default withKeycloak(Appbar)
+export default Appbar

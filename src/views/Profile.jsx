@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Keycloak from 'keycloak-js'
 
 class Profile extends Component {
 
@@ -7,14 +6,7 @@ class Profile extends Component {
         super(props);
         this.state = { username: "" };
       }
-    
-      componentDidMount() {
-        const keycloak = Keycloak('./keycloak.json');
-        keycloak.loadUserProfile(() => {
-          this.setState({username: keycloak.profile.username})
-        })
-      }
-    
+
       render() {
         return (
           <div>

@@ -15,7 +15,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
-import { withKeycloak } from '@react-keycloak/web'
 import AddLog from './AddLog'
 import Duration from './Duration'
 import UserProfile from './UserProfile';
@@ -247,7 +246,7 @@ function Sidebar(props) {
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
             <ListItemText primary="Report Issue" />
-          </ListItem>          
+          </ListItem>
         </a>
       </List>
     </div>
@@ -290,4 +289,4 @@ function Sidebar(props) {
   )
 }
 
-export default withKeycloak(Sidebar);
+export default Sidebar;

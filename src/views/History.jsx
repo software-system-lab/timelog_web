@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import MaterialTable from "material-table"
 import { forwardRef } from 'react'
-import { withKeycloak } from '@react-keycloak/web'
 import { connect } from 'react-redux'
 import { removeLog } from 'actions'
 

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import appRoutes from "./route";
-import ProtectedRoute from "./protectedRoute";
 
 class AllRoutes extends Component {
 

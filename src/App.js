@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import AllRoutes from './routes/allRoutes';
 import Sidebar from './views/Sidebar';
 import Appbar from './views/Appbar';
-import { KeycloakProvider } from '@react-keycloak/web';
-import Keycloak from 'keycloak-js';
 import './App.css';
 import { enterTimelog } from 'actions';
 import { connect } from 'react-redux';

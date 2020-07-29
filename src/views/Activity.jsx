@@ -5,7 +5,6 @@ import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
 import { editActivityType, addActivityType, removeActivityType } from 'actions';
 import { connect } from 'react-redux';
-import { withKeycloak } from '@react-keycloak/web'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,

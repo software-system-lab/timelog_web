@@ -10,8 +10,6 @@ import {
   DialogContent
 } from '@material-ui/core';
 
-import { withKeycloak } from '@react-keycloak/web'
-
 class UserProfile extends Component {
 
   constructor(props) {

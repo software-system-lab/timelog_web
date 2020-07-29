@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Keycloak from 'keycloak-js'
 
 class Profile extends Component {
 

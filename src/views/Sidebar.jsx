@@ -15,7 +15,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
-import { withKeycloak } from '@react-keycloak/web'
 import AddLog from './AddLog'
 import Duration from './Duration'
 import UserProfile from './UserProfile';

@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { withKeycloak } from '@react-keycloak/web'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'

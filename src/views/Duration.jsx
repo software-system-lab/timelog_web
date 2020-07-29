@@ -15,8 +15,6 @@ import {
   Grid
 } from '@material-ui/core';
 
-import { withKeycloak } from '@react-keycloak/web'
-
 class Duration extends Component {
 
   constructor(props) {

@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import { withKeycloak } from '@react-keycloak/web';
 import "./Board.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';

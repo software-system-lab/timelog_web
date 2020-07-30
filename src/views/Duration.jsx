@@ -15,8 +15,6 @@ import {
   Grid
 } from '@material-ui/core';
 
-import { withKeycloak } from '@react-keycloak/web'
-
 class Duration extends Component {
 
   constructor(props) {
@@ -38,8 +36,8 @@ class Duration extends Component {
     // send request to server
     this.props.handleClose()
     this.props.updateDates(this.state.startDate, this.state.endDate)
-    this.props.updateHistory(this.props.keycloak.subject, this.props.keycloak.token)
-    this.props.updateDashBoard(this.props.keycloak.subject, this.props.keycloak.token)
+    this.props.updateHistory(localStorage.getItem("uid"), null)
+    this.props.updateDashBoard(localStorage.getItem("uid"), null)
     }
 
   render() {
@@ -101,4 +99,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withKeycloak(Duration))
+export default connect(null, mapDispatchToProps)(Duration)

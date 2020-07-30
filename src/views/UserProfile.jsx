@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogContent
 } from '@material-ui/core';
-import { withKeycloak } from '@react-keycloak/web'
 
 class UserProfile extends Component {
 
@@ -17,23 +16,23 @@ class UserProfile extends Component {
     const { keycloak } = props;
     this.keycloak = keycloak;
     this.state = {
-      name: "",
-      email: "",
-      displayName: ""
+      name: localStorage.getItem("cn"),
+      email: localStorage.getItem("mail"),
+      displayName: localStorage.getItem("displayName")
     }
     this.submit = this.submit.bind(this)
   }
 
   componentDidMount() {
-    setInterval(()=> {
-      if (this.props.keycloak.idTokenParsed) {
-        this.setState({
-          name: this.props.keycloak.idTokenParsed.preferred_username,
-          email: this.props.keycloak.idTokenParsed.email,
-          displayName: this.props.keycloak.idTokenParsed.name
-        })
-      }
-    }, 1000);
+    // setInterval(()=> {
+    //   if (this.props.keycloak.idTokenParsed) {
+    //     this.setState({
+    //       name: this.props.keycloak.idTokenParsed.preferred_username,
+    //       email: this.props.keycloak.idTokenParsed.email,
+    //       displayName: this.props.keycloak.idTokenParsed.name
+    //     })
+    //   }
+    // }, 1000);
   }
 
   submit() {
@@ -72,4 +71,4 @@ class UserProfile extends Component {
 
 }
 
-export default withKeycloak(UserProfile)
+export default UserProfile

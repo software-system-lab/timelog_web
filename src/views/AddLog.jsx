@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { withKeycloak } from '@react-keycloak/web'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
@@ -62,8 +61,8 @@ class AddLog extends Component {
     this.props.handleClose()
 
     this.props.newLog(
-      this.keycloak.subject,
-      this.keycloak.token,
+      localStorage.getItem("uid"),
+      null,
       this.state.title,
       this.state.activityTypeName,
       moment(this.state.startTime).format(dateFormat),
@@ -103,7 +102,7 @@ class AddLog extends Component {
                 {
                   this.props.activityTypeList.map((activityType, key) => {
                     return (
-                      <MenuItem value={activityType.name}>{activityType.name}</MenuItem>
+                      <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                     )
                   })
                 }
@@ -237,4 +236,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withKeycloak(AddLog))
+export default connect(mapStateToProps, mapDispatchToProps)(AddLog)

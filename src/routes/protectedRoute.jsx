@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { withKeycloak } from '@react-keycloak/web'
 
 function ProtectedRoute({ component: Component, ...rest}) {
     return rest.keycloakInitialized && <Route {...rest} render={props => (
@@ -8,4 +7,4 @@ function ProtectedRoute({ component: Component, ...rest}) {
     )} />
 }
 
-export default withKeycloak(ProtectedRoute)
+export default ProtectedRoute

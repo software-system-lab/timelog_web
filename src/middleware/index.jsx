@@ -33,6 +33,7 @@ function getMinute (time) {
 }
 
 const myMiddleware = store => next => action => {
+  console.log("MIDDLE ware")
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
         const body = getBody(action.userID)

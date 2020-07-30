@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import { withKeycloak } from '@react-keycloak/web';
 import "./Board.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';
@@ -38,7 +37,7 @@ class Board extends Component {
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">
-              {`${this.props.keycloak.idTokenParsed.name}'s Dashboard`}
+              {`${localStorage.getItem('displayName')}'s Dashboard`}
             </h1>
             <h2 className="board-duration board-text">
               {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
@@ -49,7 +48,7 @@ class Board extends Component {
               Spent Time : {this.props.dashBoardData.totalTime}
             </h3>
             <div className="board-split">
-              <div class="chart">
+              <div className="chart">
                 <Chart
                   minWidth={''}
                   width={'95%'}
@@ -69,7 +68,7 @@ class Board extends Component {
                   rootProps={{ 'data-testid': '1' }}
                 />
               </div>
-              <div class="table">
+              <div className="table">
                 <MaterialTable title=""
                   columns={[
                     { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
@@ -99,4 +98,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(withRouter(withKeycloak(Board)))
+export default connect(mapStateToProps, null)(withRouter(Board))

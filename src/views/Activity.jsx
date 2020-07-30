@@ -5,7 +5,6 @@ import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
 import { editActivityType, addActivityType, removeActivityType } from 'actions';
 import { connect } from 'react-redux';
-import { withKeycloak } from '@react-keycloak/web'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -74,8 +73,8 @@ class Activity extends Component {
               new Promise((resolve, reject) => {
                 setTimeout(() => {
                   this.props.addActivityType(
-                    this.props.keycloak.subject,
-                    this.props.keycloak.token,
+                    localStorage.getItem("uid"),
+                    null,
                     newData.name,
                     newData.enable,
                     newData.private
@@ -88,8 +87,8 @@ class Activity extends Component {
               new Promise((resolve, reject) => {
                 setTimeout(() => {
                   this.props.editActivityType(
-                    this.props.keycloak.subject,
-                    this.props.keycloak.token,
+                    localStorage.getItem("uid"),
+                    null,
                     oldData.name,
                     newData.name,
                     newData.enable,
@@ -103,8 +102,8 @@ class Activity extends Component {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 this.props.removeActivityType(
-                  this.props.keycloak.subject,
-                  this.props.keycloak.token,
+                  localStorage.getItem("uid"),
+                  null,
                   oldData.name
                 )
                 resolve();
@@ -134,4 +133,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withKeycloak(withRouter(Activity)))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))

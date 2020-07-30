@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import MaterialTable from "material-table"
 import { forwardRef } from 'react'
-import { withKeycloak } from '@react-keycloak/web'
 import { connect } from 'react-redux'
 import { removeLog } from 'actions'
 
@@ -75,8 +74,8 @@ class History extends Component {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 this.props.removeLog(
-                  this.props.keycloak.subject,
-                  this.props.keycloak.token,
+                  localStorage.getItem("uid"),
+                  null,
                   oldData.id
                 )
                 resolve();
@@ -104,4 +103,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withKeycloak(History)))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(History))

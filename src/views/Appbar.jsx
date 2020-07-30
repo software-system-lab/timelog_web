@@ -57,9 +57,6 @@ function Appbar(props) {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
   return (
     <AppBar position="fixed" className={classes.appBar} style={{background:'#303030'}}>
       <Toolbar>
@@ -81,8 +78,7 @@ function Appbar(props) {
             <AccountCircleIcon />
           </Avatar>
           <Popover
-            id={id}
-            open={open}
+            open={Boolean(anchorEl)}
             margin='100px'
             anchorEl={anchorEl}
             onClose={handleClose}
@@ -103,7 +99,7 @@ function Appbar(props) {
             <PopoverProfile></PopoverProfile>
           </Popover>
         </div>
-        <Button className = "logout-btn" aria-describedby={id} variant="contained" color="primary" style={{display:'none'}}>
+        <Button className = "logout-btn" variant="contained" color="primary" style={{display:'none'}}>
             LOGOUT
         </Button>
       </Toolbar>

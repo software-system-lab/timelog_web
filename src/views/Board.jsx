@@ -13,8 +13,6 @@ class Board extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
   }

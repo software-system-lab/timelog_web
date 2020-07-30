@@ -32,8 +32,6 @@ const tableIcons = {
 class History extends Component {
   constructor(props) {
     super(props);
-    const { keycloak } = props;
-    this.keycloak = keycloak;
   }
 
   render() {

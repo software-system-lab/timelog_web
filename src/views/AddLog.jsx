@@ -22,8 +22,7 @@ class AddLog extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
+    
 
     const currentTime = moment();
     const endTime = currentTime.toDate()

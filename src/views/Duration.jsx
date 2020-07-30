@@ -19,8 +19,6 @@ class Duration extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
 
     this.state = {
       startDate: props.startDate,

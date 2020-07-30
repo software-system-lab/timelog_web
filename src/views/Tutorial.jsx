@@ -6,15 +6,12 @@ import {
   DialogContent,
   DialogActions
 } from '@material-ui/core';
-import { withKeycloak } from '@react-keycloak/web'
 import Stepper from './Stepper'
 
 class Tutorial extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
     this.wrapper = React.createRef();
   }
 
@@ -40,7 +37,7 @@ class Tutorial extends Component {
   }
 }
 
-export default withKeycloak(Tutorial)
+export default Tutorial
   
   
 

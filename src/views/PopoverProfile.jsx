@@ -10,8 +10,6 @@ class PopoverProfile extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
     this.state = {
       name: localStorage.getItem("cn"),
       email: localStorage.getItem("mail"),

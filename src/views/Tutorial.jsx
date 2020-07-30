@@ -20,11 +20,10 @@ class Tutorial extends Component {
 
   render() {
     return (
-      <div >
+      <div>
         <Dialog open={this.props.open} 
         onClose={this.props.handleClose} 
         aria-labelledby="form-dialog-title" 
-        // fullWidth = 'true'
         maxWidth='md'>
           <DialogTitle style={{textAlign:"center"}}>How To Use Timelog</DialogTitle>
           <DialogContent>
@@ -39,9 +38,9 @@ class Tutorial extends Component {
       </div>
     )
   }
-  }
+}
 
-  export default withKeycloak(Tutorial)
+export default withKeycloak(Tutorial)
   
   
 

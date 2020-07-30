@@ -7,10 +7,10 @@ import { makeStyles} from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import PopoverProfile from './PopoverProfile';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,37 +72,40 @@ function Appbar(props) {
         >
         <MenuIcon />
         </IconButton>
-
         <div className="appbar-LOGO">
           <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome() } }>
           </img>
         </div>
         <div className="profile-btn" >
-          <Avatar className={classes.pink} onClick={handleClick} id="profile-icon">
+          <Avatar className={classes.pink} onClick={handleClick} id="profile-icon" style={{display:'none'}}>
             <AccountCircleIcon />
           </Avatar>
           <Popover
             id={id}
             open={open}
+            margin='100px'
             anchorEl={anchorEl}
             onClose={handleClose}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'center',
+              horizontal: 'right',
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'center',
+              horizontal: 'right',
+            }}
+            style={{
+              width: '150%',
+              height: '150%',
+              display: 'none',
             }}
           >
-            <Typography className={classes.typography}>The content of the Popover.</Typography>
+            <PopoverProfile></PopoverProfile>
           </Popover>
         </div>
-        <Button className = "logout-btn" aria-describedby={id} variant="contained" color="primary">
+        <Button className = "logout-btn" aria-describedby={id} variant="contained" color="primary" style={{display:'none'}}>
             LOGOUT
         </Button>
-
-
       </Toolbar>
     </AppBar>
   )

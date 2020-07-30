@@ -6,24 +6,12 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const tutorialSteps = [
-  {
-    imgPath:'/tutorial_1.jpg',
-  },
-  {
-    imgPath:'/tutorial_2.jpg',
-  },
-  {
-    imgPath:'/tutorial_3.jpg',
-  },
-  {
-    imgPath:'/tutorial_4.jpg',
-  },
-  {
-    imgPath:'/tutorial_5.jpg',
-  },
-  {
-    imgPath:'/tutorial_6.jpg',
-  },
+  {imgPath:'/tutorial_1.jpg'},
+  {imgPath:'/tutorial_2.jpg'},
+  {imgPath:'/tutorial_3.jpg'},
+  {imgPath:'/tutorial_4.jpg'},
+  {imgPath:'/tutorial_5.jpg'},
+  {imgPath:'/tutorial_6.jpg'},
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    // height: 255,
     maxWidth: '32vw',
     overflow: 'hidden',
     display: 'block',

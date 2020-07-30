@@ -257,7 +257,6 @@ function Sidebar(props) {
           <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        
       </Slide>
       <Divider style={{margin:'25px 20px'}}/>
       <Slide direction="right" in={true} timeout={{appear:2700,enter:2700,exit:2700}}>

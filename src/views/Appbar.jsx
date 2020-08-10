@@ -7,7 +7,6 @@ import { makeStyles} from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PopoverProfile from './PopoverProfile';
@@ -28,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  pink: {
-    color: '#fff',
-    backgroundColor: '#fa8072',
+  iconColor: {
+    color: '#fff' ,
+    backgroundColor: '#00C6CF' ,
   },
   toolbar: theme.mixins.toolbar,
 }));
@@ -56,10 +55,12 @@ function Appbar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+ 
+  const displayName = localStorage.getItem("displayName");
+  
   return (
     <AppBar position="fixed" className={classes.appBar} style={{background:'#303030'}}>
-      <Toolbar>
+      <Toolbar style={{justifyContent:'space-between'}}> 
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -74,9 +75,7 @@ function Appbar(props) {
           </img>
         </div>
         <div className="profile-btn" >
-          <Avatar className={classes.pink} onClick={handleClick} id="profile-icon" style={{display:'none'}}>
-            <AccountCircleIcon />
-          </Avatar>
+          <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>
           <Popover
             open={Boolean(anchorEl)}
             margin='100px'
@@ -93,15 +92,11 @@ function Appbar(props) {
             style={{
               width: '150%',
               height: '150%',
-              display: 'none',
             }}
           >
             <PopoverProfile></PopoverProfile>
           </Popover>
         </div>
-        <Button className = "logout-btn" variant="contained" color="primary" style={{display:'none'}}>
-            LOGOUT
-        </Button>
       </Toolbar>
     </AppBar>
   )

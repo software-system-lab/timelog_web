@@ -21,3 +21,11 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#stopwatch
+utils.js
+svgIcons.json
+src/views/Stopwatch.css
+src/views/Stopwatch.jsx
+src/views/Button.css
+src/views/Button.jsx

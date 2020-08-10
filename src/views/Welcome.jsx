@@ -27,7 +27,7 @@ export default function Welcome() {
         </div>
       </div>
       <div className="get-started-button fade-in">   
-          <Button variant="outlined" style={{color:"#00C6CF", borderColor:"#00C6CF"}} onClick={handleTutorialOpen}>
+          <Button variant="outlined" color="primary" onClick={handleTutorialOpen}>
             Get Started
           </Button>
       </div>

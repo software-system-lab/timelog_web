@@ -3,12 +3,21 @@
 }
 
 .profile-box {
-  width: 15vw;
-  height: 14vw;
+  min-width: 200px;
+  min-height: 230px;
 }
 
 .profile-form {
   margin: 10px;
   width: 10vw;
   height: 10vw;
+}
+
+p{
+  color: grey;
+  margin: 3px;
+}
+
+.avatar-name{
+  background-color:#00C6CF !important
 }

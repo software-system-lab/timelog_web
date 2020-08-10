@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './UserProfile.css'
 import {
-  FormControl,
-  InputLabel,
   Avatar,
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 class PopoverProfile extends Component {
 
@@ -15,38 +14,38 @@ class PopoverProfile extends Component {
       email: localStorage.getItem("mail"),
       displayName: localStorage.getItem("displayName")
     }
-    this.submit = this.submit.bind(this)
+    this.logout = this.logout.bind(this);
   }
 
-  submit() {
-    // send request to server
-    this.props.handleClose()
+  logout() {
+      localStorage.clear();
+      window.location.href = '/';
   }
 
   render() {
     return (
+      <center>
         <div className="profile-box">
-            <center>
-            <form className="profile-form"> 
-                <FormControl>
-                    <Avatar alt={this.state.displayName} src="/broken-image.jpg"/>
-                </FormControl>
-                <br/>
-                <FormControl className="profile-text" fullWidth={true}>
-                    <InputLabel id="displayName">{this.state.displayName}</InputLabel>
-                </FormControl>
-                <br/>
-                <FormControl fullWidth={true}>
-                    <InputLabel id="name">{this.state.name}</InputLabel>
-                </FormControl>
-                <br/>
-                <FormControl fullWidth={true}>
-                    <InputLabel id="email">{this.state.email}</InputLabel>
-                </FormControl>
-                <br/>
-            </form>
-            </center>
+          <div className="profile-split"></div>
+          <Avatar className="avatar-name" alt={this.state.displayName} src="/broken-image.jpg"/>
+          <div className="profile-split"></div>
+          <div>
+            <p>{this.state.displayName}</p>
+            <p>{this.state.name}</p>
+            <p>{this.state.email}</p>
+          </div>
+          <div className="profile-split"></div>
+          <Button 
+            className = "logout-btn" 
+            variant="contained" 
+            color="primary" 
+            style = {{minWidth : "6vw"}}
+            onClick = {this.logout}
+            >
+              LOGOUT
+          </Button>
         </div>
+      </center>
     )
   }
 }

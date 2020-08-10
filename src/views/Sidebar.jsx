@@ -5,10 +5,12 @@ import AddIcon from '@material-ui/icons/Add';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import HistoryIcon from '@material-ui/icons/History';
+import TimelapseIcon from '@material-ui/icons/Timelapse';
 import Hidden from '@material-ui/core/Hidden';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ReportIcon from '@material-ui/icons/Report'
+import ReportIcon from '@material-ui/icons/Report';
+import TimerIcon from '@material-ui/icons/Timer';
 import Divider from '@material-ui/core/Divider';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -19,7 +21,6 @@ import AddLog from './AddLog'
 import Duration from './Duration'
 import UserProfile from './UserProfile';
 import Slide from '@material-ui/core/Slide';
-
 const drawerWidth = '15vw';
 
 const useStyles = makeStyles((theme) => ({
@@ -136,13 +137,13 @@ function Sidebar(props) {
     setDurationOpen(false);
   };
 
-  const handleUserProfileOpen = () => {
-    setUserProfileOpen(true);
-  };
+  // const handleUserProfileOpen = () => {
+  //   setUserProfileOpen(true);
+  // };
 
-  const handleUserProfileClose = () => {
-    setUserProfileOpen(false);
-  };
+  // const handleUserProfileClose = () => {
+  //   setUserProfileOpen(false);
+  // };
 
   const history = useHistory();
 
@@ -156,6 +157,14 @@ function Sidebar(props) {
 
   const goToActivity = () => {
     history.push("/activity")
+  };
+
+  const goToTimebox = () => {
+    history.push("/timebox")
+  };
+
+  const goToStopwatch = () => {
+    history.push("/stopwatch")
   };
 
   const container = window !== undefined ? () => window().document.body : undefined
@@ -173,7 +182,7 @@ function Sidebar(props) {
                 onClick={ ()=>{ handleAddLogOpen() } }
                 variant="contained"
                 fullWidth={true}
-                style={{backgroundColor:'#00C6CF', color:"#FFFFFF"}}
+                color="primary" 
                 >
                 Add Log
               </Button>
@@ -186,7 +195,7 @@ function Sidebar(props) {
                 onClick={ ()=>{ handleDurationOpen() } }
                 variant="contained"
                 fullWidth={true}
-                style={{backgroundColor:'#00C6CF', color:"#FFFFFF"}}
+                color="primary" 
                 >
                 Duration
               </Button>
@@ -253,16 +262,22 @@ function Sidebar(props) {
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2400,enter:2400,exit:2400}}>
-        <ListItem button key="Profile" onClick={ ()=> {handleUserProfileOpen()} }>
-          <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
-          <ListItemText primary="Profile" />
+        <ListItem button key="Timebox" onClick={ ()=> {goToTimebox()} }>
+          <ListItemIcon>{<TimelapseIcon />}</ListItemIcon>
+          <ListItemText primary="Timebox" />
+        </ListItem>
+      </Slide>
+      <Slide direction="right" in={true} timeout={{appear:2700,enter:2700,exit:2700}}>
+        <ListItem button key="Stopwatch" onClick={ ()=> {goToStopwatch()} }>
+          <ListItemIcon>{<TimerIcon />}</ListItemIcon>
+          <ListItemText primary="Stopwatch" />
         </ListItem>
       </Slide>
       <Divider style={{margin:'25px 20px'}}/>
-      <Slide direction="right" in={true} timeout={{appear:2700,enter:2700,exit:2700}}>
+      <Slide direction="right" in={true} timeout={{appear:3000,enter:3000,exit:3000}}>
         <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank" rel="noopener noreferrer">
           <ListItem button key="Report Issue">
-            <ListItemIcon>{<ReportIcon style={{ fill: "#FF7F7F" }} />}</ListItemIcon>
+            <ListItemIcon>{<ReportIcon color="secondary" />}</ListItemIcon>
             <ListItemText primary="Report Issue" />
           </ListItem>
         </a>
@@ -303,7 +318,7 @@ function Sidebar(props) {
       </Hidden>
       <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
       <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose} startDate={props.startDate} endDate={props.endDate} updateDates={props.updateDates}/>
-      <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/>
+      {/* <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/> */}
     </nav>
   )
 }

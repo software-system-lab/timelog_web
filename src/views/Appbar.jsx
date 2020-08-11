@@ -8,8 +8,10 @@ import { useHistory } from 'react-router-dom';
 import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
 import Avatar from '@material-ui/core/Avatar';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PopoverProfile from './PopoverProfile';
+// import { useState } from 'react';
+// import { readableCounter } from "../utils";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
 function Appbar(props) {
   const classes = useStyles();
   const history = useHistory();
+
+  // const [time, setTime] = useState(0);
+  // const [startTimer, stopTimer] = useAnimationFrame(delta =>
+  //   setTime(prevTime => prevTime + delta / 1000)
+  // );
 
   const handleDrawerToggle = () => {
     props.handleDrawerToggle();
@@ -73,6 +80,9 @@ function Appbar(props) {
         <div className="appbar-LOGO">
           <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome() } }>
           </img>
+        </div>
+        <div>
+          {/* <h1 className="timer">{readableCounter(time)}</h1> */}
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>

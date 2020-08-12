@@ -9,8 +9,11 @@ import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
 import Avatar from '@material-ui/core/Avatar';
 import PopoverProfile from './PopoverProfile';
-// import { useState } from 'react';
-// import { readableCounter } from "../utils";
+import { useState } from 'react';
+import { readableCounter } from "../utils";
+import useAnimationFrame from "../useAnimationFrame";
+import "./Stopwatch.css";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,11 +42,15 @@ const useStyles = makeStyles((theme) => ({
 function Appbar(props) {
   const classes = useStyles();
   const history = useHistory();
-
-  // const [time, setTime] = useState(0);
-  // const [startTimer, stopTimer] = useAnimationFrame(delta =>
-  //   setTime(prevTime => prevTime + delta / 1000)
-  // );
+  const [time, setTime] = useState(0);
+  const [startTimer, stopTimer] = useAnimationFrame(delta =>
+    setTime(prevTime => prevTime + delta / 1000)
+    );
+    
+  const stopAndReset = () => {
+    stopTimer();
+    setTime(0);
+  }
 
   const handleDrawerToggle = () => {
     props.handleDrawerToggle();
@@ -78,11 +85,20 @@ function Appbar(props) {
         <MenuIcon />
         </IconButton>
         <div className="appbar-LOGO">
-          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome() } }>
+          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome(); startTimer();} }>
           </img>
         </div>
-        <div>
-          {/* <h1 className="timer">{readableCounter(time)}</h1> */}
+        <div className="timer-bar">
+          <h1 className="timer-header">{readableCounter(time)}</h1>
+          <div className="button-header">
+            <svg 
+            width="2em" 
+            height="2em" 
+            viewBox="0 0 20 20"
+            onClick={() => stopAndReset()}>
+              <path d="M16 8v8H8V8h8m0-2H8c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"></path>
+            </svg>
+          </div>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>
@@ -111,6 +127,5 @@ function Appbar(props) {
     </AppBar>
   )
 }
-
 
 export default Appbar

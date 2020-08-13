@@ -12,9 +12,8 @@ import PopoverProfile from './PopoverProfile';
 import { useState } from 'react';
 import { readableCounter } from "../utils";
 import useAnimationFrame from "../useAnimationFrame";
+import { connect } from 'react-redux';
 import "./Stopwatch.css";
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,16 +88,7 @@ function Appbar(props) {
           </img>
         </div>
         <div className="timer-bar">
-          <h1 className="timer-header">{readableCounter(time)}</h1>
-          <div className="button-header">
-            <svg 
-            width="2em" 
-            height="2em" 
-            viewBox="0 0 20 20"
-            onClick={() => stopAndReset()}>
-              <path d="M16 8v8H8V8h8m0-2H8c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"></path>
-            </svg>
-          </div>
+          <h1 className="timer-header">{props.timeString}</h1>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>
@@ -128,4 +118,10 @@ function Appbar(props) {
   )
 }
 
-export default Appbar
+function mapStateToProps(state) {
+  return {
+    timeString: state.stopWatchTime
+  }
+}
+
+export default connect(mapStateToProps, null)(Appbar)

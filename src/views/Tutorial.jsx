@@ -10,11 +10,6 @@ import Stepper from './Stepper'
 
 class Tutorial extends Component {
 
-  constructor(props) {
-    super(props)
-    this.wrapper = React.createRef();
-  }
-
   render() {
     return (
       <div>

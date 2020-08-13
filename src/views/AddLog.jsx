@@ -23,7 +23,6 @@ class AddLog extends Component {
   constructor(props) {
     super(props)
     
-
     const currentTime = moment();
     const endTime = currentTime.toDate()
     const startTime = currentTime.add(-1, "hours").toDate()

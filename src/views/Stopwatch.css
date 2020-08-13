@@ -3,17 +3,20 @@
   height: 400px;
   margin: 10px;
 }
+
 .clock-inner circle:nth-child(1) {
   stroke: #00C6CF;
   fill: none;
   stroke-dasharray: 6;
 }
+
 .clock-inner circle:nth-child(2) {
   stroke: #00c5cf49;
   fill: none;
   stroke-width: 6px;
   stroke-dasharray: 3;
 }
+
 .timer {
   font-size: 60px;
   margin: 155px 65px;
@@ -21,6 +24,7 @@
   font-family: monospace;
   position: absolute;
 }
+
 .stopwatch{
   margin-top: 6vw;
 }
@@ -28,6 +32,7 @@
 .clock-animation{ 
   position: absolute;
 }
+
 .circle-button-primary{
 width: 80px;
 height: 80px;
@@ -35,11 +40,21 @@ border-radius: 50%;
 background-color:#00C6CF;
 }
 
+.circle-button-primary:hover {
+  cursor: pointer;
+  background-color:#00c5cfb7;
+}
+
 .circle-button-red{
   width: 80px;
   height: 80px;
   border-radius: 50%;
   background-color:#ff5f5f;
+}
+
+.circle-button-red:hover{
+  cursor: pointer;
+  background-color:#ff5f5fb0;
 }
 
 .circle-button-primary svg{

@@ -49,14 +49,6 @@ class History extends Component {
           }}
           localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this log?' } } }}
           editable={{
-            // onRowAdd: newData =>
-            //   new Promise((resolve, reject) => {
-            //     setTimeout(() => {
-            //       console.log("new")
-            //       resolve();
-            //     }, 1000);
-            //   })
-            // ,
             // onRowUpdate: (newData, oldData) =>
             //   new Promise((resolve, reject) => {
             //     setTimeout(() => {

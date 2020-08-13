@@ -1,26 +1,36 @@
 import React from 'react'
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Button,
-  Grid, FormControl } from '@material-ui/core'
+import {
+  Drawer,
+  List, 
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Button,
+  Grid,
+  FormControl,
+  Divider,
+  makeStyles,
+  useTheme,
+  Slide,
+  Hidden
+} from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import HistoryIcon from '@material-ui/icons/History';
 import TimelapseIcon from '@material-ui/icons/Timelapse';
-import Hidden from '@material-ui/core/Hidden';
-import SettingsIcon from '@material-ui/icons/Settings';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ReportIcon from '@material-ui/icons/Report';
 import TimerIcon from '@material-ui/icons/Timer';
-import Divider from '@material-ui/core/Divider';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
 import AddLog from './AddLog'
 import Duration from './Duration'
-import UserProfile from './UserProfile';
-import Slide from '@material-ui/core/Slide';
+import Stopwatch from './Stopwatch'
+
 const drawerWidth = '15vw';
 
 const useStyles = makeStyles((theme) => ({
@@ -114,7 +124,7 @@ function Sidebar(props) {
   // const [mobileOpen, setMobileOpen] = React.useState(false);
   const [addLogOpen, setAddLogOpen] = React.useState(false);
   const [durationOpen, setDurationOpen] = React.useState(false);
-  const [userProfileOpen, setUserProfileOpen] = React.useState(false);
+  const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
 
   // const handleDrawerToggle = () => {
   //   setMobileOpen(!mobileOpen);
@@ -137,13 +147,13 @@ function Sidebar(props) {
     setDurationOpen(false);
   };
 
-  // const handleUserProfileOpen = () => {
-  //   setUserProfileOpen(true);
-  // };
+  const handleStopwatchOpen = () => {
+    setStopwatchOpen(true);
+  };
 
-  // const handleUserProfileClose = () => {
-  //   setUserProfileOpen(false);
-  // };
+  const handleStopwatchClose = () => {
+    setStopwatchOpen(false);
+  };
 
   const history = useHistory();
 
@@ -161,10 +171,6 @@ function Sidebar(props) {
 
   const goToTimebox = () => {
     history.push("/timebox")
-  };
-
-  const goToStopwatch = () => {
-    history.push("/stopwatch")
   };
 
   const container = window !== undefined ? () => window().document.body : undefined
@@ -189,6 +195,19 @@ function Sidebar(props) {
             </ListItem>
           </Slide>
           <Slide direction="right" in={true} timeout={{appear:800,enter:800,exit:800}}>
+          <ListItem className="sidebar-list">
+              <Button startIcon={<TimerIcon/>}
+                className="sidebar-list-item"
+                onClick={ ()=>{ handleStopwatchOpen() } }
+                variant="contained"
+                fullWidth={true}
+                color="primary" 
+                >
+                Stopwatch
+              </Button>
+            </ListItem>
+          </Slide>
+          <Slide direction="right" in={true} timeout={{appear:1200,enter:1200,exit:1200}}>
             <ListItem className="sidebar-list">
               <Button startIcon={<AvTimerIcon/>}
                 className="sidebar-list-item"
@@ -257,7 +276,7 @@ function Sidebar(props) {
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2100,enter:2100,exit:2100}}>
         <ListItem button key="Activity" onClick={ ()=> {goToActivity()} }>
-          <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
+          <ListItemIcon>{<LibraryBooksIcon />}</ListItemIcon>
           <ListItemText primary="Activity" />
         </ListItem>
       </Slide>
@@ -267,14 +286,8 @@ function Sidebar(props) {
           <ListItemText primary="Timebox" />
         </ListItem>
       </Slide>
-      <Slide direction="right" in={true} timeout={{appear:2700,enter:2700,exit:2700}}>
-        <ListItem button key="Stopwatch" onClick={ ()=> {goToStopwatch()} }>
-          <ListItemIcon>{<TimerIcon />}</ListItemIcon>
-          <ListItemText primary="Stopwatch" />
-        </ListItem>
-      </Slide>
       <Divider style={{margin:'25px 20px'}}/>
-      <Slide direction="right" in={true} timeout={{appear:3000,enter:3000,exit:3000}}>
+      <Slide direction="right" in={true} timeout={{appear:2700,enter:2700,exit:2700}}>
         <a className="report-button" href="https://github.com/software-system-lab/timelog_web/issues" target="_blank" rel="noopener noreferrer">
           <ListItem button key="Report Issue">
             <ListItemIcon>{<ReportIcon color="secondary" />}</ListItemIcon>
@@ -288,7 +301,7 @@ function Sidebar(props) {
 
   return (
     <nav className={classes.drawer}>
-      <Hidden smUp implementation="css">
+      <Hidden lgUp implementation="css">
         <Drawer
           classes={{
             paper: classes.drawerPaper,
@@ -305,7 +318,7 @@ function Sidebar(props) {
           {drawer}
         </Drawer>
       </Hidden>
-      <Hidden xsDown implementation="css">
+      <Hidden mdDown implementation="css">
         <Drawer
           classes={{
             paper: classes.drawerPaper,
@@ -318,6 +331,7 @@ function Sidebar(props) {
       </Hidden>
       <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
       <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose} startDate={props.startDate} endDate={props.endDate} updateDates={props.updateDates}/>
+      <Stopwatch className="Stopwatch" open={stopwatchOpen} handleClose={handleStopwatchClose} />
       {/* <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/> */}
     </nav>
   )

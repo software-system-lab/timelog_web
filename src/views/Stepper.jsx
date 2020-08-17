@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     maxWidth: '32vw',
-    overflow: 'hidden',
     display: 'block',
     width: '100%',
   },

@@ -122,6 +122,7 @@ function Sidebar(props) {
   const classes = useStyles();
   const theme = useTheme();
   // const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [logDuration, setLogDuration] = React.useState(3600);
   const [addLogOpen, setAddLogOpen] = React.useState(false);
   const [durationOpen, setDurationOpen] = React.useState(false);
   const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
@@ -131,8 +132,9 @@ function Sidebar(props) {
   //   props.mobileOpen = !props.handleDrawerToggle();
   // };
 
-  const handleAddLogOpen = () => {
+  const handleAddLogOpen = (logDuration = 3600) => {
     setAddLogOpen(true);
+    setLogDuration(logDuration);
   };
 
   const handleAddLogClose = () => {
@@ -329,9 +331,9 @@ function Sidebar(props) {
           {drawer}
         </Drawer>
       </Hidden>
-      <AddLog className="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
+      <AddLog className="AddLog" duration={logDuration} open={addLogOpen} handleClose={handleAddLogClose}/>
       <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose} startDate={props.startDate} endDate={props.endDate} updateDates={props.updateDates}/>
-      <Stopwatch className="Stopwatch" open={stopwatchOpen} handleClose={handleStopwatchClose} />
+      <Stopwatch className="Stopwatch" open={stopwatchOpen} handleClose={handleStopwatchClose} openAddLogDialog={handleAddLogOpen} />
       {/* <UserProfile className="UserProfile" open={userProfileOpen} handleClose={handleUserProfileClose}/> */}
     </nav>
   )

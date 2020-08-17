@@ -9,9 +9,6 @@ import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
 import Avatar from '@material-ui/core/Avatar';
 import PopoverProfile from './PopoverProfile';
-import { useState } from 'react';
-import { readableCounter } from "../utils";
-import useAnimationFrame from "../useAnimationFrame";
 import { connect } from 'react-redux';
 import "./Stopwatch.css";
 
@@ -41,15 +38,6 @@ const useStyles = makeStyles((theme) => ({
 function Appbar(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [time, setTime] = useState(0);
-  const [startTimer, stopTimer] = useAnimationFrame(delta =>
-    setTime(prevTime => prevTime + delta / 1000)
-    );
-    
-  const stopAndReset = () => {
-    stopTimer();
-    setTime(0);
-  }
 
   const handleDrawerToggle = () => {
     props.handleDrawerToggle();
@@ -84,11 +72,11 @@ function Appbar(props) {
         <MenuIcon />
         </IconButton>
         <div className="appbar-LOGO">
-          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome(); startTimer();} }>
+          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome(); } }>
           </img>
         </div>
         <div className="timer-bar">
-          <h1 className="timer-header">{props.timeString}</h1>
+          <h1 className="timer-header">{props.timeString == '00:00:00'? '':props.timeString}</h1>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>

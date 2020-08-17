@@ -1,5 +1,5 @@
-.clock-inner{
-  width:400px;
+.clock-inner {
+  width: 400px;
   height: 400px;
   margin: 10px;
 }
@@ -20,53 +20,59 @@
 .timer {
   font-size: 60px;
   margin: 155px 65px;
-  color: #f5f5f5;
+  color: #808080;
   font-family: monospace;
   position: absolute;
 }
 
-.stopwatch{
-  margin-top: 6vw;
-}
-
-.clock-animation{ 
+.clock-animation { 
   position: absolute;
 }
 
-.circle-button-primary{
-width: 80px;
-height: 80px;
-border-radius: 50%;
-background-color:#00C6CF;
-}
-
-.circle-button-primary:hover {
-  cursor: pointer;
-  background-color:#00c5cfb7;
-}
-
-.circle-button-red{
+.circle-button-primary, 
+.circle-button-red,
+.circle-button-grey {
   width: 80px;
   height: 80px;
   border-radius: 50%;
+}
+
+.circle-button-primary {
+  background-color:#00C6CF;
+}
+
+.circle-button-red {
   background-color:#ff5f5f;
 }
 
-.circle-button-red:hover{
+.circle-button-grey {
+  background-color: #808080;
+}
+.circle-button-red:hover, 
+.circle-button-primary:hover {
   cursor: pointer;
+}
+
+.circle-button-red:hover {
   background-color:#ff5f5fb0;
 }
 
-.circle-button-primary svg{
+.circle-button-primary:hover {
+  background-color:#00c5cfb7;
+}
+
+.circle-button-primary,
+.circle-button-red,
+.circle-button-grey svg {
   fill: #f5f5f5;
 }
 
-.circle-button-red svg{
-  fill: #f5f5f5;
-}
-
-.buttons{
+.buttons {
+  margin: 25px 0; 
   display: flex;
-  justify-content: space-around;
-  margin-top: 30px;
+  justify-content: space-around !important;
+}
+
+.submit-icon{
+  margin: 15px;
 }

@@ -22,19 +22,34 @@ class AddLog extends Component {
 
   constructor(props) {
     super(props)
-    
-    const currentTime = moment();
-    const endTime = currentTime.toDate()
-    const startTime = currentTime.add(-1, "hours").toDate()
-
     this.state = {
       title: "",
       description: "",
-      startTime: startTime,
-      endTime: endTime,
+      startTime: 0,
+      endTime: 0,
       activityTypeName: ""
     }
     this.submit = this.submit.bind(this)
+  }
+
+  componentDidMount() {
+    const currentTime = moment();
+    const endTime = currentTime.toDate();
+    const startTime = currentTime.subtract(this.props.duration, "seconds").toDate();
+
+    this.setState({
+      startTime: startTime,
+      endTime: endTime
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.duration !== prevProps.duration) {
+      this.setState({
+        endTime: moment().toDate(),
+        startTime: moment().subtract(this.props.duration, "seconds").toDate()
+      })
+    }
   }
 
   submit() {

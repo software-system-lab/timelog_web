@@ -30,7 +30,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-class Activity extends Component {
+class Timebox extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -55,7 +55,7 @@ class Activity extends Component {
   render() {
     return (
       <div>
-        <MaterialTable title="Activity"
+        <MaterialTable title="Timebox"
           icons={tableIcons}
           columns={this.state.columns}
           data={this.props.activityTypeList}
@@ -131,4 +131,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Timebox))

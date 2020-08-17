@@ -30,7 +30,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-      console.log(this.props.location.query)
       const searchParams = new URLSearchParams(this.props.location.search)
       if (searchParams.get('uid') !== null) {
         localStorage.setItem('uid', searchParams.get('uid'))

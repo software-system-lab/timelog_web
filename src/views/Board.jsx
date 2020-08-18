@@ -49,13 +49,13 @@ class Board extends Component {
               <div className="chart">
                 <Chart
                   minWidth={''}
-                  width={'95%'}
-                  height={'40vh'}
+                  width={'99%'}
+                  height={'50vh'}
                   chartType="PieChart"
                   loader={<div>Loading Chart</div>}
                   data={this.props.dashBoardData.pieData}
                   options={{
-                    chartArea: { width: '80%', height: '95%', left: '15%',right: '5%'},
+                    chartArea: { width: '100%', height: '95%', left: '5%',right: '5%'},
                     title: 'DashBoard',
                     tooltip: { trigger:'none'},
                     legend: {position: 'left'},

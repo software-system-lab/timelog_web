@@ -64,6 +64,7 @@ class Activity extends Component {
           options={{
             search: true,
             sorting: true,
+            paging: false
           }}
           localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity?' } } }}
           editable={{

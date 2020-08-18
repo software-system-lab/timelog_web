@@ -6,12 +6,14 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const tutorialSteps = [
-  {imgPath:'/tutorial_1.jpg'},
-  {imgPath:'/tutorial_2.jpg'},
-  {imgPath:'/tutorial_3.jpg'},
-  {imgPath:'/tutorial_4.jpg'},
-  {imgPath:'/tutorial_5.jpg'},
-  {imgPath:'/tutorial_6.jpg'},
+  {imgPath:'/tutorial1.jpg'},
+  {imgPath:'/tutorial2.jpg'},
+  {imgPath:'/tutorial3.jpg'},
+  {imgPath:'/tutorial4.jpg'},
+  {imgPath:'/tutorial5.jpg'},
+  {imgPath:'/tutorial6.jpg'},
+  {imgPath:'/tutorial7.jpg'},
+  {imgPath:'/tutorial8.jpg'},
 ];
 
 const useStyles = makeStyles((theme) => ({

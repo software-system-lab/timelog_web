@@ -33,6 +33,3 @@ class Tutorial extends Component {
 }
 
 export default Tutorial
-  
-  
-

@@ -3,8 +3,10 @@ export default (callback) => {
     const requestRef = React.useRef(0);
     const previousTimeRef = React.useRef(0);
     const _loop = (time = 0) => {
+        console.log(" aa" +time+"-"+previousTimeRef.current);
         if (previousTimeRef.current) {
             const deltaTime = time - previousTimeRef.current;
+            console.log("deltatime : "+deltaTime +"="+time+"-"+previousTimeRef.current);
             callback(deltaTime);
         }
         previousTimeRef.current = time;

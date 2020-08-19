@@ -283,7 +283,7 @@ function Sidebar(props) {
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2400,enter:2400,exit:2400}}>
-        <ListItem button key="Timebox" onClick={ ()=> {goToTimebox()} }>
+        <ListItem button key="Timebox" onClick={ ()=> {goToTimebox()} } style={{display:"none"}}>
           <ListItemIcon>{<TimelapseIcon />}</ListItemIcon>
           <ListItemText primary="Timebox" />
         </ListItem>

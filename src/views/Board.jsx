@@ -29,9 +29,12 @@ class Board extends Component {
             <Button startIcon={<GetAppIcon/>}
               onClick={ this.exportReport }
               variant="outlined"
-              style={{color: white, borderColor: white}}>
+              style={{color: white, borderColor: white,marginLeft:35}}>
               Export
             </Button>
+            <p className="export-note">
+                *Please adjust the web browser<br></br>
+                zoom to 100% for better result</p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">

@@ -11,16 +11,27 @@
 
 .export-button {
     position: absolute;
-    left: 0;
 }
 
 .reactgooglegraph-1{
     width: 80%;
 }
-.chart{
+
+.chart {
     width: 50%;
 }
-.table{
+
+.table {
     margin-left: 5%;
     width: 40%;
+}
+
+.export-note {
+    font-size: 9pt;
+    text-align: center;
+    opacity: 0%;
+}
+
+.export-button:hover p {
+    opacity: 100%;
 }

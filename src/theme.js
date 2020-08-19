@@ -8,6 +8,3 @@ const theme = createMuiTheme({
 })
 
 export default theme
-
-
-//    primary: { main: '#00a3b7' },

@@ -1,19 +1,14 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
+import { MobileStepper, Button }from '@material-ui/core';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const tutorialSteps = [
-  {imgPath:'/tutorial1.jpg'},
-  {imgPath:'/tutorial2.jpg'},
-  {imgPath:'/tutorial3.jpg'},
-  {imgPath:'/tutorial4.jpg'},
-  {imgPath:'/tutorial5.jpg'},
-  {imgPath:'/tutorial6.jpg'},
-  {imgPath:'/tutorial7.jpg'},
-  {imgPath:'/tutorial8.jpg'},
+  '/tutorial1.jpg', '/tutorial2.jpg',
+  '/tutorial3.jpg', '/tutorial4.jpg',
+  '/tutorial5.jpg', '/tutorial6.jpg',
+  '/tutorial7.jpg', '/tutorial8.jpg'
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +49,8 @@ export default function Stepper() {
     <div className={classes.root}>
       <img
         className={classes.img}
-        src={tutorialSteps[activeStep].imgPath}
-        alt={tutorialSteps[activeStep].label}
+        alt="tutorialStep"
+        src={tutorialSteps[activeStep]}
       />
       <MobileStepper
         steps={maxSteps}

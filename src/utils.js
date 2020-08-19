@@ -4,8 +4,6 @@ export const readableCounter = (secs) => {
   const minutes = Math.floor(seconds / 60) % 60;
   seconds = Math.floor(seconds) % 60;
   return [hours, minutes, seconds]
-      .map((v, i) => {
-      return v < 10 ? "0" + v : v;
-  })
+      .map((v, i) => v < 10 ? "0" + v : v)
       .join(":");
 };

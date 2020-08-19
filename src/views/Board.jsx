@@ -29,11 +29,11 @@ class Board extends Component {
             <Button startIcon={<GetAppIcon/>}
               onClick={ this.exportReport }
               variant="outlined"
-              style={{color: white, borderColor: white,marginLeft:35}}>
+              style={{color: white, borderColor: white, marginLeft:35}}>
               Export
             </Button>
             <p className="export-note">
-                *Please adjust the web browser<br></br>
+                Please adjust the web browser<br></br>
                 zoom to 100% for better result</p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
@@ -58,9 +58,9 @@ class Board extends Component {
                   loader={<div>Loading Chart</div>}
                   data={this.props.dashBoardData.pieData}
                   options={{
-                    chartArea: { width: '100%', height: '95%', left: '5%',right: '5%'},
+                    chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
                     title: 'DashBoard',
-                    tooltip: { trigger:'none'},
+                    tooltip: {trigger:'none'},
                     legend: {position: 'left'},
                     legendTextStyle: {color:white},
                     backgroundColor: '#3C3D42',

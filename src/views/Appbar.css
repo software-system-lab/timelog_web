@@ -14,26 +14,14 @@
     background-color: #06afb8;
 }
 
-.timer-header{
+.timer-header {
   color: #f5f5f5;
   font-family: monospace;
   margin: 0;
   font-size: 24pt;
 }
 
-.timer-bar{
+.timer-bar {
     display: flex;
     align-items: center;
-}
-
-.timer-bar svg{
-    fill: #f5f5f5;
-}
-
-.button-header{
-    margin-left: 20px;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background-color:#00C6CF;
 }

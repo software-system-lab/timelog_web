@@ -47,14 +47,14 @@ function Appbar(props) {
     history.push("/welcome")
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorProfile, setAnchorProfile] = React.useState(null);
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorProfile(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorProfile(null);
   };
  
   const displayName = localStorage.getItem("displayName");
@@ -76,14 +76,14 @@ function Appbar(props) {
           </img>
         </div>
         <div className="timer-bar">
-          <h1 className="timer-header">{props.timeString == '00:00:00'? '':props.timeString}</h1>
+          <h1 className="timer-header">{props.timeString === '00:00:00' ? '' : props.timeString}</h1>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>
           <Popover
-            open={Boolean(anchorEl)}
+            open={Boolean(anchorProfile)}
             margin='100px'
-            anchorEl={anchorEl}
+            anchorEl={anchorProfile}
             onClose={handleClose}
             anchorOrigin={{
               vertical: 'bottom',

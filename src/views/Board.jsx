@@ -34,7 +34,8 @@ class Board extends Component {
             </Button>
             <p className="export-note">
                 Please adjust the web browser<br></br>
-                zoom to 100% for better result</p>
+                zoom to 100% for better result
+            </p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">

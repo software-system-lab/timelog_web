@@ -18,7 +18,6 @@ function Stopwatch(props) {
   const [progress, setProgress] = useState(0);
   const [isStartClicked,setStartClicked] = useState(true);
   const [isStopClicked,setStopClicked] = useState(false);
-  const timer = readableCounter(time);
   
   const [startTimer, stopTimer] = useAnimationFrame(delta => 
     setTime(prevTime => prevTime + delta / 1000)
@@ -54,20 +53,14 @@ function Stopwatch(props) {
       startTimer();
     }
   };
-  
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 0.167));
-    }, 100);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
 
   useEffect(() => {
-    props.updateTimeString(timer)
-  }, [props, time, timer])
+    setProgress(props.stopWatchTime%60*5/3)
+  }, [props.stopWatchTime])
+
+  useEffect(() => {
+    props.updateTime(time.toFixed(1))
+  }, [time])
 
   return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title" maxWidth='md'>
@@ -79,8 +72,8 @@ function Stopwatch(props) {
       <DialogContent>
         <center>
           <div className="clock-inner">
-            <CircularProgress className="clock-animation" thickness={0.5} variant="static" size='25rem' value={isStartClicked ? 0 : progress}/>
-            <h1 className="timer">{props.timeString}</h1>
+            <CircularProgress className="clock-animation" thickness={0.5} variant="static" size='25rem' value={progress}/>
+            <h1 className="timer">{readableCounter(props.stopWatchTime)}</h1>
             <svg width="400" height="400">
               <circle cx="200" cy="200" r="197" />
               <circle cx="200" cy="200" r="187" />
@@ -114,14 +107,14 @@ function Stopwatch(props) {
 
 function mapStateToProps(state) {
   return {
-    timeString: state.stopWatchTime
+    stopWatchTime: state.stopWatchTime
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateTimeString: (timeString) => {
-      dispatch(updateTime(timeString))
+    updateTime: (time) => {
+      dispatch(updateTime(time))
     }
   }
 }

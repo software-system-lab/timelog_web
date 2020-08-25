@@ -11,6 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import PopoverProfile from './PopoverProfile';
 import { connect } from 'react-redux';
 import "./Stopwatch.css";
+import { readableCounter } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +77,7 @@ function Appbar(props) {
           </img>
         </div>
         <div className="timer-bar">
-          <h1 className="timer-header">{props.timeString === '00:00:00' ? '' : props.timeString}</h1>
+          <h1 className="timer-header">{props.timeString == 0 ? '' : readableCounter(props.timeString)}</h1>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>

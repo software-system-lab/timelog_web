@@ -1,4 +1,4 @@
-const StopWatchReducer = (state = "00:00:00", action) => {
+const StopWatchReducer = (state = 0, action) => {
     switch(action.type) {
         case "UPDATE_TIME":
             return action.time

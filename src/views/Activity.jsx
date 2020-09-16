@@ -48,7 +48,8 @@ class Activity extends Component {
         },{
           title: "Enable",
           field: "enable",
-          type: "boolean"
+          type: "boolean",
+          initialEditValue: 'true'
         }
       ]
     }

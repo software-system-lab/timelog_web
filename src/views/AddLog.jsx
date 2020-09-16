@@ -27,7 +27,8 @@ class AddLog extends Component {
       description: "",
       startTime: 0,
       endTime: 0,
-      activityTypeName: ""
+      activityTypeName: "",
+      isEnable: true
     }
     this.submit = this.submit.bind(this)
   }
@@ -114,9 +115,12 @@ class AddLog extends Component {
               >
                 {
                   this.props.activityTypeList.map((activityType, key) => {
-                    return (
-                      <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                    )
+                      if(activityType.enable != false)
+                      {
+                        return (
+                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        )
+                      }
                   })
                 }
               </Select>

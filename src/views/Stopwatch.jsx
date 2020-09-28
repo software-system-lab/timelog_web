@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useCallback, useState , useEffect } from "react";
 import { readableCounter } from "../utils";
 import useAnimationFrame from "../useAnimationFrame";
 import "./Stopwatch.css";
@@ -54,9 +54,9 @@ function Stopwatch(props) {
     }
   };
 
-  const UpdateTime = () => {
+  const UpdateTime = useCallback(() => {
     props.updateTime(time.toFixed(1))
-  }
+  })
 
   useEffect(() => {
     setProgress(props.stopWatchTime%60*5/3)

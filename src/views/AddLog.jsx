@@ -115,7 +115,7 @@ class AddLog extends Component {
               >
                 {
                   this.props.activityTypeList.map((activityType, key) => {
-                      if(activityType.enable != false)
+                      if(activityType.enable !== false)
                       {
                         return (
                             <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>

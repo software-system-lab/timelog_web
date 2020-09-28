@@ -121,6 +121,8 @@ class AddLog extends Component {
                             <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                         )
                       }
+                      else
+                      {return 0}
                   })
                 }
               </Select>

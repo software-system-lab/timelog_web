@@ -54,16 +54,17 @@ function Stopwatch(props) {
     }
   };
 
+  const UpdateTime = () => {
+    props.updateTime(time.toFixed(1))
+  }
+
   useEffect(() => {
     setProgress(props.stopWatchTime%60*5/3)
   }, [props.stopWatchTime])
 
   useEffect(() => {
-    function UpdateTime() {
-      props.updateTime(time.toFixed(1))
-    }
     UpdateTime()
-  }, [time])
+  }, [UpdateTime])
 
   return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title" maxWidth='md'>

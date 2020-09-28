@@ -59,7 +59,10 @@ function Stopwatch(props) {
   }, [props.stopWatchTime])
 
   useEffect(() => {
-    props.updateTime(time.toFixed(1))
+    function UpdateTime() {
+      props.updateTime(time.toFixed(1))
+    }
+    UpdateTime()
   }, [time])
 
   return (

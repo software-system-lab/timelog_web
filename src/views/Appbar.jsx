@@ -77,7 +77,7 @@ function Appbar(props) {
           </img>
         </div>
         <div className="timer-bar">
-          <h1 className="timer-header">{props.timeString == 0 ? '' : readableCounter(props.timeString)}</h1>
+          <h1 className="timer-header">{props.timeString === 0 ? '' : readableCounter(props.timeString)}</h1>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>

@@ -56,7 +56,7 @@ function Stopwatch(props) {
 
   const UpdateTime = useCallback(() => {
     props.updateTime(time.toFixed(1))
-  })
+  }, [time])
 
   useEffect(() => {
     setProgress(props.stopWatchTime%60*5/3)

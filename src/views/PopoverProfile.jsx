@@ -6,9 +6,9 @@ import {
 } from '@material-ui/core';
 
 export default function PopoverProfile() {
-  const [displayName, ] = useState(localStorage.getItem("displayName"));
-  const [name, ] = useState(localStorage.getItem("cn"));
-  const [email, ] = useState(localStorage.getItem("mail"));
+  const [displayName] = useState(localStorage.getItem("displayName"));
+  const [name] = useState(localStorage.getItem("cn"));
+  const [email] = useState(localStorage.getItem("mail"));
 
   const logout = () => {
     localStorage.clear();

@@ -21,7 +21,7 @@ class App extends Component {
       },
       mobileOpen: false,
       startDate: moment().add(-6, 'days').toDate(),
-      endDate: moment().toDate(),
+      endDate: moment().toDate()
     }
     localStorage.setItem('startDate', this.state.startDate);
     localStorage.setItem('endDate', this.state.endDate);

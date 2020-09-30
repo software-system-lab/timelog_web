@@ -10,9 +10,7 @@ import {
   FormControl,
   Divider,
   makeStyles,
-  useTheme,
-  Slide,
-  Hidden
+  Slide
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
@@ -49,19 +47,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Sidebar(props) {
-  const { window } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  // const [mobileOpen, setMobileOpen] = React.useState(false);
   const [logDuration, setLogDuration] = React.useState(3600);
   const [addLogOpen, setAddLogOpen] = React.useState(false);
   const [durationOpen, setDurationOpen] = React.useState(false);
   const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
-
-  // const handleDrawerToggle = () => {
-  //   setMobileOpen(!mobileOpen);
-  //   props.mobileOpen = !props.handleDrawerToggle();
-  // };
 
   const handleAddLogOpen = (logDuration = 3600) => {
     setAddLogOpen(true);
@@ -105,8 +95,6 @@ function Sidebar(props) {
   const goToTimebox = () => {
     history.push("/timebox")
   };
-
-  const container = window !== undefined ? () => window().document.body : undefined
 
   const drawer = (
     <div>
@@ -234,34 +222,15 @@ function Sidebar(props) {
 
   return (
     <nav className={classes.drawer}>
-      <Hidden lgUp implementation="css">
-        <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          container={container}
-          variant="temporary"
-          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-          open={props.mobileOpen}
-          onClose={props.handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Hidden>
-      <Hidden mdDown implementation="css">
-        <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          variant="permanent"
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Hidden>
+      <Drawer
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        variant="permanent"
+        open
+      >
+        {drawer}
+      </Drawer>
       <AddLog className="AddLog" duration={logDuration} open={addLogOpen} handleClose={handleAddLogClose}/>
       <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose} startDate={props.startDate} endDate={props.endDate} updateDates={props.updateDates}/>
       <Stopwatch className="Stopwatch" open={stopwatchOpen} handleClose={handleStopwatchClose} openAddLogDialog={handleAddLogOpen} />

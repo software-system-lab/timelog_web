@@ -25,3 +25,7 @@
     display: flex;
     align-items: center;
 }
+
+AppBar {
+    background:'#303030';
+}

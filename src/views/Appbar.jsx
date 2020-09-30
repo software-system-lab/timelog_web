@@ -50,11 +50,11 @@ function Appbar(props) {
 
   const [anchorProfile, setAnchorProfile] = React.useState(null);
 
-  const handleClick = (event) => {
+  const handleProfileClick = (event) => {
     setAnchorProfile(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleProfileClose = () => {
     setAnchorProfile(null);
   };
  
@@ -80,12 +80,12 @@ function Appbar(props) {
           <h1 className="timer-header">{props.timeString === '0.0' ? '': readableCounter(props.timeString)}</h1>
         </div>
         <div className="profile-btn" >
-          <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleClick} id="profile-icon"/>
+          <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleProfileClick} id="profile-icon"/>
           <Popover
             open={Boolean(anchorProfile)}
             margin='100px'
             anchorEl={anchorProfile}
-            onClose={handleClose}
+            onClose={handleProfileClose}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'right',

@@ -55,8 +55,8 @@ function Stopwatch(props) {
   };
 
   const UpdateTime = useCallback(() => {
-    props.updateTime(time.toFixed(1)) // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time]) 
+    props.updateTime(time.toFixed(1)) 
+  }, [props, time]) 
 
   useEffect(() => {
     setProgress(props.stopWatchTime%60*5/3)

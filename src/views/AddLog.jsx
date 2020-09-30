@@ -122,7 +122,9 @@ class AddLog extends Component {
                         )
                       }
                       else
-                      {return 0}
+                      {
+                        return 0
+                      }
                   })
                 }
               </Select>

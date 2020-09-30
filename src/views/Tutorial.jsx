@@ -22,20 +22,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width : '100%',
     maxWidth: '32vw',
-    flexGrow: 1,
+    flexGrow: 1
   },
   header: {
     display: 'flex',
     alignItems: 'center',
     height: 50,
     paddingLeft: theme.spacing(4),
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.default
   },
   img: {
     maxWidth: '32vw',
     display: 'block',
-    width: '100%',
-  },
+    width: '100%'
+  }
 }));
 
 export default function Tutorial(props) {

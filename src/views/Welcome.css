@@ -1,5 +1,5 @@
 body {
-  background-color: #3C3D42;
+  background-color: #3C3D42 !important; 
 }
 
 .welcome {
@@ -14,5 +14,4 @@ body {
 
 .get-started-button {
   margin-top: 10%;
-  display: none;
 }

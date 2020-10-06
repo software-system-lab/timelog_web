@@ -19,8 +19,6 @@ class Duration extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
 
     this.state = {
       startDate: props.startDate,
@@ -52,7 +50,7 @@ class Duration extends Component {
                   <FormControl className="">
                     <DatePicker
                       autoOk
-                      label="Start date"
+                      label="Start Date"
                       value={this.state.startDate}
                       format="yyyy/MM/dd"
                       onChange={(date) => {
@@ -65,7 +63,7 @@ class Duration extends Component {
                   <FormControl>
                     <DatePicker
                       autoOk
-                      label="End date"
+                      label="End Date"
                       value={this.state.endDate}
                       format="yyyy/MM/dd"
                       onChange={(date) => {

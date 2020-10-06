@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
   FormControl,
   InputLabel,
@@ -23,21 +22,35 @@ class AddLog extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
-
-    const currentTime = moment();
-    const endTime = currentTime.toDate()
-    const startTime = currentTime.add(-1, "hours").toDate()
-
     this.state = {
       title: "",
       description: "",
-      startTime: startTime,
-      endTime: endTime,
-      activityTypeName: ""
+      startTime: 0,
+      endTime: 0,
+      activityTypeName: "",
+      isEnable: true
     }
     this.submit = this.submit.bind(this)
+  }
+
+  componentDidMount() {
+    const currentTime = moment();
+    const endTime = currentTime.toDate();
+    const startTime = currentTime.subtract(this.props.duration, "seconds").toDate();
+
+    this.setState({
+      startTime: startTime,
+      endTime: endTime
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.duration !== prevProps.duration) {
+      this.setState({
+        endTime: moment().toDate(),
+        startTime: moment().subtract(this.props.duration, "seconds").toDate()
+      })
+    }
   }
 
   submit() {
@@ -102,9 +115,16 @@ class AddLog extends Component {
               >
                 {
                   this.props.activityTypeList.map((activityType, key) => {
-                    return (
-                      <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                    )
+                      if(activityType.enable !== false)
+                      {
+                        return (
+                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        )
+                      }
+                      else
+                      {
+                        return 0
+                      }
                   })
                 }
               </Select>
@@ -116,7 +136,7 @@ class AddLog extends Component {
                   <FormControl className="">
                     <DatePicker
                       autoOk
-                      label="Start date"
+                      label="Start Date"
                       required={true}
                       maxDate={moment().toDate()}
                       value={this.state.startTime}
@@ -139,7 +159,7 @@ class AddLog extends Component {
                   <FormControl>
                     <TimePicker
                       autoOk
-                      label="Start time"
+                      label="Start Time"
                       required={true}
                       minutesStep={5}
                       value={this.state.startTime}
@@ -163,7 +183,7 @@ class AddLog extends Component {
                   <FormControl>
                     <DatePicker
                       autoOk
-                      label="End date"
+                      label="End Date"
                       required={true}
                       value={this.state.endTime}
                       format="yyyy/MM/dd"
@@ -194,7 +214,7 @@ class AddLog extends Component {
                   <FormControl>
                     <TimePicker
                       autoOk
-                      label="End time"
+                      label="End Time"
                       required={true}
                       minutesStep={5}
                       value={this.state.endTime}

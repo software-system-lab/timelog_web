@@ -1,0 +1,78 @@
+.clock-inner {
+  width: 400px;
+  height: 400px;
+  margin: 10px;
+}
+
+.clock-inner circle:nth-child(1) {
+  stroke: #00C6CF;
+  fill: none;
+  stroke-dasharray: 6;
+}
+
+.clock-inner circle:nth-child(2) {
+  stroke: #00c5cf49;
+  fill: none;
+  stroke-width: 6px;
+  stroke-dasharray: 3;
+}
+
+.timer {
+  font-size: 60px;
+  margin: 155px 65px;
+  color: #808080;
+  font-family: monospace;
+  position: absolute;
+}
+
+.clock-animation { 
+  position: absolute;
+}
+
+.circle-button-primary, 
+.circle-button-red,
+.circle-button-grey {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.circle-button-primary {
+  background-color:#00C6CF;
+}
+
+.circle-button-red {
+  background-color:#ff5f5f;
+}
+
+.circle-button-grey {
+  background-color: #808080;
+}
+.circle-button-red:hover, 
+.circle-button-primary:hover {
+  cursor: pointer;
+}
+
+.circle-button-red:hover {
+  background-color:#ff5f5fb0;
+}
+
+.circle-button-primary:hover {
+  background-color:#00c5cfb7;
+}
+
+.circle-button-primary,
+.circle-button-red,
+.circle-button-grey svg {
+  fill: #f5f5f5;
+}
+
+.buttons {
+  margin: 25px 0; 
+  display: flex;
+  justify-content: space-around !important;
+}
+
+.submit-icon{
+  margin: 15px;
+}

@@ -30,11 +30,6 @@ const tableIcons = {
 };
 
 class History extends Component {
-  constructor(props) {
-    super(props);
-    const { keycloak } = props;
-    this.keycloak = keycloak;
-  }
 
   render() {
     return (
@@ -52,36 +47,18 @@ class History extends Component {
             search: true,
             paging: false
           }}
+          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this log?' } } }}
           editable={{
-            // onRowAdd: newData =>
-            //   new Promise((resolve, reject) => {
-            //     setTimeout(() => {
-            //       console.log("new")
-            //       resolve();
-            //     }, 1000);
-            //   })
-            // ,
-            // onRowUpdate: (newData, oldData) =>
-            //   new Promise((resolve, reject) => {
-            //     setTimeout(() => {
-            //       console.log("update")
-            //       resolve();
-            //     }, 1000);
-            //   })
-            // ,
             onRowDelete: oldData =>
             new Promise((resolve, reject) => {
-              setTimeout(() => {
-                this.props.removeLog(
-                  localStorage.getItem("uid"),
-                  null,
-                  oldData.id
-                )
-                resolve();
-              }, 1000);
+              this.props.removeLog(
+                localStorage.getItem("uid"),
+                null,
+                oldData.id
+              )
+              resolve();
             })
-        }}
-
+          }}
         />
       </div>
     );

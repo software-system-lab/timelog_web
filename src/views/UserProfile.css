@@ -1,3 +1,17 @@
 .profile-split {
   margin-top: 30px;
 }
+
+.profile-box {
+  min-width: 200px;
+  min-height: 230px;
+}
+
+p {
+  color: grey;
+  margin: 3px;
+}
+
+.avatar-name {
+  background-color:#00C6CF !important
+}

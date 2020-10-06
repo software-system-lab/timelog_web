@@ -5,3 +5,23 @@
 .appbar-LOGO:hover {
     transform: scale(1.2);
 }
+
+#profile-icon {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#profile-icon:hover {
+    background-color: #06afb8;
+}
+
+.timer-header {
+  color: #f5f5f5;
+  font-family: monospace;
+  margin: 0;
+  font-size: 24pt;
+}
+
+.timer-bar {
+    display: flex;
+    align-items: center;
+}

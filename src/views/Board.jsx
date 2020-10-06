@@ -13,8 +13,6 @@ class Board extends Component {
 
   constructor(props) {
     super(props)
-    const { keycloak } = props;
-    this.keycloak = keycloak;
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
   }
@@ -31,13 +29,17 @@ class Board extends Component {
             <Button startIcon={<GetAppIcon/>}
               onClick={ this.exportReport }
               variant="outlined"
-              style={{color: white, borderColor: white}}>
+              style={{color: white, borderColor: white, marginLeft:35}}>
               Export
             </Button>
+            <p className="export-note">
+                Please adjust the web browser<br></br>
+                zoom to 100% for better result
+            </p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">
-              {`${localStorage.getItem('displayName')}'s Dash Board`}
+              {`${localStorage.getItem('displayName')}'s Dashboard`}
             </h1>
             <h2 className="board-duration board-text">
               {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
@@ -51,15 +53,15 @@ class Board extends Component {
               <div className="chart">
                 <Chart
                   minWidth={''}
-                  width={'95%'}
-                  height={'40vh'}
+                  width={'99%'}
+                  height={'50vh'}
                   chartType="PieChart"
                   loader={<div>Loading Chart</div>}
                   data={this.props.dashBoardData.pieData}
                   options={{
-                    chartArea: { width: '80%', height: '95%', left: '15%',right: '5%'},
+                    chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
                     title: 'DashBoard',
-                    tooltip: { trigger:'none'},
+                    tooltip: {trigger:'none'},
                     legend: {position: 'left'},
                     legendTextStyle: {color:white},
                     backgroundColor: '#3C3D42',

@@ -25,12 +25,12 @@ div.drop-container {
   
   div.dropwater {
     position: absolute;
-    top: -25%;
+    top: -50%;
     width: 100%; 
     height: 100%;
     border-radius: 100% 5% 100% 100%;
     transform: rotate(-45deg);
-    margin: 8px 3px;
+    margin: 10% 3px;
     background: #e0ffe4;
     animation: dropwater 4s both, disappear 2s ease 2s both;
   }
@@ -42,7 +42,7 @@ div.drop-container {
     width: 100%;
     height: 100%;
     margin: 0px;
-    animation: appear 2s ease 2s 1 both;
+    animation: appear 3s ease 2.5s 1 both;
   }
 
   @keyframes disappear {
@@ -56,6 +56,7 @@ div.drop-container {
 
   @keyframes appear {
     0% {
+      top:30%;
       opacity: 0;
     }
     100% {
@@ -87,12 +88,12 @@ div.drop-container {
   
   @keyframes dropwater {
     45% {
-      top: 0;
+      top: 0%;
       border-radius: 100% 5% 100% 100%;
       transform: rotate(-45deg);
     }
     100% {
-      top: 0;
+      top: 0%;
       transform: rotate(0deg);
       border-radius: 100%;
       background-color: #00c6cf;

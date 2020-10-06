@@ -6,6 +6,9 @@ import './App.css';
 import { enterTimelog } from 'actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import theme from './theme'
 
 class App extends Component {
 
@@ -27,7 +30,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-      console.log(this.props.location.query)
       const searchParams = new URLSearchParams(this.props.location.search)
       if (searchParams.get('uid') !== null) {
         localStorage.setItem('uid', searchParams.get('uid'))
@@ -64,19 +66,21 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container" style={{maxWidth: '100%'}}>
-        <div className="view">
-          <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
-          <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
-          <div className="main">
-            <AllRoutes startDate={this.state.startDate} endDate={this.state.endDate} />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="container" style={{maxWidth: '100%'}}>
+          <div className="view">
+            <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
+            <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
+            <div className="main">
+              <AllRoutes startDate={this.state.startDate} endDate={this.state.endDate} />
+            </div>
           </div>
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 }
-
 
 function mapStateToProps(state) {
   return {

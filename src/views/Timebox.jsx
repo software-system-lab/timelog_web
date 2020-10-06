@@ -30,26 +30,23 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-class Activity extends Component {
+class Timebox extends Component {
   constructor(props) {
     super(props)
     this.state = {
       columns: [
         {
-          title: "Activity Type",
-          field: "name",
+          title: "Timebox",
+          field: "title",
           editComponent: props => (
               <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
           )
         },{
-          title: "Private",
-          field: "private",
-          type: "boolean"
+          title: "Start Date",
+          field: "startDate"
         },{
-          title: "Enable",
-          field: "enable",
-          type: "boolean",
-          initialEditValue: 'true'
+          title: "End Date",
+          field: "endDate"
         }
       ]
     }
@@ -58,19 +55,19 @@ class Activity extends Component {
   render() {
     return (
       <div>
-        <MaterialTable title="Activity"
+        <MaterialTable title="Timebox"
           icons={tableIcons}
           columns={this.state.columns}
           data={this.props.activityTypeList}
           options={{
             search: true,
             sorting: true,
-            paging: false
+            paging: false,
           }}
-          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity?' } } }}
+          localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this Timebox?' } } }}
           editable={{
-            isEditable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
-            isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
+            isEditable: rowData => rowData.name !== "LabProject",
+            isDeletable: rowData => rowData.name !== "LabProject",
             onRowAdd: newData =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -135,4 +132,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Timebox))

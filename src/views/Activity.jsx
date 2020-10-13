@@ -106,7 +106,10 @@ class Activity extends Component {
                 this.props.removeActivityType(
                   localStorage.getItem("uid"),
                   null,
-                  oldData.name
+                  oldData.name,
+                  oldData.name,
+                  oldData.enable,
+                  oldData.private
                 )
                 resolve();
               }, 1000);
@@ -130,8 +133,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
     addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
       dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
-    removeActivityType: (userID, token, activityTypeName) =>
-      dispatch(removeActivityType(userID, token, activityTypeName))
+    removeActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
+      dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate))
   }
 }
 

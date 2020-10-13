@@ -106,7 +106,10 @@ const myMiddleware = store => next => action => {
         const headers = getHeaders(action.token)
         const body = {
             userID: action.userID,
-            activityTypeName: action.activityTypeName
+            targetActivityTypeName: action.targetActivityTypeName,
+            activityTypeName: action.activityTypeName,
+            isEnable: action.isEnable,
+            isPrivate: action.isPrivate
         }
         axios.post(API_HOST + '/activity/remove', body, { headers: headers})
         .then(response => {

@@ -29,10 +29,12 @@
 .export-note {
     font-size: 10pt;
     text-align: center;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     opacity: 0%;
+    z-index: 100;
 }
 
-.export-button:hover p {
+.export-button:hover .export-note {
     opacity: 100%;
+    color: #FFFFFF !important;
 }

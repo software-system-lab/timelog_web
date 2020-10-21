@@ -1,9 +1,14 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import MaterialTable from "material-table"
+import { Input, Select, MenuItem } from "@material-ui/core";
 import { forwardRef } from 'react'
 import { connect } from 'react-redux'
 import { removeLog } from 'actions'
+import { editLog } from 'actions'
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment'
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -30,18 +35,73 @@ const tableIcons = {
 };
 
 class History extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      startTime: 0,
+      endTime: 0,
+      columns: [
+        {
+          title: "Title",
+          field: "title",
+          editComponent: props => (
+            <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+          )
+        },
+        {
+          title: "Activity Type",
+          field: "activityTypeName",
+          editComponent: props => (
+            <Select
+              value={props.value}
+              onChange={event => props.onChange(event.target.value)}
+            >
+              {
+                this.props.activityTypeList.map((activityType, key) => {
+                    if(activityType.enable !== false)
+                    {
+                      return (
+                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                      )
+                    }
+                    else
+                    {
+                      return 0
+                    }
+                })
+              }
+            </Select>
+          ),
+          initialEditValue: props.value
+        },{
+          title: "Start Time",
+          field: "startTime",
+          defaultSort: "desc",
+          editComponent: ({ value, onChange }) => (
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DateTimePicker maxDate={moment().toDate()} format="yyyy/MM/dd HH:mm" value={value} onChange={onChange} />
+            </MuiPickersUtilsProvider>
+          )
+        },{
+          title: "End Time",
+          field: "endTime",
+          editComponent: ({ value, onChange }) => (
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DateTimePicker maxDate={moment().toDate()} format="yyyy/MM/dd HH:mm" value={value} onChange={onChange} />
+            </MuiPickersUtilsProvider>
+          )
+        }
+      ],
+    }
+  }
 
+  
   render() {
     return (
       <div>
         <MaterialTable title="Log History"
           icons={ tableIcons }
-          columns={[
-            { title: "Title", field: "title" },
-            { title: "Activity Type", field: "activityTypeName" },
-            { title: "Start Time", field: "startTime", defaultSort: "desc" },
-            { title: "End Time", field: "endTime" }
-          ]}
+          columns={this.state.columns}
           data={ this.props.logHistory }
           options={{
             search: true,
@@ -58,6 +118,33 @@ class History extends Component {
               )
               resolve();
             })
+            ,
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                if (!newData.title || newData.title === ''){
+                  alert("Title should not be empty.")
+                  reject()
+                }
+                else if (moment(newData.endTime) <= moment(newData.startTime)){
+                  alert("Start Time should be eariler than End Time.")
+                  reject()
+                } 
+                else {
+                   setTimeout(() => {
+                    this.props.editLog(
+                      localStorage.getItem("uid"),
+                      null,
+                      oldData.id,              
+                      newData.title,
+                      newData.activityTypeName,
+                      moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
+                      moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
+                      null
+                    )
+                    resolve();
+                  }, 1000);
+                }
+              })
           }}
         />
       </div>
@@ -67,6 +154,7 @@ class History extends Component {
 
 function mapStateToProps(state) {
   return {
+    activityTypeList: state.activityTypeList,
     logHistory: state.logHistory
   }
 }
@@ -75,6 +163,9 @@ function mapDispatchToProps(dispatch) {
   return {
     removeLog: (userID, token, logID) => {
       dispatch(removeLog(userID, token, logID))
+    },
+    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description) => {
+      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description))
     }
   }
 }

@@ -197,6 +197,28 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Remove log failed")
       })
+    }  else if(action.type === "EDIT_LOG") {
+      const headers = getHeaders(action.token)
+      const body = {
+        userID: action.userID,
+        logID: action.logID,
+        title: action.title,
+        activityTypeName: action.activityTypeName,
+        startTime: action.startTime,
+        endTime: action.endTime,
+        description: action.description
+    }
+      axios.post(API_HOST + '/log/edit', body, {headers: headers})
+      .then(response => {
+        action.loadLogHistory(action.userID, action.token, store.dispatch)
+        action.loadDashBoard(action.userID, action.token, store.dispatch)
+        console.log(body)
+      })
+      .catch(err => {
+        console.log(body)
+        console.log(err)
+        alert("Edit log failed")
+      })
     } else {
         return next(action)
     }

@@ -93,7 +93,6 @@ class History extends Component {
     }
   }
 
-  
   render() {
     return (
       <div>
@@ -115,8 +114,7 @@ class History extends Component {
                 oldData.id
               )
               resolve();
-            })
-            ,
+            }),
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
                 if (!newData.title || newData.title === '') {

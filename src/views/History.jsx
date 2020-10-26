@@ -58,14 +58,12 @@ class History extends Component {
             >
               {
                 this.props.activityTypeList.map((activityType, key) => {
-                    if(activityType.enable !== false)
-                    {
+                    if(activityType.enable !== false) {
                       return (
                           <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                       )
                     }
-                    else
-                    {
+                    else {
                       return 0
                     }
                 })
@@ -121,11 +119,11 @@ class History extends Component {
             ,
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
-                if (!newData.title || newData.title === ''){
+                if (!newData.title || newData.title === '') {
                   alert("Title should not be empty.")
                   reject()
                 }
-                else if (moment(newData.endTime) <= moment(newData.startTime)){
+                else if (moment(newData.endTime) <= moment(newData.startTime)) {
                   alert("Start Time should be eariler than End Time.")
                   reject()
                 } 

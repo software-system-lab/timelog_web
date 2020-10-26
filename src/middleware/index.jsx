@@ -212,10 +212,8 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        console.log(body)
       })
       .catch(err => {
-        console.log(body)
         console.log(err)
         alert("Edit log failed")
       })

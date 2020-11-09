@@ -10,11 +10,29 @@ import { connect } from 'react-redux';
 import MaterialTable from "material-table";
 import Popover from '@material-ui/core/Popover';
 import moment from "moment";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { updateDashBoard } from 'actions/DashBoard';
-import { ExposureZero } from "@material-ui/icons";
+import { withStyles } from '@material-ui/core/styles';
 
+const useStyles = (theme) => ({
+  root: {
+    width : '100%',
+    maxWidth: '32vw',
+    flexGrow: 1
+  },
+  exportText: {
+    fontSize: '10pt',
+    color:'#FFFFFF',
+    opacity: 0
+  },
+  exportButton: {
+    position: 'absolute',
+    top: '5%',
+    '&:hover p': { 
+      opacity: 1,
+    }
+  }
+});
 
 class Board extends Component {
   
@@ -36,7 +54,6 @@ class Board extends Component {
   exportReport() {
     Export.exportHTML(this.reportElement)
   };
-
 
   flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
   handleClick = event => {
@@ -90,18 +107,19 @@ class Board extends Component {
 
   render() {
     const open = this.state.anchorEl === null ? false : true;
+    const { classes } = this.props;
     this.initialize();
     const white = '#FFFFFF';
     return (
         <div>
-          <div className="export-button">
+          <div className={classes.exportButton}>
             <Button startIcon={<GetAppIcon/>}
               onClick={ this.exportReport }
               variant="outlined"
               style={{color: white, borderColor: white, marginLeft:35}}>
               Export
             </Button>
-            <p className="export-note">
+            <p className={classes.exportText}>
                 Please adjust the web browser<br></br>
                 zoom to 100% for better result
             </p>
@@ -222,4 +240,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Board))
+export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(withRouter(Board)))
+
+

@@ -54,6 +54,7 @@ const myMiddleware = store => next => action => {
             body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
             body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
 
+            console.log(body)
             axios.post(API_HOST + '/log/history', body, {headers: headers})
             .then( response => {
               action.setHistory(response.data.logItemList, store.dispatch);

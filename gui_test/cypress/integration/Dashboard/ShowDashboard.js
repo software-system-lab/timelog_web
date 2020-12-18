@@ -1,3 +1,4 @@
+
 import {have_value} from '../../util/commands';
 import {address} from '../../util/constant';
 
@@ -27,7 +28,10 @@ describe("ShowDashboard",() => {
         const password        = '//input[@id="password-field"]';
         const loginBtn        = '//input[@id="login-button"]';
 
+        // cy.visit('https://ssl-drone.csie.ntut.edu.tw/?redirect_url%3Dhttps%3A%2F%2Fssl-timelog.csie.ntut.edu.tw%2F');
         cy.visit(address);
+        cy.request('seed/admin');
+        // Login.typeRecruiterCredentials('');
         //-------------login---------------
         //username
         cy.xpath(userName)

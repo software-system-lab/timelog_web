@@ -13,6 +13,8 @@ import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
 import { updateDashBoard } from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
+import { ArrowDownward } from '@material-ui/icons';
+import { forwardRef } from 'react'
 
 const useStyles = (theme) => ({
   root: {
@@ -34,6 +36,10 @@ const useStyles = (theme) => ({
   }
 });
 
+const tableIcons = {
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
+};
+
 class Board extends Component {
   
   constructor(props) {
@@ -41,13 +47,15 @@ class Board extends Component {
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
     this.handleInputChange= this.handleInputChange.bind(this);
+    this.handleSelectAll= this.handleSelectAll.bind(this);
     this.submit = this.submit.bind(this)
     this.state = { 
       anchorEl: null, 
       open: false,
       activityTypeList: [],
       flag: true,
-      filterList: []
+      filterList: [],
+      select: false
        };
   }
 
@@ -78,13 +86,29 @@ class Board extends Component {
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
+  handleSelectAll(event) {
+    if( this.state.select == false) {
+      for(const each of this.state.activityTypeList) {
+          each.checked = true;
+        }
+        this.state.select = true;
+      }else {
+        for(const each of this.state.activityTypeList) {
+          each.checked = false;
+        }
+        this.state.select = false;
+    }
+
+      this.setState({ activityTypeList: this.state.activityTypeList});
+  }
+
   initialize() {
     if(this.state.flag && this.props.activityTypeList.length != 0) {
       this.state.activityTypeList = [];
       this.props.activityTypeList.map((activityType) => { 
         var activityTypeInput = {
           name : activityType.name,
-          checked : true
+          checked : false
         }
         this.state.activityTypeList.push(activityTypeInput);
       })
@@ -151,6 +175,10 @@ class Board extends Component {
                   height: '150%',
                 }}
               >
+                <div className="filter-list">
+                  <Checkbox onChange={this.handleSelectAll}></Checkbox>
+                  Select All
+                </div>
               {
                 this.state.activityTypeList.map((activityType, key) => {
                   return (
@@ -205,17 +233,19 @@ class Board extends Component {
               </div>
               <div className="table">
                 <MaterialTable title=""
+                  icons={ tableIcons }
                   columns={[
                     { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
-                    { title: "Spent Time", field: "timeLength" },
+                    { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
                     { title: "Percentage", field: "percentage" },
                   ]}
                   data={this.props.dashBoardData.tableData}
+                  sortDirection={"timeLength"}
                   options={{
                     search: false,
                     paging: false,
                     toolbar: false,
-                    sorting: false,
+                    sorting: true,
                     tableLayout: "fixed"
                   }}
                 />

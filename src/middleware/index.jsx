@@ -54,7 +54,6 @@ const myMiddleware = store => next => action => {
             body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
             body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
 
-            console.log(body)
             axios.post(API_HOST + '/log/history', body, {headers: headers})
             .then( response => {
               action.setHistory(response.data.logItemList, store.dispatch);
@@ -62,6 +61,17 @@ const myMiddleware = store => next => action => {
             .catch ( err => {
               console.log(err)
               alert("Get histroy logs failed");
+            })
+            const data = {
+              username : localStorage.getItem("cn")
+            }
+            axios.post(API_HOST + '/belong', data, {headers: headers})
+            .then( response => {
+              console.log(response)
+            })
+            .catch ( err => {
+              console.log(err)
+              alert("Get Team failed");
             })
 
             action.loadDashBoard(action.userID, action.token, store.dispatch)

@@ -21,7 +21,9 @@
 }
 
 .team-list {
-    padding: 0 10px;
+    position: absolute;
+    right: 5%;
+    top: 5%;
 }
 
 .popover {

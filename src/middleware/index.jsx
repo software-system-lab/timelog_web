@@ -67,7 +67,8 @@ const myMiddleware = store => next => action => {
             }
             axios.post(API_HOST + '/belong', data, {headers: headers})
             .then( response => {
-              console.log(response)
+              console.log(response.data.memberOfList, store.dispatch);
+              action.setGroupList(response.data.memberOfList, store.dispatch);
             })
             .catch ( err => {
               console.log(err)

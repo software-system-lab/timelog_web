@@ -1,0 +1,46 @@
+.board-text {
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.board-split {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px; 
+}
+
+.export-button {
+    position: absolute;
+    top: 5%; 
+}
+
+.selector-button {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
+
+.team-list {
+    padding: 0 10px;
+}
+
+.popover {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
+
+.reactgooglegraph-1{
+    width: 80%;
+}
+
+.chart {
+    width: 50%;
+}
+
+.table {
+    margin-left: 5%;
+    width: 40%;
+}
+
+

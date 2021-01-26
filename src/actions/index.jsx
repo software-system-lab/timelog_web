@@ -62,7 +62,15 @@ export function enterTimelog(userID, token) {
         token: token,
         setActivityTypeList: (activityTypeList, dispatch) => dispatch(setActivityTypeList(activityTypeList)),
         setHistory: (logHistory, dispatch) => dispatch(setHistory(logHistory)),
-        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
+        setGroupList: (groupList, dispatch) => dispatch(setGroupList(groupList))
+    }
+}
+
+export function setGroupList(groupList) {
+    return {
+        type: "SET_GROUP_LIST",
+        groupList: groupList
     }
 }
 

@@ -20,6 +20,7 @@ import TimelapseIcon from '@material-ui/icons/Timelapse';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ReportIcon from '@material-ui/icons/Report';
 import TimerIcon from '@material-ui/icons/Timer';
+import GroupIcon from '@material-ui/icons/Group';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
@@ -86,6 +87,10 @@ function Sidebar(props) {
 
   const goToHistory = () => {
     history.push("/history")
+  };
+
+  const goToTeam = () => {
+    history.push("/team")
   };
 
   const goToActivity = () => {
@@ -199,6 +204,12 @@ function Sidebar(props) {
         <ListItem button key="Activity" onClick={goToActivity}>
           <ListItemIcon>{<LibraryBooksIcon />}</ListItemIcon>
           <ListItemText primary="Activity" />
+        </ListItem>
+      </Slide>
+      <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
+        <ListItem button key="Team" onClick={goToTeam}>
+          <ListItemIcon>{<GroupIcon />}</ListItemIcon>
+          <ListItemText primary="Team" />
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2400, enter:2400, exit:2400}}>

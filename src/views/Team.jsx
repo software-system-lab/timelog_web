@@ -166,10 +166,13 @@ class Team extends Component {
                 // id: 'outlined-age-native-simple',
               }}
             >
-              <option aria-label="None" value="" />
-              <option value={10}>Ten</option>
-              <option value={20}>Twenty</option>
-              <option value={30}>Thirty</option>
+              {
+                this.props.groupList.map((group,index) => {
+                  return(
+                    <option key={index}>{group}</option>
+                  )
+                })
+              }
             </Select>
           </FormControl>
           </div>

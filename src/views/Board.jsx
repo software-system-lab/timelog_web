@@ -79,7 +79,7 @@ class Board extends Component {
 
   handleInputChange(event) {   
     for(const each of this.state.activityTypeList) {
-        if( each.name == event.target.value) {
+        if( each.name === event.target.value) {
           each.checked = event.target.checked;
         }
     }
@@ -87,39 +87,39 @@ class Board extends Component {
   }
 
   handleSelectAll(event) {
-    if( this.state.select == false) {
+    if( this.state.select === false) {
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
-        this.state.select = true;
+        this.setState({ select: true });
       }else {
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
-        this.state.select = false;
+        this.setState({ select: false });
     }
 
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   initialize() {
-    if(this.state.flag && this.props.activityTypeList.length != 0) {
-      this.state.activityTypeList = [];
+    if(this.state.flag && this.props.activityTypeList.length !== 0) {
+      this.setState({ activityTypeList: [] });
       this.props.activityTypeList.map((activityType) => { 
         var activityTypeInput = {
           name : activityType.name,
           checked : false
         }
-        this.state.activityTypeList.push(activityTypeInput);
+        return this.state.activityTypeList.push(activityTypeInput);
       })
-      this.state.flag = false;
+      this.setState({ flag: false });
     }
   }
 
   submit() {
-    this.state.filterList = []
+    this.setState({ filterList: [] });
     for(const each of this.state.activityTypeList){
-      if( each.checked == true){
+      if( each.checked === true){
         this.state.filterList.push(each.name)
       }
     }
@@ -130,7 +130,7 @@ class Board extends Component {
   }
 
   render() {
-    const open = this.state.anchorEl === null ? false : true;
+    // const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
     this.initialize();
     const white = '#FFFFFF';

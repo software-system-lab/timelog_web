@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import "./Board.css";
+import "./Team.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import MaterialTable from "material-table";
@@ -154,11 +154,12 @@ class Team extends Component {
             </p>
           </div>
           
-          <div>
-          <FormControl variant="outlined" className="team-list">
+          <div className="team-list">
+          <FormControl variant="outlined">
             <InputLabel >Team</InputLabel>
             <Select
-              native
+              variant="outlined"
+              style={{color: white, borderColor: white, background: white}}
               // onChange={handleChange}
               label="Team"
               inputProps={{

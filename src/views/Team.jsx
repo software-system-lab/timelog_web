@@ -3,14 +3,11 @@ import { withRouter } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import "./Team.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import MaterialTable from "material-table";
-import Popover from '@material-ui/core/Popover';
 import moment from "moment";
-import Checkbox from '@material-ui/core/Checkbox';
 import { updateDashBoard } from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
 import { ArrowDownward } from '@material-ui/icons';
@@ -59,7 +56,8 @@ class Team extends Component {
       activityTypeList: [],
       flag: true,
       filterList: [],
-      select: false
+      select: false,
+      operatedTeam: 0
        };
   }
 
@@ -106,20 +104,6 @@ class Team extends Component {
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
-  initialize() {
-    if(this.state.flag && this.props.activityTypeList.length != 0) {
-      this.state.activityTypeList = [];
-      this.props.activityTypeList.map((activityType) => { 
-        var activityTypeInput = {
-          name : activityType.name,
-          checked : false
-        }
-        this.state.activityTypeList.push(activityTypeInput);
-      })
-      this.state.flag = false;
-    }
-  }
-
   submit() {
     // this.state.filterList = []
     // for(const each of this.state.activityTypeList){
@@ -131,19 +115,22 @@ class Team extends Component {
     //   localStorage.getItem("uid"),
     //   null,
     //   this.state.filterList)  
-    console.log(this.props.groupList)
+    console.log(this.props.groupList[0])
+    console.log(this.state.operatedTeam)
   }
 
   render() {
     const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
-    this.initialize();
     const white = '#FFFFFF';
+    
+    console.log(this.props.groupList[0])
+    console.log(this.state.operatedTeam)
     return (
         <div>
           <div className={classes.exportButton}>
             <Button startIcon={<GetAppIcon/>}
-              onClick={ this.exportReport }
+              onClick={ this.submit }
               variant="outlined"
               style={{color: white, borderColor: white, marginLeft:35}}>
               Export
@@ -160,11 +147,9 @@ class Team extends Component {
             <Select
               variant="outlined"
               style={{color: white, borderColor: white, background: white}}
-              // onChange={handleChange}
-              label="Team"
+              label={"Team"}
               inputProps={{
                 name: 'Team'
-                // id: 'outlined-age-native-simple',
               }}
             >
               {
@@ -179,7 +164,7 @@ class Team extends Component {
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">
-              {`${localStorage.getItem('displayName')}'s Dashboard`}
+              {`${this.props.groupList[this.state.operatedTeam]}'s Dashboard`}
             </h1>
             <h2 className="board-duration board-text">
               {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}

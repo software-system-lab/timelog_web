@@ -67,7 +67,6 @@ const myMiddleware = store => next => action => {
             }
             axios.post(API_HOST + '/belong', data, {headers: headers})
             .then( response => {
-              console.log(response.data.memberOfList, store.dispatch);
               action.setGroupList(response.data.memberOfList, store.dispatch);
             })
             .catch ( err => {
@@ -264,9 +263,24 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Edit log failed")
       })
+    } else if(action.type === "UPDATE_TEAM") {
+      const headers = getHeaders(action.token)
+      const body = {
+        groupname: action.groupname
+    }
+      axios.post(API_HOST + '/group', body, {headers: headers})
+      .then(response => {
+        action.setMemberList(response.data.memberList, store.dispatch)
+        action.setLeader(response.data.leader, store.dispatch)
+        console.log(response.data.leader, store.dispatch);
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Getting team failed")
+      })
     } else {
         return next(action)
-    }
+    } 
 }
 
 export default myMiddleware

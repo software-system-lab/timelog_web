@@ -28,6 +28,9 @@ import './Sidebar.css'
 import AddLog from './AddLog'
 import Duration from './Duration'
 import Stopwatch from './Stopwatch'
+import { getTeam } from 'actions/Team';
+import { connect } from 'react-redux'
+
 
 const drawerWidth = '15vw';
 
@@ -90,7 +93,9 @@ function Sidebar(props) {
   };
 
   const goToTeam = () => {
-    history.push("/team")
+    console.log(props.groupList[0])
+    props.getTeam(props.groupList[0])
+    // history.push("/team")
   };
 
   const goToActivity = () => {
@@ -249,4 +254,18 @@ function Sidebar(props) {
   )
 }
 
-export default Sidebar;
+function mapStateToProps(state) {
+  return {
+    groupList: state.groupList
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getTeam: (groupname, token) => {
+      dispatch(getTeam(groupname, token))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

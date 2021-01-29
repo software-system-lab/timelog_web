@@ -108,16 +108,18 @@ class Board extends Component {
 
   handleSelectAll(event) {
     if( this.state.select === false) {
+      console.log("false")  
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
-        this.setState({ select: true });
+        this.state.select= true;
       }else {
+        console.log("true")  
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
-        this.setState({ select: false });
-    }
+        this.state.select= false;
+      }
 
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
@@ -136,6 +138,8 @@ class Board extends Component {
       for(const each of this.state.activityTypeList) {
         each.checked = false;
       }
+      this.state.select= false;
+
     }
   };
 

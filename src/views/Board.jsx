@@ -87,21 +87,22 @@ class Board extends Component {
     }
     for(const each of this.state.activityTypeList) {
       if( each.checked === false) {
-        this.state.select= false   
-      }else {
-        this.state.select= true      
+        this.state.select= false 
+        console.log(this.state.select)  
       }
-  }
+    }
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   handleSelectAll(event) {
     if( this.state.select === false) {
+      console.log("false")  
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
         this.state.select= true;
       }else {
+        console.log("true")  
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }

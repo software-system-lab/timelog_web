@@ -85,6 +85,13 @@ class Board extends Component {
           each.checked = event.target.checked;
         }
     }
+    for(const each of this.state.activityTypeList) {
+      if( each.checked === false) {
+        this.state.select= false   
+      }else {
+        this.state.select= true      
+      }
+  }
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
@@ -93,20 +100,19 @@ class Board extends Component {
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
-        this.setState({ select: true });
+        this.state.select= true;
       }else {
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
-        this.setState({ select: false });
-    }
+        this.state.select= false;
+      }
 
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   initialize() {
     if(this.state.activityTypeList.length == 0) {
-      this.setState({ activityTypeList: [] });
       this.props.activityTypeList.map((activityType) => { 
         var activityTypeInput = {
           name : activityType.name,
@@ -118,6 +124,8 @@ class Board extends Component {
       for(const each of this.state.activityTypeList) {
         each.checked = false;
       }
+      this.state.select= false;
+
     }
   };
 
@@ -182,7 +190,7 @@ class Board extends Component {
                 }}
               >
                 <div className="filter-list">
-                  <Checkbox onChange={this.handleSelectAll}></Checkbox>
+                  <Checkbox value={this.state.select} onChange={this.handleSelectAll}></Checkbox>
                   Select All
                 </div>
               {

@@ -30,7 +30,10 @@ import Duration from './Duration'
 import Stopwatch from './Stopwatch'
 import { getTeam } from 'actions/Team';
 import { connect } from 'react-redux'
-
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
+import PersonIcon from '@material-ui/icons/Person';
 
 const drawerWidth = '15vw';
 
@@ -47,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 
 }));
 
@@ -56,6 +62,16 @@ function Sidebar(props) {
   const [addLogOpen, setAddLogOpen] = React.useState(false);
   const [durationOpen, setDurationOpen] = React.useState(false);
   const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
+  const [userOpen, setUserOpen] = React.useState(false);
+  const [teamOpen, setTeamOpen] = React.useState(false);
+
+  const handleUser= () => {
+    setUserOpen(!userOpen);
+  };
+
+  const handleTeam = () => {
+    setTeamOpen(!teamOpen);
+  };
 
   const handleAddLogOpen = (logDuration = 3600) => {
     setAddLogOpen(true);
@@ -93,9 +109,8 @@ function Sidebar(props) {
   };
 
   const goToTeam = () => {
-    console.log(props.groupList[0])
     props.getTeam(props.groupList[0])
-    // history.push("/team")
+    history.push("/team")
   };
 
   const goToActivity = () => {
@@ -193,30 +208,56 @@ function Sidebar(props) {
       </List>
       <Divider/>
       <List>
-      <Slide direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
+      <Slide direction="right" in={true} timeout={{appear:500, enter:500, exit:500}}>
+        <ListItem className="sidebar-list" button onClick={handleUser}>
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        <ListItemText primary="Personal" />
+        {userOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+      </Slide>
+      <Collapse in={userOpen} timeout="auto" unmountOnExit>
+      <Slide className={classes.nested} direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
         <ListItem button key="Board" onClick={goToBoard}>
           <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
           <ListItemText primary="Board" />
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:1800, enter:1800, exit:1800}}>
-        <ListItem button key="History" onClick={goToHistory}>
+        <ListItem className={classes.nested} button key="History" onClick={goToHistory}>
           <ListItemIcon>{<HistoryIcon />}</ListItemIcon>
           <ListItemText primary="History" />
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
-        <ListItem button key="Activity" onClick={goToActivity}>
+        <ListItem className={classes.nested} button key="Activity" onClick={goToActivity}>
           <ListItemIcon>{<LibraryBooksIcon />}</ListItemIcon>
           <ListItemText primary="Activity" />
         </ListItem>
       </Slide>
+      </Collapse>
       <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
-        <ListItem button key="Team" onClick={goToTeam}>
+        <ListItem button key="Team" onClick={handleTeam}>
           <ListItemIcon>{<GroupIcon />}</ListItemIcon>
           <ListItemText primary="Team" />
+          {teamOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
       </Slide>
+      <Collapse in={teamOpen} timeout="auto" unmountOnExit>
+      <Slide className={classes.nested} direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
+        <ListItem button key="Board" onClick={goToTeam}>
+          <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
+          <ListItemText primary="Board" />
+        </ListItem>
+      </Slide>
+      <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
+        <ListItem className={classes.nested} button key="Activity" onClick={goToActivity}>
+          <ListItemIcon>{<LibraryBooksIcon />}</ListItemIcon>
+          <ListItemText primary="Activity" />
+        </ListItem>
+      </Slide>
+      </Collapse>
       <Slide direction="right" in={true} timeout={{appear:2400, enter:2400, exit:2400}}>
         <ListItem button key="Timebox" onClick={goToTimebox} style={{display:"none"}}>
           <ListItemIcon>{<TimelapseIcon />}</ListItemIcon>

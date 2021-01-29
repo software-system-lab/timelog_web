@@ -49,6 +49,7 @@ class Board extends Component {
     this.handleInputChange= this.handleInputChange.bind(this);
     this.handleSelectAll= this.handleSelectAll.bind(this);
     this.submit = this.submit.bind(this)
+    this.initialize = this.initialize.bind(this)
     this.state = { 
       anchorEl: null, 
       open: false,
@@ -65,6 +66,7 @@ class Board extends Component {
 
   flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
   handleClick = event => {
+    this.initialize();
     this.state.anchorEl
       ? this.setState({ anchorEl: null })
       : this.setState({ anchorEl: event.currentTarget });
@@ -114,7 +116,7 @@ class Board extends Component {
       })
       this.setState({ flag: false });
     }
-  }
+  };
 
   submit() {
     this.setState({ filterList: [] });
@@ -127,12 +129,13 @@ class Board extends Component {
       localStorage.getItem("uid"),
       null,
       this.state.filterList)  
+    console.log( this.state.activityTypeList)
   }
 
   render() {
     // const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
-    this.initialize();
+    this.initialize()
     const white = '#FFFFFF';
     return (
         <div>
@@ -153,7 +156,7 @@ class Board extends Component {
               onClick={event => this.handleClick(event)}
               startIcon={<FilterListIcon/>}
               variant="outlined"
-              style={{color: white, borderColor: white, marginLeft:35}}
+              style={{color: white, borderColor: white, marginLeft:35, display:"none"}}
             >
               Filter
             </Button>

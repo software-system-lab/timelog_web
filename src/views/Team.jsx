@@ -16,12 +16,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = (theme) => ({
-  root: {
-    width : '100%',
-    maxWidth: '32vw',
-    flexGrow: 1
+  container: {
+    padding: theme.spacing(2),
+    margin: 'auto',
+    maxWidth: '70vw'
   },
   exportText: {
     fontSize: '10pt',
@@ -115,8 +119,6 @@ class Team extends Component {
     //   localStorage.getItem("uid"),
     //   null,
     //   this.state.filterList)  
-    console.log(this.props.groupList[0])
-    console.log(this.state.operatedTeam)
   }
 
   render() {
@@ -216,6 +218,50 @@ class Team extends Component {
                 />
               </div>
             </div>
+          </div>
+
+          <div>
+            <Grid container spacing={3} className ={classes.container} >
+              <Grid item xs={6} sm={3}>
+                <Paper className={classes.paper}>
+                  <Chart
+                      minWidth={''}
+                      width={'99%'}
+                      chartType="PieChart"
+                      loader={<div>Loading Chart</div>}
+                      data={this.props.dashBoardData.pieData}
+                      options={{
+                        chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
+                        title: 'DashBoard',
+                        tooltip: {trigger:'none'},
+                        legend: {position: 'left'}
+                      }}
+                      rootProps={{ 'data-testid': '1' }}
+                    />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Paper className={classes.paper}>
+                  <MaterialTable title=""
+                    icons={ tableIcons }
+                    columns={[
+                      { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
+                      { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
+                      { title: "Percentage", field: "percentage" },
+                    ]}
+                    data={this.props.dashBoardData.tableData}
+                    sortDirection={"timeLength"}
+                    options={{
+                      search: false,
+                      paging: false,
+                      toolbar: false,
+                      sorting: true,
+                      tableLayout: "fixed"
+                    }}
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
           </div>
         </div>
       );

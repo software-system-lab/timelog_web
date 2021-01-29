@@ -13,7 +13,7 @@ import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
 import { updateDashBoard } from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
-import { ArrowDownward } from '@material-ui/icons';
+import { ArrowDownward, FormatListNumberedOutlined } from '@material-ui/icons';
 import { forwardRef } from 'react'
 
 const useStyles = (theme) => ({
@@ -105,16 +105,19 @@ class Board extends Component {
   }
 
   initialize() {
-    if(this.state.flag && this.props.activityTypeList.length !== 0) {
+    if(this.state.activityTypeList.length == 0) {
       this.setState({ activityTypeList: [] });
       this.props.activityTypeList.map((activityType) => { 
         var activityTypeInput = {
           name : activityType.name,
           checked : false
         }
-        return this.state.activityTypeList.push(activityTypeInput);
+       this.state.activityTypeList.push(activityTypeInput);
       })
-      this.setState({ flag: false });
+    } else {
+      for(const each of this.state.activityTypeList) {
+        each.checked = false;
+      }
     }
   };
 
@@ -135,7 +138,7 @@ class Board extends Component {
   render() {
     // const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
-    this.initialize()
+    // this.initialize()
     const white = '#FFFFFF';
     return (
         <div>
@@ -156,7 +159,7 @@ class Board extends Component {
               onClick={event => this.handleClick(event)}
               startIcon={<FilterListIcon/>}
               variant="outlined"
-              style={{color: white, borderColor: white, marginLeft:35, display:"none"}}
+              style={{color: white, borderColor: white, marginLeft:35}}
             >
               Filter
             </Button>

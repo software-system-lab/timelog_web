@@ -73,31 +73,45 @@ class Activity extends Component {
             isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
             onRowAdd: newData =>
               new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  this.props.addActivityType(
-                    localStorage.getItem("uid"),
-                    null,
-                    newData.name,
-                    newData.enable,
-                    newData.private
-                  )
-                  resolve();
-                }, 1000)
+                if (!newData.name || newData.name === ''){
+                  console.log("not empty")
+                  alert("Activity Type name should not be empty.")
+                  reject()
+                } else {
+                  setTimeout(() => {
+                    this.props.addActivityType(
+                      localStorage.getItem("uid"),
+                      null,
+                      newData.name,
+                      newData.enable,
+                      newData.private
+                    )
+                    resolve();
+                  }, 1000)
+                }
+                
               })
             ,
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  this.props.editActivityType(
-                    localStorage.getItem("uid"),
-                    null,
-                    oldData.name,
-                    newData.name,
-                    newData.enable,
-                    newData.private
-                  )
-                  resolve();
-                }, 1000);
+                if (!newData.name || newData.name === ''){
+                  console.log("not empty")
+                  alert("Activity Type name should not be empty.")
+                  reject()
+                }
+                else {
+                  setTimeout(() => {
+                    this.props.editActivityType(
+                      localStorage.getItem("uid"),
+                      null,
+                      oldData.name,
+                      newData.name,
+                      newData.enable,
+                      newData.private
+                    )
+                    resolve();
+                  }, 1000);
+                }
               })
             ,
             onRowDelete: oldData =>

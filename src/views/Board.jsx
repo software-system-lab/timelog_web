@@ -13,7 +13,7 @@ import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
 import { updateDashBoard } from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
-import { ArrowDownward, FormatListNumberedOutlined } from '@material-ui/icons';
+import { ArrowDownward } from '@material-ui/icons';
 import { forwardRef } from 'react'
 
 const useStyles = (theme) => ({
@@ -56,7 +56,8 @@ class Board extends Component {
       activityTypeList: [],
       flag: true,
       filterList: [],
-      select: false
+      select: false,
+      flag: 0
        };
   }
 
@@ -80,18 +81,29 @@ class Board extends Component {
   };
 
   handleInputChange(event) {   
+    
     for(const each of this.state.activityTypeList) {
         if( each.name === event.target.value) {
           each.checked = event.target.checked;
         }
+
+
+        if(each.checked === false) {
+          this.setState({ select: false})
+        }
+
     }
+
     for(const each of this.state.activityTypeList) {
-      if( each.checked === false) {
-        this.state.select= false 
-        console.log(this.state.select)  
+      if(each.checked === true) {
+        this.setState({ select: true})
+      } else {
+        this.setState({ select: false})
+        break
       }
     }
-      this.setState({ activityTypeList: this.state.activityTypeList});
+
+    this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   handleSelectAll(event) {
@@ -113,7 +125,8 @@ class Board extends Component {
   }
 
   initialize() {
-    if(this.state.activityTypeList.length == 0) {
+    if(this.state.activityTypeList.length === 0) {
+      this.setState({ activityTypeList: [] });
       this.props.activityTypeList.map((activityType) => { 
         var activityTypeInput = {
           name : activityType.name,
@@ -145,7 +158,6 @@ class Board extends Component {
   }
 
   render() {
-    // const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
     // this.initialize()
     const white = '#FFFFFF';
@@ -191,7 +203,7 @@ class Board extends Component {
                 }}
               >
                 <div className="filter-list">
-                  <Checkbox value={this.state.select} onChange={this.handleSelectAll}></Checkbox>
+                  <Checkbox checked={this.state.select} onChange={this.handleSelectAll}></Checkbox>
                   Select All
                 </div>
               {
@@ -200,6 +212,7 @@ class Board extends Component {
                     <div className="filter-list">
                       <Checkbox  value={activityType.name} checked={activityType.checked} onChange={this.handleInputChange}></Checkbox>
                       {activityType.name}
+
                     </div>
                     )
                   })

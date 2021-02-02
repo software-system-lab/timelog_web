@@ -193,7 +193,7 @@ const myMiddleware = store => next => action => {
         filterList: action.filterList}
       body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
       body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
-      axios.post(API_HOST + '/dash-board/filter', body, {headers: headers})
+      axios.post(API_HOST + '/dash-board/spent-time', body, {headers: headers})
       .then( response => {
         const totalTimeString = response.data.totalTime
         const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])

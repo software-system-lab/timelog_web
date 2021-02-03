@@ -49,13 +49,14 @@ class Board extends Component {
     this.handleInputChange= this.handleInputChange.bind(this);
     this.handleSelectAll= this.handleSelectAll.bind(this);
     this.submit = this.submit.bind(this)
+    this.initialize = this.initialize.bind(this)
     this.state = { 
       anchorEl: null, 
       open: false,
       activityTypeList: [],
       flag: true,
       filterList: [],
-      select: false
+      select: false,
        };
   }
 
@@ -65,6 +66,7 @@ class Board extends Component {
 
   flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
   handleClick = event => {
+    this.initialize();
     this.state.anchorEl
       ? this.setState({ anchorEl: null })
       : this.setState({ anchorEl: event.currentTarget });
@@ -79,47 +81,67 @@ class Board extends Component {
 
   handleInputChange(event) {   
     for(const each of this.state.activityTypeList) {
-        if( each.name == event.target.value) {
+        if( each.name === event.target.value) {
           each.checked = event.target.checked;
         }
+        if(each.checked === false) {
+          this.setState({ select: false})
+        }
     }
-      this.setState({ activityTypeList: this.state.activityTypeList});
+    for(const each of this.state.activityTypeList) {
+      if(each.checked === true) {
+        this.setState({ select: true})
+      } else {
+        this.setState({ select: false})
+        break
+      }
+    }
+    this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   handleSelectAll(event) {
-    if( this.state.select == false) {
+    if( this.state.select === false) {
+      console.log("false")  
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
-        this.state.select = true;
+        this.state.select= true;
       }else {
+        console.log("true")  
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
-        this.state.select = false;
-    }
-
+        this.state.select= false;
+      }
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   initialize() {
-    if(this.state.flag && this.props.activityTypeList.length != 0) {
-      this.state.activityTypeList = [];
+    if(this.state.activityTypeList.length === 0) {
+      this.setState({ activityTypeList: [] });
       this.props.activityTypeList.map((activityType) => { 
-        var activityTypeInput = {
-          name : activityType.name,
-          checked : false
-        }
-        this.state.activityTypeList.push(activityTypeInput);
+        this.props.dashBoardData.tableData.map((data)=>{
+          if(data.activityTypeName == activityType.name){
+            var activityTypeInput = {
+            name : activityType.name,
+            checked : false}
+            this.state.activityTypeList.push(activityTypeInput);
+          }
+        })
       })
-      this.state.flag = false;
+    } else {
+      for(const each of this.state.activityTypeList) {
+        each.checked = false;
+      }
+      this.state.select= false;
+
     }
-  }
+  };
 
   submit() {
-    this.state.filterList = []
+    this.setState({ filterList: [] });
     for(const each of this.state.activityTypeList){
-      if( each.checked == true){
+      if( each.checked === true){
         this.state.filterList.push(each.name)
       }
     }
@@ -127,12 +149,12 @@ class Board extends Component {
       localStorage.getItem("uid"),
       null,
       this.state.filterList)  
+    console.log( this.state.activityTypeList)
   }
 
   render() {
-    const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
-    this.initialize();
+    // this.initialize()
     const white = '#FFFFFF';
     return (
         <div>
@@ -176,7 +198,7 @@ class Board extends Component {
                 }}
               >
                 <div className="filter-list">
-                  <Checkbox onChange={this.handleSelectAll}></Checkbox>
+                  <Checkbox checked={this.state.select} onChange={this.handleSelectAll}></Checkbox>
                   Select All
                 </div>
               {
@@ -185,6 +207,7 @@ class Board extends Component {
                     <div className="filter-list">
                       <Checkbox  value={activityType.name} checked={activityType.checked} onChange={this.handleInputChange}></Checkbox>
                       {activityType.name}
+
                     </div>
                     )
                   })
@@ -271,5 +294,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(withRouter(Board)))
-
-

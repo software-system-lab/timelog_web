@@ -91,7 +91,10 @@ class Activity extends Component {
                   this.props.editActivityType(
                     localStorage.getItem("uid"),
                     null,
-                    oldData.name
+                    oldData.name,
+                    newData.name,
+                    newData.enable,
+                    newData.private
                   )
                   resolve();
                 }, 1000);
@@ -103,10 +106,7 @@ class Activity extends Component {
                 this.props.removeActivityType(
                   localStorage.getItem("uid"),
                   null,
-                  oldData.name,
-                  oldData.name,
-                  oldData.enable,
-                  oldData.private
+                  oldData.name
                 )
                 resolve();
               }, 1000);

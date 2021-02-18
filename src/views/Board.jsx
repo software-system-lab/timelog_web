@@ -101,13 +101,11 @@ class Board extends Component {
 
   handleSelectAll(event) {
     if( this.state.select === false) {
-      console.log("false")  
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
         this.state.select= true;
       }else {
-        console.log("true")  
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
@@ -149,12 +147,10 @@ class Board extends Component {
       localStorage.getItem("uid"),
       null,
       this.state.filterList)  
-    console.log( this.state.activityTypeList)
   }
 
   render() {
     const { classes } = this.props;
-    // this.initialize()
     const white = '#FFFFFF';
     return (
         <div>
@@ -232,7 +228,6 @@ class Board extends Component {
             <h3 className="board-spent-time board-text">
               Spent Time : {this.props.dashBoardData.totalTime}
             </h3>
-            
             <div className="board-split">
               <div className="chart">
                 <Chart

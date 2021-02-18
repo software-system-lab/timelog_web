@@ -64,8 +64,6 @@ class App extends Component {
     localStorage.setItem('endDate', endDate)
   }
 
-  
-
   render() {
     return (
       <ThemeProvider theme={theme}>

@@ -29,15 +29,11 @@ export function addActivityType(userID, token, activityTypeName, isEnable, isPri
     }
 }
 
-export function removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) {
+export function removeActivityType(userID, token, activityTypeName) {
     return {
         type: "REMOVE_ACTIVITY_TYPE",
         userID: userID,
-        token: token,
-        targetActivityTypeName: targetActivityTypeName,
         activityTypeName: activityTypeName,
-        isEnable: isEnable,
-        isPrivate: isPrivate,
         loadActivityTypeList: (userID, token, dispatch) => dispatch(loadActivityTypeList(userID, token))
     }
 }

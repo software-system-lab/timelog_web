@@ -54,7 +54,6 @@ const myMiddleware = store => next => action => {
             body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
             body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
 
-            console.log(body)
             axios.post(API_HOST + '/log/history', body, {headers: headers})
             .then( response => {
               action.setHistory(response.data.logItemList, store.dispatch);
@@ -107,10 +106,7 @@ const myMiddleware = store => next => action => {
         const headers = getHeaders(action.token)
         const body = {
             userID: action.userID,
-            targetActivityTypeName: action.targetActivityTypeName,
             activityTypeName: action.activityTypeName,
-            isEnable: action.isEnable,
-            isPrivate: action.isPrivate
         }
         axios.post(API_HOST + '/activity/remove', body, { headers: headers})
         .then(response => {
@@ -144,7 +140,6 @@ const myMiddleware = store => next => action => {
         const body = getBody(action.userID)
         body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
         body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
-        console.log(body.startDate);
 
         axios.post(API_HOST + '/log/history', body, {headers: headers})
         .then( response => {

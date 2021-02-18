@@ -181,6 +181,40 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Get dash board data failed");
       })
+    } else if(action.type === "UPDATE_DASH_BOARD") {
+      const headers = getHeaders(action.token)
+      const body = {
+        userID: action.userID,
+        filterList: action.filterList}
+      body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
+      body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
+      axios.post(API_HOST + '/dash-board/spent-time', body, {headers: headers})
+      .then( response => {
+        const totalTimeString = response.data.totalTime
+        const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
+
+        const pieData = [
+          ['Task', 'Hours per Project']
+        ]
+        const tableData = []
+        const dataMap = response.data.dataMap
+        Object.keys(dataMap).forEach((key) => {
+          const timeLength = dataMap[key].timeLength
+          const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
+          pieData.push([key, timeLength])
+          tableData.push({activityTypeName: key, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %"})
+        })
+        const result = {
+          totalTime: response.data.totalTime,
+          pieData: pieData,
+          tableData: tableData
+        }
+        action.setDashBoard(result, store.dispatch)
+      })
+      .catch ( err => {
+        console.log(err)
+        alert("Get dash board data failed");
+      })
     } else if(action.type === "REMOVE_LOG") {
       const headers = getHeaders(action.token)
       const body = getBody(action.userID)
@@ -193,6 +227,26 @@ const myMiddleware = store => next => action => {
       .catch(err => {
         console.log(err)
         alert("Remove log failed")
+      })
+    }  else if(action.type === "EDIT_LOG") {
+      const headers = getHeaders(action.token)
+      const body = {
+        userID: action.userID,
+        logID: action.logID,
+        title: action.title,
+        activityTypeName: action.activityTypeName,
+        startTime: action.startTime,
+        endTime: action.endTime,
+        description: action.description
+    }
+      axios.post(API_HOST + '/log/edit', body, {headers: headers})
+      .then(response => {
+        action.loadLogHistory(action.userID, action.token, store.dispatch)
+        action.loadDashBoard(action.userID, action.token, store.dispatch)
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Edit log failed")
       })
     } else {
         return next(action)

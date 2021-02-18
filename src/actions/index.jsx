@@ -33,7 +33,6 @@ export function removeActivityType(userID, token, activityTypeName) {
     return {
         type: "REMOVE_ACTIVITY_TYPE",
         userID: userID,
-        token: token,
         activityTypeName: activityTypeName,
         loadActivityTypeList: (userID, token, dispatch) => dispatch(loadActivityTypeList(userID, token))
     }
@@ -87,4 +86,20 @@ export function removeLog(userID, token, logID) {
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
   }
+}
+
+export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description) {
+    return {
+        type: "EDIT_LOG",
+        userID: userID,
+        token: token,
+        logID: logID,
+        title: title,
+        activityTypeName: activityTypeName,
+        startTime: startTime,
+        endTime: endTime,
+        description: description,
+        loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
+        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+    }
 }

@@ -3,7 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: `calc(100%)`,
       zIndex: theme.zIndex.drawer + 1,
+      background:'#303030',
     },
   },
   menuButton: {
@@ -34,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#00C6CF' ,
   },
   toolbar: theme.mixins.toolbar,
+  toolBar: {
+    justifyContent:'space-between',
+  },
+  popover: {
+    width: '150%',
+    height: '150%',
+  },
 }));
 
 function Appbar(props) {
@@ -61,8 +69,8 @@ function Appbar(props) {
   const displayName = localStorage.getItem("displayName");
   
   return (
-    <AppBar position="fixed" className={classes.appBar} style={{background:'#303030'}}>
-      <Toolbar style={{justifyContent:'space-between'}}> 
+    <AppBar position="fixed" className={classes.appBar}>
+      <Toolbar className={classes.toolBar}> 
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -94,10 +102,7 @@ function Appbar(props) {
               vertical: 'top',
               horizontal: 'right',
             }}
-            style={{
-              width: '150%',
-              height: '150%',
-            }}
+            className={classes.popover}
           >
             <PopoverProfile></PopoverProfile>
           </Popover>

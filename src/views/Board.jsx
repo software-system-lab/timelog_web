@@ -104,12 +104,12 @@ class Board extends Component {
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
-        this.state.select= true;
+        this.setState({select: true});
       }else {
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
-        this.state.select= false;
+        this.setState({select: false});
       }
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
@@ -117,21 +117,23 @@ class Board extends Component {
   initialize() {
     if(this.state.activityTypeList.length === 0) {
       this.setState({ activityTypeList: [] });
-      this.props.activityTypeList.map((activityType) => { 
-        this.props.dashBoardData.tableData.map((data)=>{
-          if(data.activityTypeName == activityType.name){
+      this.props.activityTypeList.map((activityType) => {
+        return this.props.dashBoardData.tableData.map((data)=>{
+          if(data.activityTypeName === activityType.name){
             var activityTypeInput = {
             name : activityType.name,
             checked : false}
             this.state.activityTypeList.push(activityTypeInput);
+            return true;
           }
+          return false;
         })
       })
     } else {
       for(const each of this.state.activityTypeList) {
         each.checked = false;
       }
-      this.state.select= false;
+      this.setState({select: false});
 
     }
   };

@@ -81,6 +81,8 @@ const myMiddleware = store => next => action => {
         axios.post(API_HOST + '/activity/edit', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
+            action.loadLogHistory(action.userID, action.token, store.dispatch)
+            action.loadDashBoard(action.userID, action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)

@@ -33,8 +33,6 @@ export function removeActivityType(userID, token, targetActivityTypeName, activi
     return {
         type: "REMOVE_ACTIVITY_TYPE",
         userID: userID,
-        token: token,
-        targetActivityTypeName: targetActivityTypeName,
         activityTypeName: activityTypeName,
         isEnable: isEnable,
         isPrivate: isPrivate,

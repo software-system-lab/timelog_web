@@ -57,7 +57,6 @@ class Board extends Component {
       flag: true,
       filterList: [],
       select: false,
-      flag: 0
        };
   }
 
@@ -81,19 +80,14 @@ class Board extends Component {
   };
 
   handleInputChange(event) {   
-    
     for(const each of this.state.activityTypeList) {
         if( each.name === event.target.value) {
           each.checked = event.target.checked;
         }
-
-
         if(each.checked === false) {
           this.setState({ select: false})
         }
-
     }
-
     for(const each of this.state.activityTypeList) {
       if(each.checked === true) {
         this.setState({ select: true})
@@ -102,7 +96,6 @@ class Board extends Component {
         break
       }
     }
-
     this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
@@ -111,42 +104,41 @@ class Board extends Component {
       for(const each of this.state.activityTypeList) {
           each.checked = true;
         }
-        this.state.select= true;
+        this.setState({select: true});
       }else {
-        console.log("true")  
         for(const each of this.state.activityTypeList) {
           each.checked = false;
         }
-        this.state.select= false;
+        this.setState({select: false});
       }
-
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
   initialize() {
     if(this.state.activityTypeList.length === 0) {
       this.setState({ activityTypeList: [] });
-      this.props.activityTypeList.map((activityType) => { 
-        this.props.dashBoardData.tableData.map((data)=>{
-          if(data.activityTypeName == activityType.name){
+      this.props.activityTypeList.map((activityType) => {
+        return this.props.dashBoardData.tableData.map((data)=>{
+          if(data.activityTypeName === activityType.name){
             var activityTypeInput = {
             name : activityType.name,
             checked : false}
             this.state.activityTypeList.push(activityTypeInput);
+            return true;
           }
+          return false;
         })
       })
     } else {
       for(const each of this.state.activityTypeList) {
         each.checked = false;
       }
-      this.state.select= false;
+      this.setState({select: false});
 
     }
   };
 
   submit() {
-    console.log(this.props.dashBoardData)
     this.setState({ filterList: [] });
     for(const each of this.state.activityTypeList){
       if( each.checked === true){
@@ -161,7 +153,6 @@ class Board extends Component {
 
   render() {
     const { classes } = this.props;
-    // this.initialize()
     const white = '#FFFFFF';
     return (
         <div>
@@ -301,5 +292,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(withRouter(Board)))
-
-

@@ -25,7 +25,7 @@ steps:
   - name: Install node modules
     image: node:10.16.3
     commands:
-      - yarn install
+      - yarn
 
 trigger:
     branch:
@@ -42,7 +42,7 @@ steps:
   - name: Install node modules
     image: node:10.16.3
     commands:
-      - yarn install
+      - yarn
 
   - name: Build production web
     image: node:10.16.3

@@ -11,6 +11,23 @@
 
 .export-button {
     position: absolute;
+    top: 5%; 
+}
+
+.selector-button {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
+
+.filter-list {
+    padding: 0 10px;
+}
+
+.popover {
+    position: absolute;
+    right: 5%;
+    top: 5%;
 }
 
 .reactgooglegraph-1{
@@ -26,13 +43,4 @@
     width: 40%;
 }
 
-.export-note {
-    font-size: 10pt;
-    text-align: center;
-    color: #FFFFFF;
-    opacity: 0%;
-}
 
-.export-button:hover p {
-    opacity: 100%;
-}

@@ -111,18 +111,15 @@ class AddLog extends Component {
                 id="activity-type-select"
                 value={this.state.activityTypeName}
                 onChange={(event) => this.setState({activityTypeName: event.target.value})}
-                input={<Input />}
               >
                 {
                   this.props.activityTypeList.map((activityType, key) => {
-                      if(activityType.enable !== false)
-                      {
+                      if(activityType.enable !== false) {
                         return (
                             <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                         )
                       }
-                      else
-                      {
+                      else {
                         return 0
                       }
                   })

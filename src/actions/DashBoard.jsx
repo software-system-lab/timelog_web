@@ -13,3 +13,13 @@ export function loadDashBoard(userID, token) {
     setDashBoard: (dashBoardData, dispatch) => dispatch(setDashBoard(dashBoardData))
   }
 }
+
+export function updateDashBoard(userID, token, filterList) {
+  return {
+    type: "UPDATE_DASH_BOARD",
+    userID: userID,
+    token: token,
+    filterList: filterList,
+    setDashBoard: (dashBoardData, dispatch) => dispatch(setDashBoard(dashBoardData))
+  }
+}

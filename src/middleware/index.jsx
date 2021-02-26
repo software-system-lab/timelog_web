@@ -79,7 +79,9 @@ const myMiddleware = store => next => action => {
             axios.post(API_HOST + '/belong', data, {headers: headers})
             .then( response => {
               action.setGroupList(response.data.teamList, store.dispatch);
-              action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch)
+              action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch);
+              console.log("team id");
+              console.log(response.data.teamList[0].teamID);
               action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch)
             })
             .catch ( err => {
@@ -118,6 +120,7 @@ const myMiddleware = store => next => action => {
             isEnable: action.isEnable,
             isPrivate: action.isPrivate
         }
+        console.log(body)
         axios.post(API_HOST + '/activity/add', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
@@ -290,7 +293,59 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Getting team failed")
       })
-    } else {
+    } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {
+      const headers = getHeaders(action.token)
+      const body = {
+          userID: action.teamID,
+          targetActivityTypeName: action.targetActivityTypeName,
+          activityTypeName: action.activityTypeName,
+          isEnable: action.isEnable,
+          isPrivate: action.isPrivate
+      }
+      console.log(body)
+      axios.post(API_HOST + '/activity/edit', body, { headers: headers})
+      .then(response => {
+          action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+      })
+      .catch(err => {
+          console.log(err)
+          alert("Edit Team failed")
+      })
+  } else if(action.type === "ADD_TEAM_ACTIVITY_TYPE") {
+      const headers = getHeaders(action.token)
+      const body = {
+          userID: action.teamID,
+          activityTypeName: action.activityTypeName,
+          isEnable: action.isEnable,
+          isPrivate: action.isPrivate
+      }
+      console.log(body)
+      axios.post(API_HOST + '/activity/add', body, { headers: headers})
+      .then(response => {
+          action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+      })
+      .catch(err => {
+          console.log(err)
+          alert("Add Team activity type failed")
+      })
+  } else if (action.type === "REMOVE_TEAM_ACTIVITY_TYPE") {
+      const headers = getHeaders(action.token)
+      const body = {
+          userID: action.teamID,
+          targetActivityTypeName: action.targetActivityTypeName,
+          activityTypeName: action.activityTypeName,
+          isEnable: action.isEnable,
+          isPrivate: action.isPrivate
+      }
+      axios.post(API_HOST + '/activity/remove', body, { headers: headers})
+      .then(response => {
+          action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+      })
+      .catch(err => {
+          console.log(err)
+          alert("Remove Team activity type failed")
+      })
+  } else {
         return next(action)
     } 
 }

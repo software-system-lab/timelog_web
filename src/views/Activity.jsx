@@ -80,7 +80,7 @@ class Activity extends Component {
                   reject()
                 } else {
                   setTimeout(() => {
-                    this.props.addActivityType(
+                    this.props.add(
                       this.state.id,
                       null,
                       newData.name,
@@ -101,8 +101,9 @@ class Activity extends Component {
                   reject()
                 }
                 else {
+                  console.log(this.state.id)
                   setTimeout(() => {
-                    this.props.editActivityType(
+                    this.props.edit(
                       this.state.id,
                       null,
                       oldData.name,
@@ -118,7 +119,7 @@ class Activity extends Component {
             onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                this.props.removeActivityType(
+                this.props.delete(
                   this.state.id,
                   null,
                   oldData.name,
@@ -134,19 +135,6 @@ class Activity extends Component {
       </div>
     )
   }
-
 }
 
-
-function mapDispatchToProps(dispatch) {
-  return {
-    editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-      dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
-    addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
-      dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
-    removeActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-      dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate))
-  }
-}
-
-export default connect(mapDispatchToProps)(withRouter(Activity))
+export default Activity

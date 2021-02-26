@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import { withRouter } from "react-router-dom";
-import { Button } from '@material-ui/core';
+import { Button,MenuItem } from '@material-ui/core';
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import "./Team.css";
@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import MaterialTable from "material-table";
 import moment from "moment";
 import { updateDashBoard } from 'actions/DashBoard';
+import { setOperatedTeam, getTeam} from 'actions/Team';
 import { withStyles } from '@material-ui/core/styles';
 import { ArrowDownward } from '@material-ui/icons';
 import { forwardRef } from 'react';
@@ -51,9 +52,8 @@ class Team extends Component {
     super(props)
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
-    this.handleInputChange= this.handleInputChange.bind(this);
-    this.handleSelectAll= this.handleSelectAll.bind(this);
     this.submit = this.submit.bind(this)
+    this.handleTeamSelect = this.handleTeamSelect.bind(this);
     this.state = { 
       anchorEl: null, 
       open: false,
@@ -61,6 +61,7 @@ class Team extends Component {
       flag: true,
       filterList: [],
       select: false,
+      teamID: null
       };
   }
 
@@ -69,12 +70,6 @@ class Team extends Component {
   };
 
   flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
-  handleClick = event => {
-    this.state.anchorEl
-      ? this.setState({ anchorEl: null })
-      : this.setState({ anchorEl: event.currentTarget });
-    this.flipOpen();
-  };
   handleProfileClose = event => {
     this.state.anchorEl
       ? this.setState({ anchorEl: null })
@@ -82,28 +77,10 @@ class Team extends Component {
     this.flipOpen();
   };
 
-  handleInputChange(event) {   
-    for(const each of this.state.activityTypeList) {
-        if( each.name == event.target.value) {
-          each.checked = event.target.checked;
-        }
-    }
-      this.setState({ activityTypeList: this.state.activityTypeList});
-  }
-
-  handleSelectAll(event) {
-    if( this.state.select == false) {
-      for(const each of this.state.activityTypeList) {
-          each.checked = true;
-        }
-        this.state.select = true;
-      }else {
-        for(const each of this.state.activityTypeList) {
-          each.checked = false;
-        }
-        this.state.select = false;
-    }
-      this.setState({ activityTypeList: this.state.activityTypeList});
+  handleTeamSelect(event) {
+    this.props.setOperatedTeam(event.target.value.teamID)
+    this.setState(state => ({teamID: event.target.value.teamID}));   
+    this.props.getTeam(event.target.value.teamName,event.target.value.teamID)
   }
 
   submit() {
@@ -149,11 +126,13 @@ class Team extends Component {
               inputProps={{
                 name: 'Team'
               }}
+              onChange={this.handleTeamSelect} 
+              
             >
               {
                 this.props.groupList.map((group,index) => {
                   return(
-                    <option key={index}>{group.teamName}</option>
+                    <MenuItem key={index} value={group}>{group.teamName}</MenuItem>
                   )
                 })
               }
@@ -276,6 +255,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateDashBoard: (userID, token, filterList) => dispatch(updateDashBoard(userID, token, filterList)),
+    setOperatedTeam: (teamID) => dispatch(setOperatedTeam(teamID)),
+    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
   }
 }
 

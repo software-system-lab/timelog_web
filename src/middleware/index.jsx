@@ -44,7 +44,18 @@ const myMiddleware = store => next => action => {
             console.log(err)
             alert('Load activity type list failed')
         })
-    } else if(action.type === "ENTER_TIMELOG") {
+    } else if(action.type === "LOAD_TEAM_ACTIVITY_TYPE_LIST") {
+      const headers = getHeaders(action.token)
+      const body = getBody(action.teamID)
+      axios.post(API_HOST + '/activity/all', body, { headers: headers })
+      .then( response => {
+          action.setTeamActivityTypeList(response.data.activityTypeList, store.dispatch)
+      })
+      .catch( err => {
+          console.log(err)
+          alert('Load Team activity type list failed')
+      })
+  } else if(action.type === "ENTER_TIMELOG") {
         const headers = getHeaders(action.token)
         const body = getBody(action.userID)
         axios.post(API_HOST + '/login', body, { headers: headers})
@@ -67,7 +78,8 @@ const myMiddleware = store => next => action => {
             }
             axios.post(API_HOST + '/belong', data, {headers: headers})
             .then( response => {
-              action.setGroupList(response.data.memberOfList, store.dispatch);
+              action.setGroupList(response.data.teamList, store.dispatch);
+              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch)
             })
             .catch ( err => {
               console.log(err)
@@ -154,7 +166,6 @@ const myMiddleware = store => next => action => {
         const body = getBody(action.userID)
         body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
         body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
-        console.log(body.startDate);
 
         axios.post(API_HOST + '/log/history', body, {headers: headers})
         .then( response => {
@@ -272,7 +283,7 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.setMemberList(response.data.memberList, store.dispatch)
         action.setLeader(response.data.leader, store.dispatch)
-        console.log(response.data.leader, store.dispatch);
+        action.loadTeamActivityTypeList(localStorage.getItem("teamID"), action.token, store.dispatch)
       })
       .catch(err => {
         console.log(err)

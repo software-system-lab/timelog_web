@@ -47,7 +47,7 @@ class App extends Component {
         }
       }
       this.props.enterTimelog(localStorage.getItem('uid'), null)
-  }
+    }
 
   handleDrawerToggle () {
     this.setState({
@@ -86,7 +86,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    activityTypeList: state.activityTypeList
+    activityTypeList: state.activityTypeList,
   }
 }
 

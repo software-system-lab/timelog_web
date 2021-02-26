@@ -34,6 +34,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import PersonIcon from '@material-ui/icons/Person';
+import { enterTimelog } from 'actions';
+
 
 const drawerWidth = '15vw';
 
@@ -101,25 +103,43 @@ function Sidebar(props) {
   const history = useHistory();
 
   const goToBoard = () => {
+    loadUser()
     history.push("/board")
   };
 
   const goToHistory = () => {
+    loadUser()
     history.push("/history")
   };
 
   const goToTeam = () => {
-    props.getTeam(props.groupList[0])
+    loadTeam()
+    localStorage.setItem("teamID",props.groupList[0].teamID)
     history.push("/team")
   };
 
   const goToActivity = () => {
-    history.push("/activity")
+    loadUser()
+    history.push("/userActivity")
   };
+
+  const goToTeamActivity = () => {
+    loadTeam()
+    history.push("/teamActivity")
+  };
+
 
   const goToTimebox = () => {
     history.push("/timebox")
   };
+
+  const loadUser = () => {
+    props.enterTimelog(localStorage.getItem("uid"))
+  }
+
+  const loadTeam = () => {
+    props.getTeam(props.groupList[0].teamName, props.groupList[0].teamID)
+  }
 
   const drawer = (
     <div>
@@ -252,7 +272,7 @@ function Sidebar(props) {
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
-        <ListItem className={classes.nested} button key="Activity" onClick={goToActivity}>
+        <ListItem className={classes.nested} button key="Activity" onClick={goToTeamActivity}>
           <ListItemIcon>{<LibraryBooksIcon />}</ListItemIcon>
           <ListItemText primary="Activity" />
         </ListItem>
@@ -303,9 +323,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getTeam: (groupname, token) => {
-      dispatch(getTeam(groupname, token))
-    }
+    getTeam: (groupname, teamID, token) => {
+      dispatch(getTeam(groupname, teamID, token))
+    },
+    enterTimelog: (userID, token) => dispatch(enterTimelog(userID, token))
   }
 }
 

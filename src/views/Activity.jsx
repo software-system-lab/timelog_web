@@ -51,7 +51,8 @@ class Activity extends Component {
           type: "boolean",
           initialEditValue: 'true'
         }
-      ]
+      ],
+      id: props.id,
     }
   }
 
@@ -80,7 +81,7 @@ class Activity extends Component {
                 } else {
                   setTimeout(() => {
                     this.props.addActivityType(
-                      localStorage.getItem("uid"),
+                      this.state.id,
                       null,
                       newData.name,
                       newData.enable,
@@ -102,7 +103,7 @@ class Activity extends Component {
                 else {
                   setTimeout(() => {
                     this.props.editActivityType(
-                      localStorage.getItem("uid"),
+                      this.state.id,
                       null,
                       oldData.name,
                       newData.name,
@@ -118,7 +119,7 @@ class Activity extends Component {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 this.props.removeActivityType(
-                  localStorage.getItem("uid"),
+                  this.state.id,
                   null,
                   oldData.name,
                   oldData.name,
@@ -133,13 +134,9 @@ class Activity extends Component {
       </div>
     )
   }
+
 }
 
-function mapStateToProps(state) {
-  return {
-    activityTypeList: state.activityTypeList
-  }
-}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -152,4 +149,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))
+export default connect(mapDispatchToProps)(withRouter(Activity))

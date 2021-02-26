@@ -61,7 +61,7 @@ class Team extends Component {
       flag: true,
       filterList: [],
       select: false,
-      operatedTeam: 0
+      operatedTeam: localStorage.getItem("teamID")
        };
   }
 
@@ -126,8 +126,6 @@ class Team extends Component {
     const { classes } = this.props;
     const white = '#FFFFFF';
     
-    console.log(this.props.groupList[0])
-    console.log(this.state.operatedTeam)
     return (
         <div>
           <div className={classes.exportButton}>
@@ -157,7 +155,7 @@ class Team extends Component {
               {
                 this.props.groupList.map((group,index) => {
                   return(
-                    <option key={index}>{group}</option>
+                    <option key={index}>{group.teamName}</option>
                   )
                 })
               }

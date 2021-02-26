@@ -14,7 +14,7 @@ class TeamActivity extends Component {
   render() {
     return (
       <div>
-          <Activity className="Activity" id={localStorage.getItem("teamID")} activityTypeList={this.props.teamActivityTypeList}/>
+          <Activity className="Activity" id={this.props.operatedTeam} activityTypeList={this.props.teamActivityTypeList}/>
       </div>
       
     )
@@ -24,7 +24,9 @@ class TeamActivity extends Component {
 
 function mapStateToProps(state) {
   return {
-    teamActivityTypeList: state.teamActivityTypeList
+    teamActivityTypeList: state.teamActivityTypeList,
+    operatedTeam: state.operatedTeam
+
   }
 }
 

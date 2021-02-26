@@ -61,8 +61,7 @@ class Team extends Component {
       flag: true,
       filterList: [],
       select: false,
-      operatedTeam: localStorage.getItem("teamID")
-       };
+      };
   }
 
   exportReport() {
@@ -104,7 +103,6 @@ class Team extends Component {
         }
         this.state.select = false;
     }
-
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
@@ -164,7 +162,7 @@ class Team extends Component {
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
             <h1 className="board-title board-text">
-              {`${this.props.groupList[this.state.operatedTeam]}'s Dashboard`}
+              {`${this.props.groupList[this.props.operatedTeam]}'s Dashboard`}
             </h1>
             <h2 className="board-duration board-text">
               {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
@@ -270,7 +268,8 @@ function mapStateToProps(state) {
   return {
     dashBoardData: state.dashBoardData,
     activityTypeList: state.activityTypeList,
-    groupList: state.groupList
+    groupList: state.groupList,
+    operatedTeam: state.operatedTeam
   }
 }
 

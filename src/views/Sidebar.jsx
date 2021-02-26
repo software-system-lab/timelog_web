@@ -28,13 +28,10 @@ import './Sidebar.css'
 import AddLog from './AddLog'
 import Duration from './Duration'
 import Stopwatch from './Stopwatch'
-import { getTeam } from 'actions/Team';
-import { connect } from 'react-redux'
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import PersonIcon from '@material-ui/icons/Person';
-import { enterTimelog } from 'actions';
 
 
 const drawerWidth = '15vw';
@@ -103,28 +100,22 @@ function Sidebar(props) {
   const history = useHistory();
 
   const goToBoard = () => {
-    loadUser()
     history.push("/board")
   };
 
   const goToHistory = () => {
-    loadUser()
     history.push("/history")
   };
 
   const goToTeam = () => {
-    loadTeam()
-    localStorage.setItem("teamID",props.groupList[0].teamID)
     history.push("/team")
   };
 
   const goToActivity = () => {
-    loadUser()
     history.push("/userActivity")
   };
 
   const goToTeamActivity = () => {
-    loadTeam()
     history.push("/teamActivity")
   };
 
@@ -132,14 +123,6 @@ function Sidebar(props) {
   const goToTimebox = () => {
     history.push("/timebox")
   };
-
-  const loadUser = () => {
-    props.enterTimelog(localStorage.getItem("uid"))
-  }
-
-  const loadTeam = () => {
-    props.getTeam(props.groupList[0].teamName, props.groupList[0].teamID)
-  }
 
   const drawer = (
     <div>
@@ -315,19 +298,5 @@ function Sidebar(props) {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    groupList: state.groupList
-  }
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getTeam: (groupname, teamID, token) => {
-      dispatch(getTeam(groupname, teamID, token))
-    },
-    enterTimelog: (userID, token) => dispatch(enterTimelog(userID, token))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default (Sidebar);

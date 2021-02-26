@@ -79,6 +79,7 @@ const myMiddleware = store => next => action => {
             axios.post(API_HOST + '/belong', data, {headers: headers})
             .then( response => {
               action.setGroupList(response.data.teamList, store.dispatch);
+              action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch)
               action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch)
             })
             .catch ( err => {
@@ -283,7 +284,7 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.setMemberList(response.data.memberList, store.dispatch)
         action.setLeader(response.data.leader, store.dispatch)
-        action.loadTeamActivityTypeList(localStorage.getItem("teamID"), action.token, store.dispatch)
+        action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
       })
       .catch(err => {
         console.log(err)

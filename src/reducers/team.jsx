@@ -18,6 +18,16 @@ export const leaderReducer = (state = [], action) => {
     }
 }
 
+export const operatedTeamReducer = (state = [], action) => {
+    switch(action.type){
+        case "SET_OPERATED_TEAM":{
+            return action.teamID
+        }
+        default:
+            return state;
+    }
+}
+
 export const teamActivityTypeListReducer = (state = [], action) => {
     switch(action.type){
         case "SET_TEAM_ACTIVITY_TYPE_LIST":{
@@ -27,4 +37,5 @@ export const teamActivityTypeListReducer = (state = [], action) => {
             return state;
     }
 }
+
 

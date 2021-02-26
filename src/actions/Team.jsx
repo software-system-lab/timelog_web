@@ -42,5 +42,12 @@ export function setTeamActivityTypeList(teamActivityTypeList) {
     }
 }
 
+export function setOperatedTeam(teamID) {
+    return {
+        type: "SET_OPERATED_TEAM",
+        teamID: teamID
+    }
+}
+
 
 

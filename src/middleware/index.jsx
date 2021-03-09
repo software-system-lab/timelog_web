@@ -37,16 +37,19 @@ function getTeamIdList (teamList) {
   for(var i = 0; i < teamList.length; i++){
     teamID.push(teamList[i].teamID)
   }
-  return [teamID]
+  return teamID
 }
 
 const myMiddleware = store => next => action => {
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
-        const body = getBody(action.userID)
+        // const body = getBody(action.userID)
+        const body = {
+          unitIdList : action.userID
+        }
         axios.post(API_HOST + '/activity/all', body, { headers: headers })
         .then( response => {
-            action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
+            action.setActivityTypeList(response.data.unitDTOList[0].activityTypeList, store.dispatch)
         })
         .catch( err => {
             console.log(err)
@@ -54,11 +57,15 @@ const myMiddleware = store => next => action => {
         })
     } else if(action.type === "LOAD_TEAM_ACTIVITY_TYPE_LIST") {
       const headers = getHeaders(action.token)
-      const body = getBody([action.teamID])
+      // const body = getBody([action.teamID])
+      const body = {
+        unitIdList : [action.teamID]
+      }
       console.log([action.teamID])
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
-          action.setTeamActivityTypeList(response.data.activityTypeList, store.dispatch)
+          console.log(response.data, store.dispatch)
+          action.setTeamActivityTypeList(response.data.unitDTOList[0].activityTypeList, store.dispatch)
       })
       .catch( err => {
           console.log(err)
@@ -66,11 +73,14 @@ const myMiddleware = store => next => action => {
       })
     } else if(action.type === "LOAD_ALL_TEAM_ACTIVITY_TYPE_LIST") {
       const headers = getHeaders(action.token)
-      const body = getBody(action.teamList)
+      // const body = getBody(action.teamList)
+      const body = {
+        unitIdList : action.teamList
+      }
       console.log(action.teamList)
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
-          action.setAllTeamActivityTypeList(response.data.activityTypeList, store.dispatch)
+          action.setAllTeamActivityTypeList(response.data.unitDTOList.activityTypeList, store.dispatch)
       })
       .catch( err => {
           console.log(err)

@@ -32,6 +32,14 @@ function getMinute (time) {
   return paddingLeft((time % 60).toFixed(0), 2)
 }
 
+function getTeamIdList (teamList) {
+  var teamID = [];
+  for(var i = 0; i < teamList.length; i++){
+    teamID.push(teamList[i].teamID)
+  }
+  return [teamID]
+}
+
 const myMiddleware = store => next => action => {
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
@@ -46,8 +54,8 @@ const myMiddleware = store => next => action => {
         })
     } else if(action.type === "LOAD_TEAM_ACTIVITY_TYPE_LIST") {
       const headers = getHeaders(action.token)
-      const body = getBody(action.teamID)
-      console.log(action.teamID)
+      const body = getBody([action.teamID])
+      console.log([action.teamID])
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
           action.setTeamActivityTypeList(response.data.activityTypeList, store.dispatch)
@@ -94,7 +102,7 @@ const myMiddleware = store => next => action => {
             .then( response => {
               action.setGroupList(response.data.teamList, store.dispatch);
               action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch);
-              action.loadAllTeamActivityTypeList(response.data.teamList, store.dispatch);
+              action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
               action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch);
             })
             .catch ( err => {

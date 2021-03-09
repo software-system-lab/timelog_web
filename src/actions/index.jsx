@@ -1,6 +1,6 @@
 import { setHistory, loadLogHistory } from './History'
 import { loadDashBoard } from './DashBoard'
-import { getTeam, setOperatedTeam } from './Team'
+import { getTeam, setOperatedTeam, loadAllTeamActivityTypeList } from './Team'
 
 export function loadActivityTypeList(userID, token) {
     return {
@@ -65,6 +65,7 @@ export function enterTimelog(userID, token) {
         setGroupList: (groupList, dispatch) => dispatch(setGroupList(groupList)),
         getTeam: (groupname, teamID, dispatch) => dispatch(getTeam(groupname, teamID)),
         setOperatedTeam: (teamID, dispatch) => dispatch(setOperatedTeam(teamID)),
+        loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
     }
 }
 
@@ -116,3 +117,4 @@ export function editLog(userID, token, logID, title, activityTypeName, startTime
         loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
     }
 }
+

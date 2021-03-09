@@ -47,6 +47,7 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "LOAD_TEAM_ACTIVITY_TYPE_LIST") {
       const headers = getHeaders(action.token)
       const body = getBody(action.teamID)
+      console.log(action.teamID)
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
           action.setTeamActivityTypeList(response.data.activityTypeList, store.dispatch)
@@ -55,9 +56,22 @@ const myMiddleware = store => next => action => {
           console.log(err)
           alert('Load Team activity type list failed')
       })
-  } else if(action.type === "ENTER_TIMELOG") {
+    } else if(action.type === "LOAD_ALL_TEAM_ACTIVITY_TYPE_LIST") {
+      const headers = getHeaders(action.token)
+      const body = getBody(action.teamList)
+      console.log(action.teamList)
+      axios.post(API_HOST + '/activity/all', body, { headers: headers })
+      .then( response => {
+          action.setAllTeamActivityTypeList(response.data.activityTypeList, store.dispatch)
+      })
+      .catch( err => {
+          console.log(err)
+          alert('Load Team All activity type list failed')
+      })
+    } else if(action.type === "ENTER_TIMELOG") {
         const headers = getHeaders(action.token)
         const body = getBody(action.userID)
+        console.log(action.userID)
         axios.post(API_HOST + '/login', body, { headers: headers})
         .then( response => {
             action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
@@ -80,9 +94,8 @@ const myMiddleware = store => next => action => {
             .then( response => {
               action.setGroupList(response.data.teamList, store.dispatch);
               action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch);
-              console.log("team id");
-              console.log(response.data.teamList[0].teamID);
-              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch)
+              action.loadAllTeamActivityTypeList(response.data.teamList, store.dispatch);
+              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch);
             })
             .catch ( err => {
               console.log(err)

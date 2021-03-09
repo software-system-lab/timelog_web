@@ -35,6 +35,22 @@ export function loadTeamActivityTypeList(teamID, token) {
     }
 }
 
+export function loadAllTeamActivityTypeList(teamList, token) {
+    return {
+        type: "LOAD_ALL_TEAM_ACTIVITY_TYPE_LIST",
+        teamList: teamList,
+        token: token,
+        setAllTeamActivityTypeList: (allTeamActivityTypeList, dispatch) => dispatch(setAllTeamActivityTypeList(allTeamActivityTypeList))
+    }
+}
+
+export function setAllTeamActivityTypeList(allTeamActivityTypeList) {
+    return {
+        type: "SET_ALL_TEAM_ACTIVITY_TYPE_LIST",
+        allTeamActivityTypeList: allTeamActivityTypeList
+    }
+}
+
 export function setTeamActivityTypeList(teamActivityTypeList) {
     return {
         type: "SET_TEAM_ACTIVITY_TYPE_LIST",

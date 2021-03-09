@@ -81,7 +81,7 @@ class Activity extends Component {
                 } else {
                   setTimeout(() => {
                     this.props.add(
-                      this.state.id,
+                      [this.state.id],
                       null,
                       newData.name,
                       newData.enable,
@@ -104,7 +104,7 @@ class Activity extends Component {
                   console.log(this.state.id)
                   setTimeout(() => {
                     this.props.edit(
-                      this.state.id,
+                      [this.state.id],
                       null,
                       oldData.name,
                       newData.name,
@@ -120,7 +120,7 @@ class Activity extends Component {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 this.props.delete(
-                  this.state.id,
+                  [this.state.id],
                   null,
                   oldData.name,
                   oldData.name,

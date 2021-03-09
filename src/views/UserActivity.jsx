@@ -38,4 +38,4 @@ function mapDispatchToProps(dispatch) {
         dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate))
     }
   }
-export default connect(mapStateToProps)(withRouter(UserActivity))
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(UserActivity))

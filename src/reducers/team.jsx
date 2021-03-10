@@ -38,4 +38,14 @@ export const teamActivityTypeListReducer = (state = [], action) => {
     }
 }
 
+export const allTeamActivityTypeListReducer = (state = [], action) => {
+    switch(action.type){
+        case "SET_ALL_TEAM_ACTIVITY_TYPE_LIST":{
+            return [...action.allTeamActivityTypeList]
+        }
+        default:
+            return state;
+    }
+}
+
 

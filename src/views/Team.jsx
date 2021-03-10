@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Button } from '@material-ui/core';
+import { Button, MenuItem } from '@material-ui/core';
 import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import "./Team.css";
@@ -153,7 +153,7 @@ class Team extends Component {
               {
                 this.props.groupList.map((group,index) => {
                   return(
-                    <option key={index}>{group.teamName}</option>
+                    <MenuItem  key={index}>{group.teamName}</MenuItem>
                   )
                 })
               }

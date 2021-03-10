@@ -10,13 +10,19 @@ import {
   DialogContent,
   DialogActions,
   Select,
-  MenuItem
+  MenuItem,
+  Checkbox
 } from '@material-ui/core';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
+import teamActivityTypeList from "../reducers/team";
+
 
 class AddLog extends Component {
 
@@ -28,9 +34,21 @@ class AddLog extends Component {
       startTime: 0,
       endTime: 0,
       activityTypeName: "",
-      isEnable: true
+      isEnable: true,
+      selectTeam: false,
+      teamOpen:false
     }
-    this.submit = this.submit.bind(this)
+    this.submit = this.submit.bind(this);
+    this.handleSelectTeam = this.handleSelectTeam.bind(this)
+  }
+
+  handleSelectTeam (event) {
+    if(event.target.checked === true) {
+      this.setState({ selectTeam: true})
+    }
+    else {
+      this.setState({ selectTeam: false})
+    }
   }
 
   componentDidMount() {
@@ -105,7 +123,7 @@ class AddLog extends Component {
             </FormControl>
             <br/><br/>
             <FormControl fullWidth>
-            <InputLabel id="activity-type-select-label" required={true} >Activity Type</InputLabel>
+            <InputLabel id="activity-type-select-label" required={!this.state.selectTeam} >Activity Type</InputLabel>
               <Select
                 labelId="activity-type-select-label"
                 id="activity-type-select"
@@ -126,6 +144,58 @@ class AddLog extends Component {
                 }
               </Select>
             </FormControl>
+            <br/><br/>
+            <div>
+            <Checkbox checked={this.state.selectTeam} onChange={this.handleSelectTeam}></Checkbox>Team
+            <FormControl required={true}>
+            <InputLabel id="activity-type-select-label" required={this.state.selectTeam} style={{margin:"-12px 15px"}}> Team</InputLabel>
+              <Select
+                style={{margin:"0px 10px", width:"150px"}}
+                disabled={!this.state.selectTeam}
+                labelId="activity-type-select-label"
+                id="activity-type-select"
+                value={this.state.activityTypeName}
+                onChange={(event) => this.setState({activityTypeName: event.target.value})}
+              >
+                {
+                  this.props.activityTypeList.map((activityType, key) => {
+                      if(activityType.enable !== false) {
+                        return (
+                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        )
+                      }
+                      else {
+                        return 0
+                      }
+                  })
+              }
+              </Select>
+              </FormControl>
+              <FormControl>
+              <InputLabel id="activity-type-select-label" required={this.state.selectTeam} style={{margin:"-12px 15px"}}> Team Activity Type</InputLabel>
+                <Select
+                  style={{margin:"0px 10px", width:"250px"}}
+                  disabled={!this.state.selectTeam}
+                  labelId="activity-type-select-label"
+                  id="activity-type-select"
+                  value={this.state.activityTypeName}
+                  onChange={(event) => this.setState({activityTypeName: event.target.value})}
+                >
+                  {
+                    this.props.activityTypeList.map((activityType, key) => {
+                        if(activityType.enable !== false) {
+                          return (
+                              <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                          )
+                        }
+                        else {
+                          return 0
+                        }
+                    })
+                }
+                </Select>
+              </FormControl>
+            </div>
             <br/><br/>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container spacing={3}>
@@ -244,6 +314,7 @@ class AddLog extends Component {
 
 function mapStateToProps(state) {
   return {
+    teamActivityTypeList: state.teamActivityTypeList,
     activityTypeList: state.activityTypeList
   }
 }

@@ -182,7 +182,8 @@ const myMiddleware = store => next => action => {
             activityTypeName: action.activityTypeName,
             startTime: action.startTime,
             endTime: action.endTime,
-            description: action.description
+            description: action.description,
+            activityUnitID: action.unitID
         }
         axios.post(API_HOST + '/log/record', body, { headers: headers})
         .then(response => {

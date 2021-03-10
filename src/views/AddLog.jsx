@@ -37,7 +37,8 @@ class AddLog extends Component {
       isEnable: true,
       selectTeam: false,
       teamOpen:false,
-      selectTeamName: [],
+      selectTeamName: "",
+      teamID:"",
       teamActivityTypeName: "",
     }
     this.submit = this.submit.bind(this);
@@ -80,10 +81,17 @@ class AddLog extends Component {
       return
     }
 
-    if (!this.state.activityTypeName || this.state.activityTypeName === ''){
-      alert("Activity Type is not selected.")
-      return
+    if(this.state.selectTeam){
+       if(!this.state.teamActivityTypeName || this.state.teamActivityTypeName === ''){
+        alert("Team Activity Type is not selected.")
+        return
+    } else {
+      if(!this.state.activityTypeName || this.state.activityTypeName === ''){
+        alert("Activity Type is not selected.")
+        return
+      }
     }
+  }
 
     if (moment(this.state.endTime) <= moment(this.state.startTime)){
       alert("Start Time should be eariler than End Time.")
@@ -99,11 +107,11 @@ class AddLog extends Component {
         localStorage.getItem("uid"),
         null,
         this.state.title,
-        this.state.activityTypeName,
+        this.state.teamActivityTypeName,
         moment(this.state.startTime).format(dateFormat),
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
-        this.state.selectTeamName[1]
+        this.state.teamID
         )
     } else{
         this.props.newLog(
@@ -172,8 +180,8 @@ class AddLog extends Component {
                 disabled={!this.state.selectTeam}
                 labelId="activity-type-select-label"
                 id="activity-type-select"
-                value={this.state.selectTeamName[0]}
-                onChange={(event) => this.setState({selectTeamName: event.target.value})}
+                value={this.state.selectTeamName}
+                onChange={(event) => this.setState({selectTeamName: event.target.value[0],teamID: event.target.value[1]})}
               >
                 {
                   this.props.allTeamActivityTypeList.map((team, key) => {
@@ -197,7 +205,7 @@ class AddLog extends Component {
                 >
                   {
                     this.props.allTeamActivityTypeList.map((team, key) => {
-                       if(this.state.selectTeamName[0] == team.unitName){
+                       if(this.state.selectTeamName == team.unitName){
                         return(
                           team.activityTypeList.map((activityType, key) => {
                             return (
@@ -337,7 +345,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    newLog: (userID, token, title, activityTypeName, startTime, endTime, description) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description))
+    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID))
   }
 }
 

@@ -76,7 +76,7 @@ export function setGroupList(groupList) {
     }
 }
 
-export function newLog(userID, token, title, activityTypeName, startTime, endTime, description) {
+export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID) {
   return {
     type: "NEW_LOG",
     userID: userID,
@@ -86,6 +86,7 @@ export function newLog(userID, token, title, activityTypeName, startTime, endTim
     startTime: startTime,
     endTime: endTime,
     description: description,
+    unitID : unitID,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
   }

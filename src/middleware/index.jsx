@@ -43,7 +43,6 @@ function getTeamIdList (teamList) {
 const myMiddleware = store => next => action => {
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
-        // const body = getBody(action.userID)
         const body = {
           unitIdList : action.userID
         }
@@ -57,14 +56,12 @@ const myMiddleware = store => next => action => {
         })
     } else if(action.type === "LOAD_TEAM_ACTIVITY_TYPE_LIST") {
       const headers = getHeaders(action.token)
-      // const body = getBody([action.teamID])
       const body = {
         unitIdList : [action.teamID]
       }
       console.log([action.teamID])
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
-          console.log(response.data, store.dispatch)
           action.setTeamActivityTypeList(response.data.unitDTOList[0].activityTypeList, store.dispatch)
       })
       .catch( err => {
@@ -73,14 +70,14 @@ const myMiddleware = store => next => action => {
       })
     } else if(action.type === "LOAD_ALL_TEAM_ACTIVITY_TYPE_LIST") {
       const headers = getHeaders(action.token)
-      // const body = getBody(action.teamList)
       const body = {
         unitIdList : action.teamList
       }
       console.log(action.teamList)
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
-          action.setAllTeamActivityTypeList(response.data.unitDTOList.activityTypeList, store.dispatch)
+        console.log(response.data.unitDTOList, store.dispatch)
+          action.setAllTeamActivityTypeList(response.data.unitDTOList, store.dispatch)
       })
       .catch( err => {
           console.log(err)

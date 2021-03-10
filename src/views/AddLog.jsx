@@ -21,7 +21,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
-import teamActivityTypeList from "../reducers/team";
+import { ControlCameraOutlined } from '@material-ui/icons';
 
 
 class AddLog extends Component {
@@ -36,7 +36,9 @@ class AddLog extends Component {
       activityTypeName: "",
       isEnable: true,
       selectTeam: false,
-      teamOpen:false
+      teamOpen:false,
+      selectTeamName: [],
+      teamActivityTypeName: "",
     }
     this.submit = this.submit.bind(this);
     this.handleSelectTeam = this.handleSelectTeam.bind(this)
@@ -92,15 +94,30 @@ class AddLog extends Component {
     // send request to server
     this.props.handleClose()
 
-    this.props.newLog(
-      localStorage.getItem("uid"),
-      null,
-      this.state.title,
-      this.state.activityTypeName,
-      moment(this.state.startTime).format(dateFormat),
-      moment(this.state.endTime).format(dateFormat),
-      this.state.description
-    )
+    if(this.state.selectTeam){
+        this.props.newLog(
+        localStorage.getItem("uid"),
+        null,
+        this.state.title,
+        this.state.activityTypeName,
+        moment(this.state.startTime).format(dateFormat),
+        moment(this.state.endTime).format(dateFormat),
+        this.state.description,
+        this.state.selectTeamName[1]
+        )
+    } else{
+        this.props.newLog(
+        localStorage.getItem("uid"),
+        null,
+        this.state.title,
+        this.state.activityTypeName,
+        moment(this.state.startTime).format(dateFormat),
+        moment(this.state.endTime).format(dateFormat),
+        this.state.description,
+        localStorage.getItem("uid"),
+      )
+    }
+    
 
     this.setState({
         title: "",
@@ -126,6 +143,7 @@ class AddLog extends Component {
             <InputLabel id="activity-type-select-label" required={!this.state.selectTeam} >Activity Type</InputLabel>
               <Select
                 labelId="activity-type-select-label"
+                disabled={this.state.selectTeam}
                 id="activity-type-select"
                 value={this.state.activityTypeName}
                 onChange={(event) => this.setState({activityTypeName: event.target.value})}
@@ -154,21 +172,17 @@ class AddLog extends Component {
                 disabled={!this.state.selectTeam}
                 labelId="activity-type-select-label"
                 id="activity-type-select"
-                value={this.state.activityTypeName}
-                onChange={(event) => this.setState({activityTypeName: event.target.value})}
+                value={this.state.selectTeamName[0]}
+                onChange={(event) => this.setState({selectTeamName: event.target.value})}
               >
                 {
-                  this.props.activityTypeList.map((activityType, key) => {
-                      if(activityType.enable !== false) {
-                        return (
-                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                        )
-                      }
-                      else {
-                        return 0
-                      }
+                  this.props.allTeamActivityTypeList.map((team, key) => {
+                    return (
+                          <MenuItem value={[team.unitName, team.unitID]} key={key}>{team.unitName}</MenuItem>
+                          )
                   })
               }
+              {console.log(this.state.selectTeamName)}
               </Select>
               </FormControl>
               <FormControl>
@@ -178,19 +192,20 @@ class AddLog extends Component {
                   disabled={!this.state.selectTeam}
                   labelId="activity-type-select-label"
                   id="activity-type-select"
-                  value={this.state.activityTypeName}
-                  onChange={(event) => this.setState({activityTypeName: event.target.value})}
+                  value={this.state.teamActivityTypeName}
+                  onChange={(event) => this.setState({teamActivityTypeName: event.target.value})}
                 >
                   {
-                    this.props.activityTypeList.map((activityType, key) => {
-                        if(activityType.enable !== false) {
-                          return (
-                              <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                    this.props.allTeamActivityTypeList.map((team, key) => {
+                       if(this.state.selectTeamName[0] == team.unitName){
+                        return(
+                          team.activityTypeList.map((activityType, key) => {
+                            return (
+                                <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                            )
+                          }) 
                           )
-                        }
-                        else {
-                          return 0
-                        }
+                       }
                     })
                 }
                 </Select>
@@ -315,7 +330,8 @@ class AddLog extends Component {
 function mapStateToProps(state) {
   return {
     teamActivityTypeList: state.teamActivityTypeList,
-    activityTypeList: state.activityTypeList
+    activityTypeList: state.activityTypeList,
+    allTeamActivityTypeList : state.allTeamActivityTypeList,
   }
 }
 

@@ -44,10 +44,11 @@ const myMiddleware = store => next => action => {
     if(action.type === "LOAD_ACTIVITY_TYPE_LIST") {
         const headers = getHeaders(action.token)
         const body = {
-          unitIdList : action.userID
+          unitIdList : [action.userID]
         }
         axios.post(API_HOST + '/activity/all', body, { headers: headers })
         .then( response => {
+            console.log(response.data.unitDTOList[0])
             action.setActivityTypeList(response.data.unitDTOList[0].activityTypeList, store.dispatch)
         })
         .catch( err => {
@@ -276,8 +277,10 @@ const myMiddleware = store => next => action => {
       })
     } else if(action.type === "REMOVE_LOG") {
       const headers = getHeaders(action.token)
-      const body = getBody(action.userID)
-      body.logID = action.logID
+      const body = {
+        userID: action.userID,
+        logID: action.logID
+      }
       axios.post(API_HOST + '/log/remove', body, {headers: headers})
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)

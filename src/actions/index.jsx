@@ -103,7 +103,7 @@ export function removeLog(userID, token, logID) {
   }
 }
 
-export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description) {
+export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID) {
     return {
         type: "EDIT_LOG",
         userID: userID,
@@ -114,6 +114,7 @@ export function editLog(userID, token, logID, title, activityTypeName, startTime
         startTime: startTime,
         endTime: endTime,
         description: description,
+        unitID: unitID,
         loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
         loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
     }

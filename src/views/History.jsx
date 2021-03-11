@@ -135,7 +135,8 @@ class History extends Component {
                       newData.activityTypeName,
                       moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
                       moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
-                      null
+                      null,
+                      localStorage.getItem("uid"),
                     )
                     resolve();
                   }, 1000);
@@ -160,8 +161,8 @@ function mapDispatchToProps(dispatch) {
     removeLog: (userID, token, logID) => {
       dispatch(removeLog(userID, token, logID))
     },
-    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description) => {
-      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description))
+    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID) => {
+      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID))
     }
   }
 }

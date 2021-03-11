@@ -36,10 +36,8 @@ class AddLog extends Component {
       activityTypeName: "",
       isEnable: true,
       selectTeam: false,
-      teamOpen:false,
-      selectTeamName: "",
-      teamID:"",
       teamActivityTypeName: "",
+      team: []
     }
     this.submit = this.submit.bind(this);
     this.handleSelectTeam = this.handleSelectTeam.bind(this)
@@ -85,13 +83,15 @@ class AddLog extends Component {
        if(!this.state.teamActivityTypeName || this.state.teamActivityTypeName === ''){
         alert("Team Activity Type is not selected.")
         return
-    } else {
+      }
+    } 
+    if(this.state.selectTeam === false) {
       if(!this.state.activityTypeName || this.state.activityTypeName === ''){
         alert("Activity Type is not selected.")
         return
       }
     }
-  }
+  
 
     if (moment(this.state.endTime) <= moment(this.state.startTime)){
       alert("Start Time should be eariler than End Time.")
@@ -111,7 +111,7 @@ class AddLog extends Component {
         moment(this.state.startTime).format(dateFormat),
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
-        this.state.teamID
+        this.state.team.unitID
         )
     } else{
         this.props.newLog(
@@ -180,17 +180,16 @@ class AddLog extends Component {
                 disabled={!this.state.selectTeam}
                 labelId="activity-type-select-label"
                 id="activity-type-select"
-                value={this.state.selectTeamName}
-                onChange={(event) => this.setState({selectTeamName: event.target.value[0],teamID: event.target.value[1]})}
+                value={this.state.team}
+                onChange={(event) => this.setState({team: event.target.value})}
               >
                 {
                   this.props.allTeamActivityTypeList.map((team, key) => {
                     return (
-                          <MenuItem value={[team.unitName, team.unitID]} key={key}>{team.unitName}</MenuItem>
+                          <MenuItem value={team} key={key}>{team.unitName}</MenuItem>
                           )
                   })
               }
-              {console.log(this.state.selectTeamName)}
               </Select>
               </FormControl>
               <FormControl>
@@ -205,7 +204,7 @@ class AddLog extends Component {
                 >
                   {
                     this.props.allTeamActivityTypeList.map((team, key) => {
-                       if(this.state.selectTeamName == team.unitName){
+                       if(this.state.team.unitName == team.unitName){
                         return(
                           team.activityTypeList.map((activityType, key) => {
                             return (

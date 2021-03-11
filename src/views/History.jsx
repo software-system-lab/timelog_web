@@ -51,25 +51,25 @@ class History extends Component {
         {
           title: "Activity Type",
           field: "activityTypeName",
-          editComponent: props => (
-            <Select
-              value={props.value}
-              onChange={event => props.onChange(event.target.value)}
-            >
-              {
-                this.props.activityTypeList.map((activityType, key) => {
-                    if(activityType.enable !== false) {
-                      return (
-                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                      )
-                    }
-                    else {
-                      return 0
-                    }
-                })
-              }
-            </Select>
-          ),
+          // editComponent: props => (
+          //   <Select
+          //     value={props.value}
+          //     onChange={event => props.onChange(event.target.value)}
+          //   >
+          //     {
+          //       this.props.activityTypeList.map((activityType, key) => {
+          //           if(activityType.enable !== false) {
+          //             return (
+          //                 <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+          //             )
+          //           }
+          //           else {
+          //             return 0
+          //           }
+          //       })
+          //     }
+          //   </Select>
+          // ),
           initialEditValue: props.value
         },{
           title: "Start Time",
@@ -152,7 +152,8 @@ class History extends Component {
 function mapStateToProps(state) {
   return {
     activityTypeList: state.activityTypeList,
-    logHistory: state.logHistory
+    logHistory: state.logHistory,
+    allTeamActivityTypeList : state.allTeamActivityTypeList,
   }
 }
 

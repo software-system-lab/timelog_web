@@ -53,7 +53,6 @@ class Team extends Component {
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
     this.submit = this.submit.bind(this)
-    this.handleTeamSelect = this.handleTeamSelect.bind(this);
     this.state = { 
       anchorEl: null, 
       open: false,
@@ -61,7 +60,6 @@ class Team extends Component {
       flag: true,
       filterList: [],
       select: false,
-      teamID: null
       };
   }
 
@@ -76,12 +74,6 @@ class Team extends Component {
       : this.setState({ anchorEl: event.currentTarget });
     this.flipOpen();
   };
-
-  handleTeamSelect(event) {
-    this.props.setOperatedTeam(event.target.value.teamID)
-    this.setState(state => ({teamID: event.target.value.teamID}));   
-    this.props.getTeam(event.target.value.teamName,event.target.value.teamID)
-  }
 
   submit() {
     // this.state.filterList = []
@@ -115,34 +107,21 @@ class Team extends Component {
                 zoom to 100% for better result
             </p>
           </div>
-          
-          <div className="team-list">
-          <FormControl variant="outlined">
-            <InputLabel >Team</InputLabel>
-            <Select
-              variant="outlined"
-              style={{color: white, borderColor: white, background: white}}
-              label={"Team"}
-              inputProps={{
-                name: 'Team'
-              }}
-              onChange={this.handleTeamSelect} 
-              
-            >
-              {
-                this.props.groupList.map((group,index) => {
-                  return(
-                    <MenuItem key={index} value={group}>{group.teamName}</MenuItem>
-                  )
-                })
-              }
-            </Select>
-          </FormControl>
-          </div>
           <div ref={ (element) => {this.reportElement = element} }>
-            <h1 className="board-title board-text">
-              {`${this.props.groupList[this.props.operatedTeam]}'s Dashboard`}
-            </h1>
+            {console.log(this.props.operatedTeam)}
+            {console.log(this.props.operatedTeam.teamName)}
+            {
+              this.props.groupList.map((group,index) => {
+                if(group.teamID == this.props.operatedTeam)
+                {
+                  return(
+                    <h1 className="board-title board-text">
+                      {`${group.teamName}'s Dashboard`}
+                    </h1>
+                  )
+                }
+              })
+            }
             <h2 className="board-duration board-text">
               {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
                ~
@@ -247,16 +226,15 @@ function mapStateToProps(state) {
   return {
     dashBoardData: state.dashBoardData,
     activityTypeList: state.activityTypeList,
+    operatedTeam: state.operatedTeam,
     groupList: state.groupList,
-    operatedTeam: state.operatedTeam
+
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateDashBoard: (userID, token, filterList) => dispatch(updateDashBoard(userID, token, filterList)),
-    setOperatedTeam: (teamID) => dispatch(setOperatedTeam(teamID)),
-    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
+    updateDashBoard: (userID, token, filterList) => dispatch(updateDashBoard(userID, token, filterList))
   }
 }
 

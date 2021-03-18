@@ -129,6 +129,21 @@ class Board extends Component {
           return false;
         })
       })
+      {console.log(this.props.allTeamActivityTypeList)}
+      this.props.allTeamActivityTypeList.map((team) => {
+          team.activityTypeList.map((activityType) => {
+            return this.props.dashBoardData.tableData.map((data)=>{
+              if(data.activityTypeName === activityType.name){
+                var activityTypeInput = {
+                name : activityType.name,
+                checked : false}
+                this.state.activityTypeList.push(activityTypeInput);
+                return true;
+              }
+              return false;
+            })
+          })
+      })
     } else {
       for(const each of this.state.activityTypeList) {
         each.checked = false;
@@ -281,7 +296,8 @@ class Board extends Component {
 function mapStateToProps(state) {
   return {
     dashBoardData: state.dashBoardData,
-    activityTypeList: state.activityTypeList
+    activityTypeList: state.activityTypeList,
+    allTeamActivityTypeList : state.allTeamActivityTypeList,
   }
 }
 

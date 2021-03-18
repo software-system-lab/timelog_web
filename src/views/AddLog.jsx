@@ -11,7 +11,10 @@ import {
   DialogActions,
   Select,
   MenuItem,
-  Checkbox
+  Checkbox,
+  Radio,
+  RadioGroup ,
+  FormControlLabel 
 } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -44,7 +47,7 @@ class AddLog extends Component {
   }
 
   handleSelectTeam (event) {
-    if(event.target.checked === true) {
+    if(event.target.value === "team") {
       this.setState({ selectTeam: true})
     }
     else {
@@ -147,32 +150,9 @@ class AddLog extends Component {
               <Input id="title" onChange={(e) => {this.setState({title: e.target.value})}} />
             </FormControl>
             <br/><br/>
-            <FormControl fullWidth>
-            <InputLabel id="activity-type-select-label" required={!this.state.selectTeam} >Activity Type</InputLabel>
-              <Select
-                labelId="activity-type-select-label"
-                disabled={this.state.selectTeam}
-                id="activity-type-select"
-                value={this.state.activityTypeName}
-                onChange={(event) => this.setState({activityTypeName: event.target.value})}
-              >
-                {
-                  this.props.activityTypeList.map((activityType, key) => {
-                      if(activityType.enable !== false) {
-                        return (
-                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                        )
-                      }
-                      else {
-                        return 0
-                      }
-                  })
-                }
-              </Select>
-            </FormControl>
-            <br/><br/>
             <div>
-            <Checkbox checked={this.state.selectTeam} onChange={this.handleSelectTeam}></Checkbox>Team
+            <Radio checked={this.state.selectTeam === false} onChange={this.handleSelectTeam} value="personal" ></Radio>Personal
+            <Radio checked={this.state.selectTeam === true} onChange={this.handleSelectTeam} value="team" ></Radio>Team
             <FormControl required={true}>
             <InputLabel id="activity-type-select-label" required={this.state.selectTeam} style={{margin:"-12px 15px"}}> Team</InputLabel>
               <Select
@@ -192,32 +172,46 @@ class AddLog extends Component {
               }
               </Select>
               </FormControl>
-              <FormControl>
-              <InputLabel id="activity-type-select-label" required={this.state.selectTeam} style={{margin:"-12px 15px"}}> Team Activity Type</InputLabel>
-                <Select
-                  style={{margin:"0px 10px", width:"250px"}}
-                  disabled={!this.state.selectTeam}
-                  labelId="activity-type-select-label"
-                  id="activity-type-select"
-                  value={this.state.teamActivityTypeName}
-                  onChange={(event) => this.setState({teamActivityTypeName: event.target.value})}
-                >
-                  {
-                    this.props.allTeamActivityTypeList.map((team, key) => {
-                       if(this.state.team.unitName == team.unitName){
-                        return(
-                          team.activityTypeList.map((activityType, key) => {
-                            return (
-                                <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                            )
-                          }) 
-                          )
-                       }
-                    })
-                }
-                </Select>
-              </FormControl>
             </div>
+            
+            <FormControl fullWidth>
+            <InputLabel id="activity-type-select-label" required={true} >Activity Type</InputLabel>
+              <Select
+                labelId="activity-type-select-label"
+                id="activity-type-select"
+                value={this.state.activityTypeName}
+                onChange={(event) => this.setState({activityTypeName: event.target.value})}
+              >
+                {
+                  
+                  this.props.activityTypeList.map((activityType, key) => {
+                    if(!this.state.selectTeam) { 
+                       if(activityType.enable !== false) {
+                        return (
+                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        )
+                      }
+                      else {
+                        return 0
+                      }
+                    } else if(this.state.selectTeam) {
+                      this.props.allTeamActivityTypeList.map((team, key) => {
+                        if(this.state.team.unitName == team.unitName){
+                         return(
+                           team.activityTypeList.map((activityType, key) => {
+                             return (
+                                 <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                             )
+                           }) 
+                           )
+                        }
+                     })
+                    }
+                     
+                  })
+                }
+              </Select>
+            </FormControl>
             <br/><br/>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container spacing={3}>

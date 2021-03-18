@@ -12,6 +12,11 @@ import PopoverProfile from './PopoverProfile';
 import { connect } from 'react-redux';
 import "./Stopwatch.css";
 import { readableCounter } from "../utils";
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import { Button,MenuItem } from '@material-ui/core';
+import { setOperatedTeam, getTeam} from 'actions/Team';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +71,12 @@ function Appbar(props) {
     setAnchorProfile(null);
   };
  
+  const handleTeamSelect = (event) => {
+    console.log(event.target.value)
+    props.setOperatedTeam(event.target.value.teamID)
+    props.getTeam(event.target.value.teamName,event.target.value.teamID)
+  };
+
   const displayName = localStorage.getItem("displayName");
   
   return (
@@ -86,6 +97,29 @@ function Appbar(props) {
         </div>
         <div className="timer-bar">
           <h1 className="timer-header">{props.timeString === '0.0' ? '': readableCounter(props.timeString)}</h1>
+        </div>
+        <div className="team-list">
+          <FormControl variant="outlined">
+            <InputLabel >Team</InputLabel>
+            <Select
+              variant="outlined"
+              style={{color: '#FFFFFF', borderColor: '#FFFFFF', background: '#FFFFFF'}}
+              label={"Team"}
+              inputProps={{
+                name: 'Team'
+              }}
+              onChange={handleTeamSelect} 
+              
+            >
+              {
+                props.groupList.map((group,index) => {
+                  return(
+                    <MenuItem key={index} value={group}>{group.teamName}</MenuItem>
+                  )
+                })
+              }
+            </Select>
+          </FormControl>
         </div>
         <div className="profile-btn" >
           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleProfileClick} id="profile-icon"/>
@@ -114,8 +148,15 @@ function Appbar(props) {
 
 function mapStateToProps(state) {
   return {
-    timeString: state.stopWatchTime
+    timeString: state.stopWatchTime,
+    operatedTeam: state.operatedTeam,
+    groupList: state.groupList,
   }
 }
-
-export default connect(mapStateToProps, null)(Appbar)
+function mapDispatchToProps(dispatch) {
+  return {
+    setOperatedTeam: (teamID) => dispatch(setOperatedTeam(teamID)),
+    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Appbar)

@@ -106,11 +106,13 @@ class History extends Component {
                 
                   this.props.allTeamActivityTypeList.map((team) => {
                     if(this.state.teamName === team.unitName){
-                      team.activityTypeList.map((activityType, key) => {
+                      return(
+                        team.activityTypeList.map((activityType, key) => {
                         return (
                           <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                         )
-                      }) 
+                        })
+                      )
                     }
                   })
                 

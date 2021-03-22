@@ -1,14 +1,15 @@
-import React, { Component } from "react"
-import { withRouter } from "react-router-dom"
-import MaterialTable from "material-table"
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import MaterialTable from "material-table";
 import { Input, Select, MenuItem } from "@material-ui/core";
-import { forwardRef } from 'react'
-import { connect } from 'react-redux'
-import { removeLog } from 'actions'
-import { editLog } from 'actions'
+import { forwardRef } from 'react';
+import { connect } from 'react-redux';
+import { removeLog } from 'actions';
+import { editLog } from 'actions';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import moment from 'moment'
+import moment from 'moment';
+import {getTeam} from 'actions/Team';
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -38,6 +39,7 @@ class History extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      teamName : "",
       startTime: 0,
       endTime: 0,
       columns: [
@@ -48,30 +50,92 @@ class History extends Component {
             <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
           )
         },
+        // {
+        //   title: "Unit",
+        //   field: "Unit",
+        //   editComponent: props => (
+        //     <Select
+        //       value={props.value}
+        //       onChange={event => props.onChange(event.target.value)}
+        //     >
+        //       {console.log(this.props.unitList)}
+        //       {
+        //         this.props.groupList.map((group, key) => {
+        //             return(
+        //               <MenuItem value={group} key={key}>{group.teamName}</MenuItem>
+        //             )
+        //           })
+        //       }
+        //     </Select>
+        //   )
+        // },
         {
           title: "Activity Type",
           field: "activityTypeName",
-          // editComponent: props => (
-          //   <Select
-          //     value={props.value}
-          //     onChange={event => props.onChange(event.target.value)}
-          //   >
-          //     {
-          //       this.props.activityTypeList.map((activityType, key) => {
-          //           if(activityType.enable !== false) {
-          //             return (
-          //                 <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-          //             )
-          //           }
-          //           else {
-          //             return 0
-          //           }
-          //       })
-          //     }
-          //   </Select>
-          // ),
+          width: "30%",
+          editComponent:
+           props => (
+            // <Select
+            //   value={props.value}
+            //   onChange={event => props.onChange(event.target.value)}
+            // >
+            //   {
+            //     this.props.activityTypeList.map((activityType, key) => {
+            //         if(activityType.enable !== false) {
+            //           return (
+            //               <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+            //           )
+            //         }
+            //         else {
+            //           return 0
+            //         }
+            //     })
+            //   }
+            // </Select>
+            <div>
+              <Select
+                value={props.value}
+                onChange={event => this.setState({teamName: event.target.value})}
+              >
+               <MenuItem value="Personal">Personal</MenuItem>
+              {
+                this.props.allTeamActivityTypeList.map((team, key) => {
+                  return (
+                      <MenuItem value={team.unitName} key={key}>{team.unitName}</MenuItem>
+                  )
+                })
+              }
+              </Select>
+              <Select style = {{marginLeft:'10px'}}>
+              {
+                this.state.teamName === "Personal"?
+                  this.props.activityTypeList.map((activityType, key) =>{
+                    if(activityType.enable !== false) {
+                      return (
+                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                      )
+                    }
+                  })
+                
+                :
+                
+                  this.props.allTeamActivityTypeList.map((team) => {
+                    if(this.state.teamName === team.unitName){
+                      team.activityTypeList.map((activityType, key) => {
+                        return (
+                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        )
+                      }) 
+                    }
+                  })
+                
+              }
+              </Select>
+            </div>
+          ),
           initialEditValue: props.value
-        },{
+        },
+        {
           title: "Start Time",
           field: "startTime",
           defaultSort: "desc",
@@ -153,7 +217,8 @@ function mapStateToProps(state) {
   return {
     activityTypeList: state.activityTypeList,
     logHistory: state.logHistory,
-    allTeamActivityTypeList : state.allTeamActivityTypeList,
+    allTeamActivityTypeList: state.allTeamActivityTypeList,
+    groupList: state.groupList,
   }
 }
 
@@ -164,7 +229,8 @@ function mapDispatchToProps(dispatch) {
     },
     editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID) => {
       dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID))
-    }
+    },
+    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
   }
 }
 

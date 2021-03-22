@@ -50,25 +50,6 @@ class History extends Component {
             <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
           )
         },
-        // {
-        //   title: "Unit",
-        //   field: "Unit",
-        //   editComponent: props => (
-        //     <Select
-        //       value={props.value}
-        //       onChange={event => props.onChange(event.target.value)}
-        //     >
-        //       {console.log(this.props.unitList)}
-        //       {
-        //         this.props.groupList.map((group, key) => {
-        //             return(
-        //               <MenuItem value={group} key={key}>{group.teamName}</MenuItem>
-        //             )
-        //           })
-        //       }
-        //     </Select>
-        //   )
-        // },
         {
           title: "Activity Type",
           field: "activityTypeName",
@@ -94,19 +75,23 @@ class History extends Component {
             // </Select>
             <div>
               <Select
-                value={props.value}
+                value={this.state.teamName}
                 onChange={event => this.setState({teamName: event.target.value})}
               >
-               <MenuItem value="Personal">Personal</MenuItem>
-              {
-                this.props.allTeamActivityTypeList.map((team, key) => {
-                  return (
-                      <MenuItem value={team.unitName} key={key}>{team.unitName}</MenuItem>
-                  )
-                })
-              }
+                <MenuItem value="Personal">Personal</MenuItem>
+                {
+                  this.props.allTeamActivityTypeList.map((team, key) => {
+                    return (
+                        <MenuItem value={team.unitName} key={key}>{team.unitName}</MenuItem>
+                    )
+                  })
+                }
               </Select>
-              <Select style = {{marginLeft:'10px'}}>
+              <Select
+                style={{marginLeft:'10px'}}
+                value={props.value}
+                onChange={event => props.onChange(event.target.value)}
+              >
               {
                 this.state.teamName === "Personal"?
                   this.props.activityTypeList.map((activityType, key) =>{

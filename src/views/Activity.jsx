@@ -1,10 +1,7 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
 import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
-import { editActivityType, addActivityType, removeActivityType } from 'actions';
-import { connect } from 'react-redux';
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,

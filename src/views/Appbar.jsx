@@ -15,7 +15,7 @@ import { readableCounter } from "../utils";
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import { Button,MenuItem } from '@material-ui/core';
+import { MenuItem } from '@material-ui/core';
 import { setOperatedTeam, getTeam} from 'actions/Team';
 
 const useStyles = makeStyles((theme) => ({

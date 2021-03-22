@@ -99,11 +99,10 @@ function Appbar(props) {
           <h1 className="timer-header">{props.timeString === '0.0' ? '': readableCounter(props.timeString)}</h1>
         </div>
         <div className="team-list">
-          <FormControl variant="outlined">
+          <FormControl >
             <InputLabel >Team</InputLabel>
             <Select
-              variant="outlined"
-              style={{color: '#FFFFFF', borderColor: '#FFFFFF', background: '#FFFFFF'}}
+              style={{color: '#000000', borderColor: '#FFFFFF', background: '#FFFFFF', width: '150px', height: '40px'}}
               label={"Team"}
               inputProps={{
                 name: 'Team'

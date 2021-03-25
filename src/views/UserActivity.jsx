@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import activityTypeList from "../reducers/activityTypeList";
 import  Activity  from './Activity';
 import { editActivityType, addActivityType, removeActivityType } from 'actions';
 

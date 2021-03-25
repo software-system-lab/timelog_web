@@ -11,20 +11,13 @@ import {
   DialogActions,
   Select,
   MenuItem,
-  Checkbox,
   Radio,
-  RadioGroup ,
-  FormControlLabel 
 } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
-import { ControlCameraOutlined } from '@material-ui/icons';
 
 
 class AddLog extends Component {
@@ -193,21 +186,20 @@ class AddLog extends Component {
                       else {
                         return 0
                       }
-                    } 
-                  })
-                }
-                {
-                  this.props.allTeamActivityTypeList.map((team, key) => {
-                    if(this.state.selectTeam) {
-                      if(this.state.team.unitName == team.unitName){
-                      return(
-                        team.activityTypeList.map((activityType, key) => {
-                          return (
-                              <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                          )
-                        }) 
-                        )
-                      }
+                    } else if(this.state.selectTeam) {
+                      this.props.allTeamActivityTypeList.map((team, key) => {
+                        if(this.state.team.unitName === team.unitName){
+                         return(
+                           team.activityTypeList.map((activityType, key) => {
+                             return (
+                                 <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                             )
+                           }) 
+                           )
+                        }
+                     })
+                    } else {
+                      return 0
                     }
                   })
                 }

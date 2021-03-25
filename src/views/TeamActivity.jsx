@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import teamActivityTypeList from "../reducers/team";
 import  Activity  from './Activity';
 import { editTeamActivityType, addTeamActivityType, removeTeamActivityType } from 'actions/Team';
 

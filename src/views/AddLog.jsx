@@ -152,7 +152,7 @@ class AddLog extends Component {
                 disabled={!this.state.selectTeam}
                 labelId="activity-type-select-label"
                 id="activity-type-select"
-                value={this.state.team}
+                value={this.state.team, console.log(this.state.team)}
                 onChange={(event) => this.setState({team: event.target.value})}
               >
                 {
@@ -168,43 +168,35 @@ class AddLog extends Component {
             
             <FormControl fullWidth>
             <InputLabel id="activity-type-select-label" required={true} >Activity Type</InputLabel>
-              <Select
-                labelId="activity-type-select-label"
-                id="activity-type-select"
-                value={this.state.activityTypeName}
-                onChange={(event) => this.setState({activityTypeName: event.target.value})}
-              >
-                {
-                  
-                  this.props.activityTypeList.map((activityType, key) => {
-                    if(!this.state.selectTeam) { 
-                       if(activityType.enable !== false) {
+            <Select
+              labelId="activity-type-select-label"
+              id="activity-type-select"
+              value={this.state.activityTypeName}
+              onChange={(event) => this.setState({activityTypeName: event.target.value})}
+            >
+            {  
+              this.state.selectTeam ?
+                this.props.allTeamActivityTypeList.map((team) => {
+                  if(this.state.team.unitName === team.unitName){
+                    return(
+                      team.activityTypeList.map((activityType, key) => {
                         return (
-                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                         )
-                      }
-                      else {
-                        return 0
-                      }
-                    } else if(this.state.selectTeam) {
-                      this.props.allTeamActivityTypeList.map((team, key) => {
-                        if(this.state.team.unitName === team.unitName){
-                         return(
-                           team.activityTypeList.map((activityType, key) => {
-                             return (
-                                 <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                             )
-                           }) 
-                           )
-                        }
-                     })
-                    } else {
-                      return 0
-                    }
-                  })
-                }
-                
-              </Select>
+                      }) 
+                      )
+                  }
+                })
+              :
+                this.props.activityTypeList.map((activityType, key) => {
+                  if(activityType.enable !== false) {
+                  return (
+                      <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                    )
+                  }
+                })   
+            }
+            </Select>
             </FormControl>
             <br/><br/>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

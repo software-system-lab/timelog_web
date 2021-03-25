@@ -12,10 +12,6 @@ class TeamActivity extends Component {
     }
   }
 
-  componentDidMount(){
-    console.log(this.props.operatedTeam)
-  }
-
   render() {
     return (
       <div>

@@ -66,6 +66,7 @@ export function enterTimelog(userID, token) {
         getTeam: (groupname, teamID, dispatch) => dispatch(getTeam(groupname, teamID)),
         setOperatedTeam: (teamID, dispatch) => dispatch(setOperatedTeam(teamID)),
         loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
+
     }
 }
 

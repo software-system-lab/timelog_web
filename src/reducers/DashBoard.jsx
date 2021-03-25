@@ -3,7 +3,7 @@ var defaultState = {
   pieData: []
 }
 
-const DashBoardReducer = (state = defaultState, action) => {
+export const DashBoardReducer = (state = defaultState, action) => {
   switch (action.type) {
     case "SET_DASH_BOARD":
       return action.dashBoardData;
@@ -12,4 +12,11 @@ const DashBoardReducer = (state = defaultState, action) => {
   }
 }
 
-export default DashBoardReducer;
+export const TeamDashBoardReducer = (state = defaultState, action) => {
+  switch (action.type) {
+    case "SET_TEAM_DASH_BOARD":
+      return action.teamDashBoardData;
+    default:
+      return state;
+  }
+}

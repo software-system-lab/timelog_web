@@ -23,3 +23,20 @@ export function updateDashBoard(userID, token, filterList) {
     setDashBoard: (dashBoardData, dispatch) => dispatch(setDashBoard(dashBoardData))
   }
 }
+
+export function updateTeamDashBoard(teamID, groupname) {
+  return {
+    type: "UPDATE_TEAM_DASH_BOARD",
+    teamID: teamID,
+    groupname: groupname,
+    setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setDashBoard(teamDashBoardData))
+  }
+}
+
+export function setTeamDashBoard(teamDashBoardData) {
+  return {
+    type: "SET_TEAM_DASH_BOARD",
+    teamDashBoardData: teamDashBoardData
+  }
+}
+

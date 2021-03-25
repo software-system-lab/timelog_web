@@ -39,7 +39,6 @@ class AddLog extends Component {
       activityTypeName: "",
       isEnable: true,
       selectTeam: false,
-      teamActivityTypeName: "",
       team: []
     }
     this.submit = this.submit.bind(this);
@@ -48,10 +47,10 @@ class AddLog extends Component {
 
   handleSelectTeam (event) {
     if(event.target.value === "team") {
-      this.setState({ selectTeam: true})
+      this.setState({ selectTeam: true, activityTypeName: ""})
     }
     else {
-      this.setState({ selectTeam: false})
+      this.setState({ selectTeam: false, activityTypeName: ""})
     }
   }
 
@@ -83,7 +82,7 @@ class AddLog extends Component {
     }
 
     if(this.state.selectTeam){
-       if(!this.state.teamActivityTypeName || this.state.teamActivityTypeName === ''){
+       if(!this.state.activityTypeName || this.state.activityTypeName === ''){
         alert("Team Activity Type is not selected.")
         return
       }
@@ -110,7 +109,7 @@ class AddLog extends Component {
         localStorage.getItem("uid"),
         null,
         this.state.title,
-        this.state.teamActivityTypeName,
+        this.state.activityTypeName,
         moment(this.state.startTime).format(dateFormat),
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
@@ -194,22 +193,25 @@ class AddLog extends Component {
                       else {
                         return 0
                       }
-                    } else if(this.state.selectTeam) {
-                      this.props.allTeamActivityTypeList.map((team, key) => {
-                        if(this.state.team.unitName == team.unitName){
-                         return(
-                           team.activityTypeList.map((activityType, key) => {
-                             return (
-                                 <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                             )
-                           }) 
-                           )
-                        }
-                     })
-                    }
-                     
+                    } 
                   })
                 }
+                {
+                  this.props.allTeamActivityTypeList.map((team, key) => {
+                    if(this.state.selectTeam) {
+                      if(this.state.team.unitName == team.unitName){
+                      return(
+                        team.activityTypeList.map((activityType, key) => {
+                          return (
+                              <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                          )
+                        }) 
+                        )
+                      }
+                    }
+                  })
+                }
+                
               </Select>
             </FormControl>
             <br/><br/>

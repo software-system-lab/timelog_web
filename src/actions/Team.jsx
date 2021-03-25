@@ -1,4 +1,5 @@
 import { setActivityTypeList } from "./index"
+import { updateTeamDashBoard } from './DashBoard'
 
 export function getTeam(groupname, teamID, token) {
     return {
@@ -9,6 +10,7 @@ export function getTeam(groupname, teamID, token) {
       setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
       setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
       loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
+      updateTeamDashBoard: (teamID, groupname, dispatch) => dispatch(updateTeamDashBoard(teamID, groupname))
     }   
 }
   

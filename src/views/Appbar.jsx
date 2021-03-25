@@ -47,6 +47,12 @@ const useStyles = makeStyles((theme) => ({
     width: '150%',
     height: '150%',
   },
+  select: {
+    width: '150px',
+    height: '40px',
+    margin: '10px'
+  }
+
 }));
 
 function Appbar(props) {
@@ -99,17 +105,16 @@ function Appbar(props) {
           <h1 className="timer-header">{props.timeString === '0.0' ? '': readableCounter(props.timeString)}</h1>
         </div>
         <div className="team-list">
-          <FormControl variant="outlined">
-            <InputLabel >Team</InputLabel>
+          <FormControl >
             <Select
-              variant="outlined"
-              style={{color: '#FFFFFF', borderColor: '#FFFFFF', background: '#FFFFFF'}}
+              displayEmpty
+              style={{color: '#aaa', borderColor: '#FFFFFF', background: '#FFFFFF'}}
               label={"Team"}
               inputProps={{
                 name: 'Team'
               }}
               onChange={handleTeamSelect} 
-              
+              className={classes.select}
             >
               {
                 props.groupList.map((group,index) => {

@@ -8,7 +8,7 @@ import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import MaterialTable from "material-table";
 import moment from "moment";
-import { updateDashBoard } from 'actions/DashBoard';
+import { updateTeamDashBoard } from 'actions/DashBoard';
 import { setOperatedTeam, getTeam} from 'actions/Team';
 import { withStyles } from '@material-ui/core/styles';
 import { ArrowDownward } from '@material-ui/icons';
@@ -108,8 +108,6 @@ class Team extends Component {
             </p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
-            {console.log(this.props.operatedTeam)}
-            {console.log(this.props.operatedTeam.teamName)}
             {
               this.props.groupList.map((group,index) => {
                 if(group.teamID == this.props.operatedTeam)
@@ -128,7 +126,7 @@ class Team extends Component {
               {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
             </h2>
             <h3 className="board-spent-time board-text">
-              Spent Time : {this.props.dashBoardData.totalTime}
+              Spent Time : {this.props.teamDashBoardData.totalTime}
             </h3>
             
             <div className="board-split">
@@ -139,7 +137,7 @@ class Team extends Component {
                   height={'50vh'}
                   chartType="PieChart"
                   loader={<div>Loading Chart</div>}
-                  data={this.props.dashBoardData.pieData}
+                  data={this.props.teamDashBoardData.pieData}
                   options={{
                     chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
                     title: 'DashBoard',
@@ -160,7 +158,7 @@ class Team extends Component {
                     { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
                     { title: "Percentage", field: "percentage" },
                   ]}
-                  data={this.props.dashBoardData.tableData}
+                  data={this.props.teamDashBoardData.tableData}
                   sortDirection={"timeLength"}
                   options={{
                     search: false,
@@ -183,7 +181,7 @@ class Team extends Component {
                       width={'99%'}
                       chartType="PieChart"
                       loader={<div>Loading Chart</div>}
-                      data={this.props.dashBoardData.pieData}
+                      data={this.props.teamDashBoardData.pieData}
                       options={{
                         chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
                         title: 'DashBoard',
@@ -203,7 +201,7 @@ class Team extends Component {
                       { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
                       { title: "Percentage", field: "percentage" },
                     ]}
-                    data={this.props.dashBoardData.tableData}
+                    data={this.props.teamDashBoardData.tableData}
                     sortDirection={"timeLength"}
                     options={{
                       search: false,
@@ -224,7 +222,7 @@ class Team extends Component {
 
 function mapStateToProps(state) {
   return {
-    dashBoardData: state.dashBoardData,
+    teamDashBoardData: state.teamDashBoardData,
     activityTypeList: state.activityTypeList,
     operatedTeam: state.operatedTeam,
     groupList: state.groupList,
@@ -234,7 +232,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateDashBoard: (userID, token, filterList) => dispatch(updateDashBoard(userID, token, filterList))
+    updateTeamDashBoard: (userID, token, filterList) => dispatch(updateTeamDashBoard(userID, token, filterList))
   }
 }
 

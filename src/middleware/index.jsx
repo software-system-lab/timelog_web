@@ -48,7 +48,6 @@ const myMiddleware = store => next => action => {
         }
         axios.post(API_HOST + '/activity/all', body, { headers: headers })
         .then( response => {
-            console.log(response.data.unitDTOList[0])
             action.setActivityTypeList(response.data.unitDTOList[0].activityTypeList, store.dispatch)
         })
         .catch( err => {
@@ -60,7 +59,6 @@ const myMiddleware = store => next => action => {
       const body = {
         unitIdList : [action.teamID]
       }
-      console.log([action.teamID])
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
           action.setTeamActivityTypeList(response.data.unitDTOList[0].activityTypeList, store.dispatch)
@@ -74,10 +72,8 @@ const myMiddleware = store => next => action => {
       const body = {
         unitIdList : action.teamList
       }
-      console.log(action.teamList)
       axios.post(API_HOST + '/activity/all', body, { headers: headers })
       .then( response => {
-        console.log(response.data.unitDTOList, store.dispatch)
           action.setAllTeamActivityTypeList(response.data.unitDTOList, store.dispatch)
       })
       .catch( err => {
@@ -87,7 +83,6 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "ENTER_TIMELOG") {
         const headers = getHeaders(action.token)
         const body = getBody(action.userID)
-        console.log(action.userID)
         axios.post(API_HOST + '/login', body, { headers: headers})
         .then( response => {
             action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
@@ -275,6 +270,43 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Get dash board data failed");
       })
+    } else if(action.type === "UPDATE_TEAM_DASH_BOARD") {
+      const headers = getHeaders(action.token)
+      const body = {
+        teamID: action.teamID,
+        memberList: action.groupname
+      }      
+      console.log("update team dashboard")
+      console.log(body.memberList)
+      body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
+      body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
+      axios.post(API_HOST + '/dash-board/team/dashboard', body, {headers: headers})
+      .then( response => {
+        console.log(response,store.dispatch)
+        const totalTimeString = response.data.totalTime
+        const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
+        const pieData = [
+          ['Task', 'Hours per Project']
+        ]
+        const tableData = []
+        const dataMap = response.data.dataMap
+        Object.keys(dataMap).forEach((key) => {
+          const timeLength = dataMap[key].timeLength
+          const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
+          pieData.push([key, timeLength])
+          tableData.push({activityTypeName: key, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %"})
+        })
+        const result = {
+          totalTime: response.data.totalTime,
+          pieData: pieData,
+          tableData: tableData
+        }
+        action.setTeamDashBoard(result, store.dispatch)
+      })
+      .catch ( err => {
+        console.log(err)
+        alert("Get team dash board data failed");
+      })
     } else if(action.type === "REMOVE_LOG") {
       const headers = getHeaders(action.token)
       const body = {
@@ -321,6 +353,8 @@ const myMiddleware = store => next => action => {
         action.setMemberList(response.data.memberList, store.dispatch)
         action.setLeader(response.data.leader, store.dispatch)
         action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+        console.log("Aaaaaa")
+        action.updateTeamDashBoard(action.teamID,response.data.memberList, store.dispatch)
       })
       .catch(err => {
         console.log(err)

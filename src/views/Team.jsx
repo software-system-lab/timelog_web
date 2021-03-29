@@ -20,6 +20,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import DashBoard from './DashBoard';
 
 
 const useStyles = (theme) => ({
@@ -108,6 +109,8 @@ class Team extends Component {
             </p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
+            {console.log(this.props.operatedTeam)}
+            {console.log(this.props.operatedTeam.teamName)}
             {
               this.props.groupList.map((group,index) => {
                 if(group.teamID == this.props.operatedTeam)
@@ -126,94 +129,22 @@ class Team extends Component {
               {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
             </h2>
             <h3 className="board-spent-time board-text">
-              Spent Time : {this.props.teamDashBoardData.totalTime}
+              Spent Time : {this.props.teamDashBoardData.team.totalTime}
             </h3>
-            
-            <div className="board-split">
-              <div className="chart">
-                <Chart
-                  minWidth={''}
-                  width={'99%'}
-                  height={'50vh'}
-                  chartType="PieChart"
-                  loader={<div>Loading Chart</div>}
-                  data={this.props.teamDashBoardData.pieData}
-                  options={{
-                    chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
-                    title: 'DashBoard',
-                    tooltip: {trigger:'none'},
-                    legend: {position: 'left'},
-                    legendTextStyle: {color:white},
-                    backgroundColor: '#3C3D42',
-                    color: white
-                  }}
-                  rootProps={{ 'data-testid': '1' }}
-                />
-              </div>
-              <div className="table">
-                <MaterialTable title=""
-                  icons={ tableIcons }
-                  columns={[
-                    { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
-                    { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
-                    { title: "Percentage", field: "percentage" },
-                  ]}
-                  data={this.props.teamDashBoardData.tableData}
-                  sortDirection={"timeLength"}
-                  options={{
-                    search: false,
-                    paging: false,
-                    toolbar: false,
-                    sorting: true,
-                    tableLayout: "fixed"
-                  }}
-                />
-              </div>
-            </div>
+            <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData}/>
+           
           </div>
 
           <div>
-            <Grid container spacing={3} className ={classes.container} >
-              <Grid item xs={6} sm={3}>
-                <Paper className={classes.paper}>
-                  <Chart
-                      minWidth={''}
-                      width={'99%'}
-                      chartType="PieChart"
-                      loader={<div>Loading Chart</div>}
-                      data={this.props.teamDashBoardData.pieData}
-                      options={{
-                        chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
-                        title: 'DashBoard',
-                        tooltip: {trigger:'none'},
-                        legend: {position: 'left'}
-                      }}
-                      rootProps={{ 'data-testid': '1' }}
-                    />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Paper className={classes.paper}>
-                  <MaterialTable title=""
-                    icons={ tableIcons }
-                    columns={[
-                      { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
-                      { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
-                      { title: "Percentage", field: "percentage" },
-                    ]}
-                    data={this.props.teamDashBoardData.tableData}
-                    sortDirection={"timeLength"}
-                    options={{
-                      search: false,
-                      paging: false,
-                      toolbar: false,
-                      sorting: true,
-                      tableLayout: "fixed"
-                    }}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
+            {
+              this.props.teamDashBoardData.member.map((member, key) => {
+                return (
+                  <DashBoard pieData={member.pieData} tableData={member.tableData}/>
+                )
+                
+              }) 
+            
+            }
           </div>
         </div>
       );

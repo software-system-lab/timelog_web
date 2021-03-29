@@ -29,7 +29,7 @@ export function updateTeamDashBoard(teamID, groupname) {
     type: "UPDATE_TEAM_DASH_BOARD",
     teamID: teamID,
     groupname: groupname,
-    setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setDashBoard(teamDashBoardData))
+    setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData))
   }
 }
 

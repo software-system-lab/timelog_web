@@ -283,6 +283,7 @@ const myMiddleware = store => next => action => {
       axios.post(API_HOST + '/dash-board/team/dashboard', body, {headers: headers})
       .then( response => {
         console.log(response,store.dispatch)
+        const member = []
         const totalTimeString = response.data.totalTime
         const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
         const pieData = [
@@ -296,11 +297,39 @@ const myMiddleware = store => next => action => {
           pieData.push([key, timeLength])
           tableData.push({activityTypeName: key, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %"})
         })
-        const result = {
+        const team = {
           totalTime: response.data.totalTime,
           pieData: pieData,
           tableData: tableData
         }
+        const memberDashboardList = response.data.memberDashboardList
+        Object.keys(memberDashboardList).forEach((key) => {
+          const totalTimeString = response.data.totalTime
+          const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
+          const pieData = [
+            ['Task', 'Hours per Project']
+          ]
+          const tableData = []
+          const dataMap = response.data.memberDashboardList[key].dataMap
+          Object.keys(dataMap).forEach((index) => {
+            const timeLength = dataMap[index].timeLength
+            const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
+            pieData.push([index, timeLength])
+            tableData.push({activityTypeName: index, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %"})
+          })
+          const dashboard = {
+            username: response.data.memberDashboardList[key].username,
+            totalTime: response.data.memberDashboardList[key].totalTime,
+            pieData: pieData,
+            tableData: tableData
+          }
+          member.push(dashboard)
+        })
+        const result = {
+          team: team,
+          member: member
+        }
+        console.log(result)
         action.setTeamDashBoard(result, store.dispatch)
       })
       .catch ( err => {

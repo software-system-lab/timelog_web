@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
     teamActivityTypeList: teamActivityTypeListReducer,
     operatedTeam: operatedTeamReducer,
     allTeamActivityTypeList: allTeamActivityTypeListReducer,
-    teamDashBoardData: TeamDashBoardReducer
+    teamDashBoardData: TeamDashBoardReducer,
 })
 
 export default rootReducer

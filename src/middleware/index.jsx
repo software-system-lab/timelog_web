@@ -122,7 +122,7 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "EDIT_ACTIVITY_TYPE") {
         const headers = getHeaders(action.token)
         const body = {
-            userID: action.userID,
+            unitID: action.userID,
             targetActivityTypeName: action.targetActivityTypeName,
             activityTypeName: action.activityTypeName,
             isEnable: action.isEnable,
@@ -392,7 +392,7 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {
       const headers = getHeaders(action.token)
       const body = {
-          userID: action.teamID,
+          unitID: action.teamID,
           targetActivityTypeName: action.targetActivityTypeName,
           activityTypeName: action.activityTypeName,
           isEnable: action.isEnable,

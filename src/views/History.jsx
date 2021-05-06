@@ -39,6 +39,8 @@ class History extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      personal: [{unitID: localStorage.getItem("uid"),unitName: "Personal" }],
+      selectTeam: [],
       teamName : "",
       startTime: 0,
       endTime: 0,
@@ -56,33 +58,16 @@ class History extends Component {
           width: "30%",
           editComponent:
            props => (
-            // <Select
-            //   value={props.value}
-            //   onChange={event => props.onChange(event.target.value)}
-            // >
-            //   {
-            //     this.props.activityTypeList.map((activityType, key) => {
-            //         if(activityType.enable !== false) {
-            //           return (
-            //               <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-            //           )
-            //         }
-            //         else {
-            //           return 0
-            //         }
-            //     })
-            //   }
-            // </Select>
             <div>
               <Select
-                value={this.state.teamName}
-                onChange={event => this.setState({teamName: event.target.value})}
+                value={this.state.selectTeam}
+                onChange={event => this.setState({selectTeam: event.target.value})}
               >
-                <MenuItem value="Personal">Personal</MenuItem>
+                <MenuItem value={this.state.personal}>Personal</MenuItem>
                 {
                   this.props.allTeamActivityTypeList.map((team, key) => {
                     return (
-                        <MenuItem value={team.unitName} key={key}>{team.unitName}</MenuItem>
+                        <MenuItem value={team} key={key}>{team.unitName}</MenuItem>
                     )
                   })
                 }
@@ -93,7 +78,7 @@ class History extends Component {
                 onChange={event => props.onChange(event.target.value)}
               >
               {
-                this.state.teamName === "Personal"?
+                this.state.selectTeam.unitName === this.state.personal.unitName?
                   this.props.activityTypeList.map((activityType, key) =>{
                     if(activityType.enable !== false) {
                       return (
@@ -105,7 +90,7 @@ class History extends Component {
                 :
                 
                   this.props.allTeamActivityTypeList.map((team) => {
-                    if(this.state.teamName === team.unitName){
+                    if(this.state.selectTeam.unitName === team.unitName){
                       return(
                         team.activityTypeList.map((activityType, key) => {
                         return (
@@ -142,6 +127,35 @@ class History extends Component {
         }
       ],
     }
+    this.editSubmit = this.editSubmit.bind(this);
+  }
+
+  editSubmit(oldData,newData) {
+    if(this.state.selectTeam.unitName === this.state.personal.unitName) {
+        this.props.editLog(
+          localStorage.getItem("uid"),
+          null,
+          oldData.id,              
+          newData.title,
+          newData.activityTypeName,
+          moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
+          moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
+          null,
+          localStorage.getItem("uid")
+        )
+    } else {
+        this.props.editLog(
+          localStorage.getItem("uid"),
+          null,
+          oldData.id,              
+          newData.title,
+          newData.activityTypeName,
+          moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
+          moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
+          null,
+          this.state.selectTeam.unitID
+        )
+    }
   }
 
   render() {
@@ -177,18 +191,8 @@ class History extends Component {
                   reject()
                 } 
                 else {
-                   setTimeout(() => {
-                    this.props.editLog(
-                      localStorage.getItem("uid"),
-                      null,
-                      oldData.id,              
-                      newData.title,
-                      newData.activityTypeName,
-                      moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
-                      moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
-                      null,
-                      localStorage.getItem("uid"),
-                    )
+                  setTimeout(() => {
+                    this.editSubmit(oldData,newData)
                     resolve();
                   }, 1000);
                 }

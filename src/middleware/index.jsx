@@ -144,7 +144,6 @@ const myMiddleware = store => next => action => {
             isEnable: action.isEnable,
             isPrivate: action.isPrivate
         }
-        console.log(body)
         axios.post(API_HOST + '/activity/add', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
@@ -276,13 +275,10 @@ const myMiddleware = store => next => action => {
         teamID: action.teamID,
         memberList: action.groupname
       }      
-      console.log("update team dashboard")
-      console.log(body.memberList)
       body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
       body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
       axios.post(API_HOST + '/dash-board/team/dashboard', body, {headers: headers})
       .then( response => {
-        console.log(response,store.dispatch)
         const member = []
         const totalTimeString = response.data.totalTime
         const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
@@ -329,7 +325,6 @@ const myMiddleware = store => next => action => {
           team: team,
           member: member
         }
-        console.log(result)
         action.setTeamDashBoard(result, store.dispatch)
       })
       .catch ( err => {
@@ -382,7 +377,6 @@ const myMiddleware = store => next => action => {
         action.setMemberList(response.data.memberList, store.dispatch)
         action.setLeader(response.data.leader, store.dispatch)
         action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
-        console.log("Aaaaaa")
         action.updateTeamDashBoard(action.teamID,response.data.memberList, store.dispatch)
       })
       .catch(err => {
@@ -398,7 +392,6 @@ const myMiddleware = store => next => action => {
           isEnable: action.isEnable,
           isPrivate: action.isPrivate
       }
-      console.log(body)
       axios.post(API_HOST + '/activity/edit', body, { headers: headers})
       .then(response => {
           action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
@@ -415,7 +408,6 @@ const myMiddleware = store => next => action => {
           isEnable: action.isEnable,
           isPrivate: action.isPrivate
       }
-      console.log(body)
       axios.post(API_HOST + '/activity/add', body, { headers: headers})
       .then(response => {
           action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)

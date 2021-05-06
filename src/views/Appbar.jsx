@@ -78,7 +78,6 @@ function Appbar(props) {
   };
  
   const handleTeamSelect = (event) => {
-    console.log(event.target.value)
     props.setOperatedTeam(event.target.value.teamID)
     props.getTeam(event.target.value.teamName,event.target.value.teamID)
   };

@@ -49,7 +49,7 @@ class DashBoard extends Component {
                 <Chart
                   minWidth={''}
                   width={'99%'}
-                  height={'50vh'}
+                  height={this.props.chartArea}
                   chartType="PieChart"
                   loader={<div>Loading Chart</div>}
                   data={this.props.pieData}
@@ -59,7 +59,7 @@ class DashBoard extends Component {
                     tooltip: {trigger:'none'},
                     legend: {position: 'left'},
                     legendTextStyle: {color:white},
-                    backgroundColor: '#3C3D42',
+                    backgroundColor: 'transparent',
                     color: white
                   }}
                   rootProps={{ 'data-testid': '1' }}

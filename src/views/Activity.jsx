@@ -72,7 +72,6 @@ class Activity extends Component {
             onRowAdd: newData =>
               new Promise((resolve, reject) => {
                 if (!newData.name || newData.name === ''){
-                  console.log("not empty")
                   alert("Activity Type name should not be empty.")
                   reject()
                 } else {
@@ -93,12 +92,10 @@ class Activity extends Component {
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
                 if (!newData.name || newData.name === ''){
-                  console.log("not empty")
                   alert("Activity Type name should not be empty.")
                   reject()
                 }
                 else {
-                  console.log(this.state.id)
                   setTimeout(() => {
                     this.props.edit(
                       this.state.id,

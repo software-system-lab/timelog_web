@@ -18,6 +18,9 @@ import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
+import { updateTeamDashBoard } from 'actions/DashBoard'
+import { getTeam } from '../actions/Team';
+
 
 
 class AddLog extends Component {
@@ -120,8 +123,6 @@ class AddLog extends Component {
         localStorage.getItem("uid"),
       )
     }
-    
-
     this.setState({
         title: "",
         activityTypeName: "",
@@ -152,7 +153,7 @@ class AddLog extends Component {
                 disabled={!this.state.selectTeam}
                 labelId="activity-type-select-label"
                 id="activity-type-select"
-                value={this.state.team, console.log(this.state.team)}
+                value={this.state.team}
                 onChange={(event) => this.setState({team: event.target.value})}
               >
                 {
@@ -319,12 +320,17 @@ function mapStateToProps(state) {
     teamActivityTypeList: state.teamActivityTypeList,
     activityTypeList: state.activityTypeList,
     allTeamActivityTypeList : state.allTeamActivityTypeList,
+    operatedTeam : state.operatedTeam,
+    memberList : state.memberList
+
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID))
+    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID)),
+    updateTeamDashBoard: (teamID, groupname) => dispatch(updateTeamDashBoard(teamID, groupname)),
+    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
   }
 }
 

@@ -1,25 +1,15 @@
-import React, { Component, useCallback } from "react";
+import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Button,MenuItem } from '@material-ui/core';
-import Chart from "react-google-charts";
+import { Button } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import "./Team.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';
-import MaterialTable from "material-table";
 import moment from "moment";
 import { updateTeamDashBoard } from 'actions/DashBoard';
-import { setOperatedTeam, getTeam} from 'actions/Team';
 import { withStyles } from '@material-ui/core/styles';
 import { ArrowDownward } from '@material-ui/icons';
 import { forwardRef } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import DashBoard from './DashBoard';
 
 
@@ -53,7 +43,6 @@ class Team extends Component {
     super(props)
     this.exportReport = this.exportReport.bind(this)
     this.render = this.render.bind(this)
-    this.submit = this.submit.bind(this)
     this.state = { 
       anchorEl: null, 
       open: false,
@@ -68,27 +57,6 @@ class Team extends Component {
     Export.exportHTML(this.reportElement)
   };
 
-  flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
-  handleProfileClose = event => {
-    this.state.anchorEl
-      ? this.setState({ anchorEl: null })
-      : this.setState({ anchorEl: event.currentTarget });
-    this.flipOpen();
-  };
-
-  submit() {
-    // this.state.filterList = []
-    // for(const each of this.state.activityTypeList){
-    //   if( each.checked == true){
-    //     this.state.filterList.push(each.name)
-    //   }
-    // }
-    // this.props.updateDashBoard(
-    //   localStorage.getItem("uid"),
-    //   null,
-    //   this.state.filterList)  
-  }
-
   render() {
     const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
@@ -98,7 +66,7 @@ class Team extends Component {
         <div>
           <div className={classes.exportButton}>
             <Button startIcon={<GetAppIcon/>}
-              onClick={ this.submit }
+              onClick={ this.exportReport }
               variant="outlined"
               style={{color: white, borderColor: white, marginLeft:35}}>
               Export
@@ -109,8 +77,6 @@ class Team extends Component {
             </p>
           </div>
           <div ref={ (element) => {this.reportElement = element} }>
-            {console.log(this.props.operatedTeam)}
-            {console.log(this.props.operatedTeam.teamName)}
             {
               this.props.groupList.map((group,index) => {
                 if(group.teamID == this.props.operatedTeam)
@@ -131,21 +97,24 @@ class Team extends Component {
             <h3 className="board-spent-time board-text">
               Spent Time : {this.props.teamDashBoardData.team.totalTime}
             </h3>
-            <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData}/>
-           
-          </div>
+            <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea= {"50vh"}/>
 
-          <div>
+            <div>
             {
               this.props.teamDashBoardData.member.map((member, key) => {
                 return (
-                  <DashBoard pieData={member.pieData} tableData={member.tableData}/>
+                  <div className="team-member-board">
+                    <h2>{member.username}'s Dashboard</h2>
+                    <DashBoard pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
+                  </div>
                 )
-                
               }) 
-            
             }
           </div>
+           
+        </div>
+
+         
         </div>
       );
     }

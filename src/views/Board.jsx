@@ -246,7 +246,7 @@ class Board extends Component {
             <h3 className="board-spent-time board-text">
               Spent Time : {this.props.dashBoardData.totalTime}
             </h3>
-            <DashBoard pieData={this.props.dashBoardData.pieData} tableData={this.props.dashBoardData.tableData}/>
+            <DashBoard pieData={this.props.dashBoardData.pieData} tableData={this.props.dashBoardData.tableData} chartArea= {"50vh"}/>
 
           </div>
         </div>

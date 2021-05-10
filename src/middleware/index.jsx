@@ -375,7 +375,6 @@ const myMiddleware = store => next => action => {
       axios.post(API_HOST + '/group', body, {headers: headers})
       .then(response => {
         action.setMemberList(response.data.memberList, store.dispatch)
-        action.setLeader(response.data.leader, store.dispatch)
         action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
         action.updateTeamDashBoard(action.teamID,response.data.memberList, store.dispatch)
       })
@@ -383,6 +382,14 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Getting team failed")
       })
+      // axios.post(API_HOST + '/______________', body, {headers: headers})
+      // .then(response => {
+      //   action.setLeader(response.data.isLeader, store.dispatch)
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      //   alert("Getting authorization failed")
+      // })
     } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {
       const headers = getHeaders(action.token)
       const body = {

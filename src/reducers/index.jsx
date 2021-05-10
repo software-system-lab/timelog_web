@@ -4,7 +4,7 @@ import { DashBoardReducer, TeamDashBoardReducer} from './DashBoard'
 import StopWatchReducer from './StopWatch'
 import { combineReducers } from 'redux'
 import groupListReducer from './groupList'
-import { memberListReducer, leaderReducer, teamActivityTypeListReducer, operatedTeamReducer, allTeamActivityTypeListReducer} from './team'
+import { memberListReducer, isLeaderReducer, teamActivityTypeListReducer, operatedTeamReducer, allTeamActivityTypeListReducer} from './team'
 
 const rootReducer = combineReducers({
     activityTypeList: activityTypeListReducer,
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
     dashBoardData: DashBoardReducer,
     stopWatchTime: StopWatchReducer,
     groupList: groupListReducer,
-    leader: leaderReducer,
+    isLeader: isLeaderReducer,
     memberList: memberListReducer,
     teamActivityTypeList: teamActivityTypeListReducer,
     operatedTeam: operatedTeamReducer,

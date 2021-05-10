@@ -67,8 +67,8 @@ class Activity extends Component {
           }}
           localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity?' } } }}
           editable={{
-            isEditable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
-            isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
+            isEditable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty" && this.props.isLeader,
+            isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty" && this.props.isLeader,
             onRowAdd: newData =>
               new Promise((resolve, reject) => {
                 if (!newData.name || newData.name === ''){

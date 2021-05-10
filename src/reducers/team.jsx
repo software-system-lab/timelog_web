@@ -8,10 +8,10 @@ export const memberListReducer = (state = [], action) => {
     }
 }
 
-export const leaderReducer = (state = [], action) => {
+export const isLeaderReducer = (state = [], action) => {
     switch(action.type){
         case "SET_LEADER":{
-            return action.leader
+            return action.isLeader
         }
         default:
             return state;

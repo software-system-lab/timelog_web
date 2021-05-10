@@ -14,7 +14,7 @@ class TeamActivity extends Component {
   render() {
     return (
       <div>
-          <Activity className="Activity" id={this.props.operatedTeam} activityTypeList={this.props.teamActivityTypeList} edit = {this.props.editTeamActivityType} add = {this.props.addTeamActivityType} delete = {this.props.removeTeamActivityType}/>
+          <Activity className="Activity" isLeader={this.props.isLeader} id={this.props.operatedTeam} activityTypeList={this.props.teamActivityTypeList} edit = {this.props.editTeamActivityType} add = {this.props.addTeamActivityType} delete = {this.props.removeTeamActivityType}/>
       </div> 
     )
   }
@@ -24,7 +24,8 @@ class TeamActivity extends Component {
 function mapStateToProps(state) {
   return {
     teamActivityTypeList: state.teamActivityTypeList,
-    operatedTeam: state.operatedTeam
+    operatedTeam: state.operatedTeam,
+    isLeader:state.isLeader
 
   }
 }

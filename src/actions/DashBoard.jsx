@@ -24,11 +24,11 @@ export function updateDashBoard(userID, token, filterList) {
   }
 }
 
-export function updateTeamDashBoard(teamID, groupname) {
+export function updateTeamDashBoard(teamID, memberList) {
   return {
     type: "UPDATE_TEAM_DASH_BOARD",
     teamID: teamID,
-    groupname: groupname,
+    memberList: memberList,
     setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData))
   }
 }

@@ -18,7 +18,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
-import { updateTeamDashBoard } from 'actions/DashBoard'
 import { getTeam } from '../actions/Team';
 
 
@@ -109,7 +108,8 @@ class AddLog extends Component {
         moment(this.state.startTime).format(dateFormat),
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
-        this.state.team.unitID
+        this.state.team.unitID,
+        this.state.team.unitName,
         )
     } else{
         this.props.newLog(
@@ -121,6 +121,7 @@ class AddLog extends Component {
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
         localStorage.getItem("uid"),
+        null,
       )
     }
     this.setState({
@@ -317,20 +318,14 @@ class AddLog extends Component {
 
 function mapStateToProps(state) {
   return {
-    teamActivityTypeList: state.teamActivityTypeList,
     activityTypeList: state.activityTypeList,
     allTeamActivityTypeList : state.allTeamActivityTypeList,
-    operatedTeam : state.operatedTeam,
-    memberList : state.memberList
-
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID)),
-    updateTeamDashBoard: (teamID, groupname) => dispatch(updateTeamDashBoard(teamID, groupname)),
-    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token))
+    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID, groupname) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, groupname)),
   }
 }
 

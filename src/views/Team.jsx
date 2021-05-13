@@ -6,7 +6,6 @@ import "./Team.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import moment from "moment";
-import { updateTeamDashBoard } from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
 import { ArrowDownward } from '@material-ui/icons';
 import { forwardRef } from 'react';
@@ -79,7 +78,7 @@ class Team extends Component {
           <div ref={ (element) => {this.reportElement = element} }>
             {
               this.props.groupList.map((group,index) => {
-                if(group.teamID == this.props.operatedTeam)
+                if(group.teamID == this.props.operatedTeam.teamID)
                 {
                   return(
                     <h1 className="board-title board-text">
@@ -129,12 +128,6 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateTeamDashBoard: (userID, token, filterList) => dispatch(updateTeamDashBoard(userID, token, filterList))
-  }
-}
-
-export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(withRouter(Team)))
+export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps)(withRouter(Team)))
 
 

@@ -9,7 +9,6 @@ import { editLog } from 'actions';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment';
-import {getTeam} from 'actions/Team';
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -141,7 +140,8 @@ class History extends Component {
           moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
           moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
           null,
-          localStorage.getItem("uid")
+          localStorage.getItem("uid"),
+          null
         )
     } else {
         this.props.editLog(
@@ -153,7 +153,8 @@ class History extends Component {
           moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
           moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
           null,
-          this.state.selectTeam.unitID
+          this.state.selectTeam.unitID,
+          this.state.selectTeam.unitName
         )
     }
   }
@@ -176,7 +177,9 @@ class History extends Component {
               this.props.removeLog(
                 localStorage.getItem("uid"),
                 null,
-                oldData.id
+                oldData.id,
+                this.props.operatedTeam.teamID,
+                this.props.operatedTeam.teamName
               )
               resolve();
             }),
@@ -210,18 +213,18 @@ function mapStateToProps(state) {
     logHistory: state.logHistory,
     allTeamActivityTypeList: state.allTeamActivityTypeList,
     groupList: state.groupList,
+    operatedTeam: state.operatedTeam,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeLog: (userID, token, logID) => {
-      dispatch(removeLog(userID, token, logID))
+    removeLog: (userID, token, logID, unitID, groupname) => {
+      dispatch(removeLog(userID, token, logID, unitID, groupname))
     },
-    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID) => {
-      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID))
+    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, groupname)=> {
+      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, groupname))
     },
-    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }
 

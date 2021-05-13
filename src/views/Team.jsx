@@ -100,19 +100,18 @@ class Team extends Component {
             <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea= {"50vh"}/>
 
             <div>
-            {
-              this.props.teamDashBoardData.member.map((member, key) => {
-                return (
-                  <div className="team-member-board">
-                    <h2>{member.username}'s Dashboard</h2>
-                    <DashBoard pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
-                  </div>
-                )
-              }) 
-            }
+              {
+                this.props.teamDashBoardData.member.map((member, key) => {
+                  return (
+                    <div className="team-member-board board-title board-text">
+                      <h2>{member.username}'s Dashboard</h2>
+                      <DashBoard pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
+                    </div>
+                  )
+                }) 
+              }
+            </div>
           </div>
-           
-        </div>
 
          
         </div>

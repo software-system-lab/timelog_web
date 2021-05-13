@@ -40,7 +40,6 @@ class DashBoard extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     const white = '#FFFFFF';
     return (
  

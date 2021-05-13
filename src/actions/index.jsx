@@ -30,18 +30,19 @@ export function addActivityType(userID, token, activityTypeName, isEnable, isPri
     }
 }
 
-export function removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) {
+export function removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) {
     return {
         type: "REMOVE_ACTIVITY_TYPE",
         userID: userID,
         activityTypeName: activityTypeName,
         isEnable: isEnable,
         isPrivate: isPrivate,
+        unitID: unitID,
         loadActivityTypeList: (userID, token, dispatch) => dispatch(loadActivityTypeList(userID, token))
     }
 }
 
-export function editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) {
+export function editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) {
     return {
         type: "EDIT_ACTIVITY_TYPE",
         userID: userID,
@@ -50,6 +51,7 @@ export function editActivityType(userID, token, targetActivityTypeName, activity
         activityTypeName: activityTypeName,
         isEnable: isEnable,
         isPrivate: isPrivate,
+        unitID: unitID,
         loadActivityTypeList: (userID, token, dispatch) => dispatch(loadActivityTypeList(userID, token))
     }
 }
@@ -63,7 +65,7 @@ export function enterTimelog(userID, token) {
         setHistory: (logHistory, dispatch) => dispatch(setHistory(logHistory)),
         loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
         setGroupList: (groupList, dispatch) => dispatch(setGroupList(groupList)),
-        getTeam: (groupname, teamID, dispatch) => dispatch(getTeam(groupname, teamID)),
+        getTeam: (groupname, teamID, userID, dispatch) => dispatch(getTeam(groupname, teamID, userID)),
         setOperatedTeam: (teamID, dispatch) => dispatch(setOperatedTeam(teamID)),
         loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
 

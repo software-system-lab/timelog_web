@@ -221,7 +221,7 @@ function mapDispatchToProps(dispatch) {
     editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID) => {
       dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID))
     },
-    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
+    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }
 

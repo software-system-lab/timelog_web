@@ -330,7 +330,7 @@ function mapDispatchToProps(dispatch) {
   return {
     newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID)),
     updateTeamDashBoard: (teamID, groupname) => dispatch(updateTeamDashBoard(teamID, groupname)),
-    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
+    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }
 

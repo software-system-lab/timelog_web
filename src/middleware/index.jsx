@@ -106,7 +106,7 @@ const myMiddleware = store => next => action => {
               action.setGroupList(response.data.teamList, store.dispatch);
               action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch);
               action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
-              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, store.dispatch);
+              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
             })
             .catch ( err => {
               console.log(err)
@@ -126,8 +126,10 @@ const myMiddleware = store => next => action => {
             targetActivityTypeName: action.targetActivityTypeName,
             activityTypeName: action.activityTypeName,
             isEnable: action.isEnable,
-            isPrivate: action.isPrivate
+            isPrivate: action.isPrivate,
+            unitID: action.unitID
         }
+        console.log(body)
         axios.post(API_HOST + '/activity/edit', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
@@ -159,7 +161,8 @@ const myMiddleware = store => next => action => {
             targetActivityTypeName: action.targetActivityTypeName,
             activityTypeName: action.activityTypeName,
             isEnable: action.isEnable,
-            isPrivate: action.isPrivate
+            isPrivate: action.isPrivate,
+            unitID: action.unitID
         }
         axios.post(API_HOST + '/activity/remove', body, { headers: headers})
         .then(response => {
@@ -371,7 +374,7 @@ const myMiddleware = store => next => action => {
       const headers = getHeaders(action.token)
       const body = {
         groupname: action.groupname
-    }
+      }
       axios.post(API_HOST + '/group', body, {headers: headers})
       .then(response => {
         action.setMemberList(response.data.memberList, store.dispatch)
@@ -382,16 +385,21 @@ const myMiddleware = store => next => action => {
         console.log(err)
         alert("Getting team failed")
       })
-      // axios.post(API_HOST + '/______________', body, {headers: headers})
-      // .then(response => {
-      //   action.setLeader(response.data.isLeader, store.dispatch)
-      // })
-      // .catch(err => {
-      //   console.log(err)
-      //   alert("Getting authorization failed")
-      // })
+      const authorizationReq = {
+        userID: action.userID,
+        teamID: action.teamID
+      }
+      axios.post(API_HOST + '/role/leader', authorizationReq, {headers: headers})
+      .then(response => {
+        action.setLeader(response.data, store.dispatch)
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Getting authorization failed")
+      })
     } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {
       const headers = getHeaders(action.token)
+      console.log(action.teamID)
       const body = {
           unitID: action.teamID,
           targetActivityTypeName: action.targetActivityTypeName,

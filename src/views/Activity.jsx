@@ -49,7 +49,6 @@ class Activity extends Component {
           initialEditValue: 'true'
         }
       ],
-      id: props.id,
     }
   }
 
@@ -69,7 +68,7 @@ class Activity extends Component {
           editable={{
             isEditable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty" && this.props.isLeader,
             isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty" && this.props.isLeader,
-            onRowAdd: newData =>
+            onRowAdd: this.props.isLeader ? (newData =>
               new Promise((resolve, reject) => {
                 if (!newData.name || newData.name === ''){
                   alert("Activity Type name should not be empty.")
@@ -77,7 +76,7 @@ class Activity extends Component {
                 } else {
                   setTimeout(() => {
                     this.props.add(
-                      this.state.id,
+                      this.props.id,
                       null,
                       newData.name,
                       newData.enable,
@@ -87,7 +86,7 @@ class Activity extends Component {
                   }, 1000)
                 }
                 
-              })
+              })) : null
             ,
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
@@ -98,12 +97,13 @@ class Activity extends Component {
                 else {
                   setTimeout(() => {
                     this.props.edit(
-                      this.state.id,
+                      this.props.id,
                       null,
                       oldData.name,
                       newData.name,
                       newData.enable,
-                      newData.private
+                      newData.private,
+                      this.props.id
                     )
                     resolve();
                   }, 1000);
@@ -114,12 +114,13 @@ class Activity extends Component {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 this.props.delete(
-                  this.state.id,
+                  this.props.id,
                   null,
                   oldData.name,
                   oldData.name,
                   oldData.enable,
-                  oldData.private
+                  oldData.private,
+                  this.props.id
                 )
                 resolve();
               }, 1000);

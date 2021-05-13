@@ -1,12 +1,13 @@
 import { setActivityTypeList } from "./index"
 import { updateTeamDashBoard } from './DashBoard'
 
-export function getTeam(groupname, teamID, token) {
+export function getTeam(groupname, teamID, userID, token) {
     return {
       type: "UPDATE_TEAM",
       groupname: groupname,
       token: token,
       teamID: teamID,
+      userID: userID,
       setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
       setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
       loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
@@ -21,10 +22,10 @@ export function setMemberList(memberList) {
     }
 }
 
-export function setLeader(leader) {
+export function setLeader(isLeader) {
     return {
         type: "SET_LEADER",
-        leader: leader
+        isLeader: isLeader
     }
 }
 
@@ -81,19 +82,20 @@ export function addTeamActivityType(teamID, token, activityTypeName, isEnable, i
     }
 }
 
-export function removeTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) {
+export function removeTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) {
     return {
         type: "REMOVE_TEAM_ACTIVITY_TYPE",
         teamID: teamID,
         activityTypeName: activityTypeName,
         isEnable: isEnable,
         isPrivate: isPrivate,
+        unitID: unitID,
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
         // loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
     }
 }
 
-export function editTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) {
+export function editTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) {
     return {
         type: "EDIT_TEAM_ACTIVITY_TYPE",
         teamID: teamID,
@@ -102,6 +104,7 @@ export function editTeamActivityType(teamID, token, targetActivityTypeName, acti
         activityTypeName: activityTypeName,
         isEnable: isEnable,
         isPrivate: isPrivate,
+        unitID: unitID,
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
         // loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
     }

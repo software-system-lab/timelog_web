@@ -78,11 +78,13 @@ function Appbar(props) {
   };
  
   const handleTeamSelect = (event) => {
+    setTeam(event.target.value)
     props.setOperatedTeam(event.target.value.teamID)
-    props.getTeam(event.target.value.teamName,event.target.value.teamID)
+    props.getTeam(event.target.value.teamName,event.target.value.teamID,localStorage.getItem("uid"))
   };
 
   const displayName = localStorage.getItem("displayName");
+  const [team, setTeam] = React.useState('');
   
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -106,7 +108,9 @@ function Appbar(props) {
         <div className="team-list">
           <FormControl >
             <InputLabel >Team</InputLabel>
+            {console.log(props.groupList[0])}
             <Select
+              value = {team} 
               style={{color: '#000000', borderColor: '#FFFFFF', background: '#FFFFFF', width: '150px', height: '40px'}}
               label={"Team"}
               inputProps={{
@@ -117,6 +121,7 @@ function Appbar(props) {
             >
               {
                 props.groupList.map((group,index) => {
+                  console.log(group)
                   return(
                     <MenuItem key={index} value={group}>{group.teamName}</MenuItem>
                   )
@@ -160,7 +165,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setOperatedTeam: (teamID) => dispatch(setOperatedTeam(teamID)),
-    getTeam: (groupname, teamID, token) => dispatch(getTeam(groupname, teamID, token))
+    getTeam: (groupname, teamID, userID ,token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Appbar)

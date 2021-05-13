@@ -14,7 +14,7 @@ class UserActivity extends Component {
   render() {
     return (
       <div>
-          <Activity className="Activity" id={localStorage.getItem("uid")} activityTypeList={this.props.activityTypeList} edit = {this.props.editActivityType} add = {this.props.addActivityType} delete = {this.props.removeActivityType}/>
+          <Activity className="Activity" isLeader={true} id={localStorage.getItem("uid")} activityTypeList={this.props.activityTypeList} edit = {this.props.editActivityType} add = {this.props.addActivityType} delete = {this.props.removeActivityType}/>
       </div>
       
     )
@@ -29,12 +29,12 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-      editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-        dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
+      editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) =>
+        dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID)),
       addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
         dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
-      removeActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-        dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate))
+      removeActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) =>
+        dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID))
     }
   }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(UserActivity))

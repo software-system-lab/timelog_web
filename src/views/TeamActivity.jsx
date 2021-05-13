@@ -31,12 +31,12 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    editTeamActivityType: (teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-      dispatch(editTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
+    editTeamActivityType: (teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) =>
+      dispatch(editTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID)),
     addTeamActivityType: (teamID, token, activityTypeName, isEnable, isPrivate) =>
       dispatch(addTeamActivityType(teamID, token, activityTypeName, isEnable, isPrivate)),
-    removeTeamActivityType: (teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-      dispatch(removeTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate))
+    removeTeamActivityType: (teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) =>
+      dispatch(removeTeamActivityType(teamID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID))
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(TeamActivity))

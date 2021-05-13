@@ -66,9 +66,8 @@ export function enterTimelog(userID, token) {
         loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
         setGroupList: (groupList, dispatch) => dispatch(setGroupList(groupList)),
         getTeam: (groupname, teamID, userID, dispatch) => dispatch(getTeam(groupname, teamID, userID)),
-        setOperatedTeam: (teamID, dispatch) => dispatch(setOperatedTeam(teamID)),
+        setOperatedTeam: (team, dispatch) => dispatch(setOperatedTeam(team)),
         loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
-
     }
 }
 
@@ -79,7 +78,7 @@ export function setGroupList(groupList) {
     }
 }
 
-export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID) {
+export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, groupname) {
   return {
     type: "NEW_LOG",
     userID: userID,
@@ -90,23 +89,28 @@ export function newLog(userID, token, title, activityTypeName, startTime, endTim
     endTime: endTime,
     description: description,
     unitID : unitID,
+    groupname : groupname,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
-    loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+    loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
+    getTeam: (groupname, teamID, userID, token, dispatch) => dispatch(getTeam(groupname, teamID, userID, token)),
   }
 }
 
-export function removeLog(userID, token, logID) {
+export function removeLog(userID, token, logID, unitID, groupname) {
   return {
     type: "REMOVE_LOG",
     userID: userID,
     token: token,
     logID: logID,
+    unitID : unitID,
+    groupname : groupname,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
-    loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+    loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
+    getTeam: (groupname, teamID, userID, token, dispatch) => dispatch(getTeam(groupname, teamID, userID, token)),
   }
 }
 
-export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID) {
+export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, groupname) {
     return {
         type: "EDIT_LOG",
         userID: userID,
@@ -118,8 +122,10 @@ export function editLog(userID, token, logID, title, activityTypeName, startTime
         endTime: endTime,
         description: description,
         unitID: unitID,
+        groupname : groupname,
         loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
-        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token))
+        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
+        getTeam: (groupname, teamID, userID, token, dispatch) => dispatch(getTeam(groupname, teamID, userID, token)),
     }
 }
 

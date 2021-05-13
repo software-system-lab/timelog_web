@@ -11,7 +11,7 @@ export function getTeam(groupname, teamID, userID, token) {
       setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
       setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
       loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-      updateTeamDashBoard: (teamID, groupname, dispatch) => dispatch(updateTeamDashBoard(teamID, groupname))
+      updateTeamDashBoard: (teamID, memberList, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList)),
     }   
 }
   
@@ -61,10 +61,10 @@ export function setTeamActivityTypeList(teamActivityTypeList) {
     }
 }
 
-export function setOperatedTeam(teamID) {
+export function setOperatedTeam(team) {
     return {
         type: "SET_OPERATED_TEAM",
-        teamID: teamID
+        team: team
     }
 }
 

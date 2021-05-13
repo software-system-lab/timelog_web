@@ -14,7 +14,7 @@ class TeamActivity extends Component {
   render() {
     return (
       <div>
-          <Activity className="Activity" isLeader={this.props.isLeader} id={this.props.operatedTeam} activityTypeList={this.props.teamActivityTypeList} edit = {this.props.editTeamActivityType} add = {this.props.addTeamActivityType} delete = {this.props.removeTeamActivityType}/>
+          <Activity className="Activity" isLeader={this.props.isLeader} id={this.props.operatedTeam.teamID} activityTypeList={this.props.teamActivityTypeList} edit = {this.props.editTeamActivityType} add = {this.props.addTeamActivityType} delete = {this.props.removeTeamActivityType}/>
       </div> 
     )
   }

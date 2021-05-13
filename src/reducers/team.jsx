@@ -21,7 +21,7 @@ export const isLeaderReducer = (state = [], action) => {
 export const operatedTeamReducer = (state = [], action) => {
     switch(action.type){
         case "SET_OPERATED_TEAM":{
-            return action.teamID
+            return action.team
         }
         default:
             return state;

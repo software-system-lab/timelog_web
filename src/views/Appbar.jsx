@@ -79,7 +79,7 @@ function Appbar(props) {
  
   const handleTeamSelect = (event) => {
     setTeam(event.target.value)
-    props.setOperatedTeam(event.target.value.teamID)
+    props.setOperatedTeam(event.target.value)
     props.getTeam(event.target.value.teamName,event.target.value.teamID,localStorage.getItem("uid"))
   };
 
@@ -108,7 +108,6 @@ function Appbar(props) {
         <div className="team-list">
           <FormControl >
             <InputLabel >Team</InputLabel>
-            {console.log(props.groupList[0])}
             <Select
               value = {team} 
               style={{color: '#000000', borderColor: '#FFFFFF', background: '#FFFFFF', width: '150px', height: '40px'}}
@@ -121,7 +120,6 @@ function Appbar(props) {
             >
               {
                 props.groupList.map((group,index) => {
-                  console.log(group)
                   return(
                     <MenuItem key={index} value={group}>{group.teamName}</MenuItem>
                   )
@@ -158,13 +156,12 @@ function Appbar(props) {
 function mapStateToProps(state) {
   return {
     timeString: state.stopWatchTime,
-    operatedTeam: state.operatedTeam,
     groupList: state.groupList,
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    setOperatedTeam: (teamID) => dispatch(setOperatedTeam(teamID)),
+    setOperatedTeam: (team) => dispatch(setOperatedTeam(team)),
     getTeam: (groupname, teamID, userID ,token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }

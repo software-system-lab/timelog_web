@@ -104,7 +104,7 @@ const myMiddleware = store => next => action => {
             axios.post(API_HOST + '/belong', data, {headers: headers})
             .then( response => {
               action.setGroupList(response.data.teamList, store.dispatch);
-              action.setOperatedTeam(response.data.teamList[0].teamID, store.dispatch);
+              action.setOperatedTeam(response.data.teamList[0], store.dispatch);
               action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
               action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
             })
@@ -127,7 +127,8 @@ const myMiddleware = store => next => action => {
             activityTypeName: action.activityTypeName,
             isEnable: action.isEnable,
             isPrivate: action.isPrivate,
-            unitID: action.unitID
+            unitID: action.unitID,
+            groupname: action.groupname
         }
         console.log(body)
         axios.post(API_HOST + '/activity/edit', body, { headers: headers})
@@ -187,6 +188,10 @@ const myMiddleware = store => next => action => {
         .then(response => {
           action.loadLogHistory(action.userID, action.token, store.dispatch)
           action.loadDashBoard(action.userID, action.token, store.dispatch)
+          console.log(action.userID!=action.unitID)
+          if(action.userID!=action.unitID){
+            action.getTeam(action.groupname, action.unitID, action.userID, action.token, store.dispatch)
+          }
         })
         .catch(err => {
             console.log(err)
@@ -276,7 +281,7 @@ const myMiddleware = store => next => action => {
       const headers = getHeaders(action.token)
       const body = {
         teamID: action.teamID,
-        memberList: action.groupname
+        memberList: action.memberList
       }      
       body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
       body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
@@ -344,6 +349,7 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
+        action.getTeam(action.groupname, action.unitID, action.userID, action.token, store.dispatch)
       })
       .catch(err => {
         console.log(err)
@@ -365,12 +371,17 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
+        if(action.userID!=action.unitID){
+          action.getTeam(action.groupname, action.unitID, action.userID, action.token, store.dispatch)
+        }
+        
       })
       .catch(err => {
         console.log(err)
         alert("Edit log failed")
       })
     } else if(action.type === "UPDATE_TEAM") {
+      console.log("gettingteam")
       const headers = getHeaders(action.token)
       const body = {
         groupname: action.groupname

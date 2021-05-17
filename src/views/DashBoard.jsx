@@ -10,7 +10,7 @@ import "./Board.css";
 
 
 const tableIcons = {
-    SortArrow: forwardRef((props, ref) => <ArrowDownward style={{color: "#fff"}} {...props} ref={ref} />)
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
   };
 
 class DashBoard extends Component {

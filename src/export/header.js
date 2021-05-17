@@ -34,6 +34,9 @@ function html (content) {
         position: absolute;
         left: 0;
       }
+      .table {
+        color: #FFFFFF;
+      }
     </style>
     <style type="text/css">/* Chart.js */
     /*
@@ -131,7 +134,8 @@ function html (content) {
   line-height: 1.5rem;
 }
 .MuiTableCell-body {
-  color: rgba(0, 0, 0, 0.87);
+  
+  color: #FFFFFF;
 }
 .MuiTableCell-footer {
   color: rgba(0, 0, 0, 0.54);
@@ -229,14 +233,15 @@ function html (content) {
   color: #FFFFFF;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active {
-  color: rgba(0, 0, 0, 0.87);
+  color: #FFFFFF;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon {
-  color: rgba(0, 0, 0, 0.54);
-  opacity: 1;
+  color: #FFFFFF;
+  opacity: 0;
 }
 .MuiTableSortLabel-root:hover .MuiTableSortLabel-icon {
-  opacity: 0.5;
+  opacity: 0;
+  color: #FFFFFF;
 }
 .MuiTableSortLabel-icon {
   opacity: 0;
@@ -245,11 +250,14 @@ function html (content) {
   margin-left: 4px;
   user-select: none;
   margin-right: 4px;
+  color: inherit !important;
 }
 .MuiTableSortLabel-iconDirectionDesc {
+  opacity: 0;
   transform: rotate(0deg);
 }
 .MuiTableSortLabel-iconDirectionAsc {
+  opacity: 0;
   transform: rotate(180deg);
 }
 table {

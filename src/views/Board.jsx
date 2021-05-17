@@ -38,10 +38,6 @@ const useStyles = (theme) => ({
   }
 });
 
-const tableIcons = {
-  SortArrow: forwardRef((props, ref) => <ArrowDownward style={{color: "#fff"}} {...props} ref={ref} />)
-};
-
 class Board extends Component {
   
   constructor(props) {

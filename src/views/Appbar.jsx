@@ -78,7 +78,7 @@ function Appbar(props) {
   };
 
   const displayName = localStorage.getItem("displayName");
-  const [team, setTeam] = React.useState(''); 
+  const [team, setTeam] = React.useState(props.groupList[0]); 
 
   const handleTeamSelect = (event) => {
     setTeam(event.target.value)

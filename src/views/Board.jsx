@@ -1,20 +1,16 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Button } from '@material-ui/core';
-import Chart from "react-google-charts";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import "./Board.css";
 import Export from '../export/export.js';
 import { connect } from 'react-redux';
-import MaterialTable from "material-table";
 import Popover from '@material-ui/core/Popover';
 import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
 import { updateDashBoard } from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
-import { ArrowDownward } from '@material-ui/icons';
-import { forwardRef } from 'react'
 
 import DashBoard from './DashBoard';
 

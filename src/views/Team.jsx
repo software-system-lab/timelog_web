@@ -7,8 +7,6 @@ import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import moment from "moment";
 import { withStyles } from '@material-ui/core/styles';
-import { ArrowDownward } from '@material-ui/icons';
-import { forwardRef } from 'react';
 import DashBoard from './DashBoard';
 
 
@@ -32,10 +30,6 @@ const useStyles = (theme) => ({
   }
 });
 
-const tableIcons = {
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
-};
-
 class Team extends Component {
   
   constructor(props) {
@@ -57,7 +51,6 @@ class Team extends Component {
   };
 
   render() {
-    const open = this.state.anchorEl === null ? false : true;
     const { classes } = this.props;
     const white = '#FFFFFF';
     

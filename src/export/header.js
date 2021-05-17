@@ -37,6 +37,24 @@ function html (content) {
       .table {
         color: #FFFFFF;
       }
+      .team-member-board {
+        height: 45vh;
+        background-color: #ffffff0c;
+        border-width: 2pt;
+        border-color: #ffffff80;
+        border-style:dashed;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+      
+      .team-member-board .chart {
+          width: 50%;
+      }
+      
+      .team-member-board h2{
+          margin:50px;
+          color:#FFFFFF;
+      }
     </style>
     <style type="text/css">/* Chart.js */
     /*

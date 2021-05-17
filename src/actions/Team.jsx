@@ -1,4 +1,3 @@
-import { setActivityTypeList } from "./index"
 import { updateTeamDashBoard } from './DashBoard'
 
 export function getTeam(groupname, teamID, userID, token) {

@@ -78,7 +78,7 @@ export function setGroupList(groupList) {
     }
 }
 
-export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, groupname) {
+export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList) {
   return {
     type: "NEW_LOG",
     userID: userID,
@@ -89,28 +89,28 @@ export function newLog(userID, token, title, activityTypeName, startTime, endTim
     endTime: endTime,
     description: description,
     unitID : unitID,
-    groupname : groupname,
+    memberList : memberList,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
-    getTeam: (groupname, teamID, userID, token, dispatch) => dispatch(getTeam(groupname, teamID, userID, token)),
+    updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(getTeam(teamID, memberList, userID, token)),
   }
 }
 
-export function removeLog(userID, token, logID, unitID, groupname) {
+export function removeLog(userID, token, logID, unitID, memberList) {
   return {
     type: "REMOVE_LOG",
     userID: userID,
     token: token,
     logID: logID,
     unitID : unitID,
-    groupname : groupname,
+    memberList : memberList,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
-    getTeam: (groupname, teamID, userID, token, dispatch) => dispatch(getTeam(groupname, teamID, userID, token)),
+    updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(getTeam(teamID, memberList, userID, token)),
   }
 }
 
-export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, groupname) {
+export function editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList) {
     return {
         type: "EDIT_LOG",
         userID: userID,
@@ -122,10 +122,10 @@ export function editLog(userID, token, logID, title, activityTypeName, startTime
         endTime: endTime,
         description: description,
         unitID: unitID,
-        groupname : groupname,
+        memberList : memberList,
         loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
         loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
-        getTeam: (groupname, teamID, userID, token, dispatch) => dispatch(getTeam(groupname, teamID, userID, token)),
+        updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(getTeam(teamID, memberList, userID, token)),
     }
 }
 

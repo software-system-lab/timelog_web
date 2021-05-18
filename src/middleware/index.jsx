@@ -190,7 +190,7 @@ const myMiddleware = store => next => action => {
           action.loadDashBoard(action.userID, action.token, store.dispatch)
           console.log(action.userID!=action.unitID)
           if(action.userID!=action.unitID){
-            action.getTeam(action.groupname, action.unitID, action.userID, action.token, store.dispatch)
+            action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
           }
         })
         .catch(err => {
@@ -349,7 +349,7 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        action.getTeam(action.groupname, action.unitID, action.userID, action.token, store.dispatch)
+        action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
       })
       .catch(err => {
         console.log(err)
@@ -372,7 +372,7 @@ const myMiddleware = store => next => action => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
         if(action.userID!=action.unitID){
-          action.getTeam(action.groupname, action.unitID, action.userID, action.token, store.dispatch)
+          action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
         }
         
       })

@@ -14,7 +14,7 @@ class UserActivity extends Component {
   render() {
     return (
       <div>
-          <Activity className="Activity" isLeader={true} id={localStorage.getItem("uid")} activityTypeList={this.props.activityTypeList} edit = {this.props.editActivityType} add = {this.props.addActivityType} delete = {this.props.removeActivityType}/>
+          <Activity className="Activity" isLeader={true} id={localStorage.getItem("uid")} teamList = {this.props.groupList} activityTypeList={this.props.activityTypeList} edit = {this.props.editActivityType} add = {this.props.addActivityType} delete = {this.props.removeActivityType}/>
       </div>
       
     )
@@ -24,17 +24,18 @@ class UserActivity extends Component {
 
 function mapStateToProps(state) {
   return {
-    activityTypeList: state.activityTypeList
+    activityTypeList: state.activityTypeList,
+    groupList:state.groupList
   }
 }
 function mapDispatchToProps(dispatch) {
     return {
-      editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) =>
-        dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID)),
-      addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
-        dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
-      removeActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) =>
-        dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID))
+      editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID, teamList) =>
+        dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID, teamList)),
+      addActivityType: (userID, token, activityTypeName, isEnable, isPrivate, teamList) =>
+        dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate, teamList)),
+      removeActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID, teamList) =>
+        dispatch(removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID, teamList))
     }
   }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(UserActivity))

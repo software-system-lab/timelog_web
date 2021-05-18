@@ -133,7 +133,8 @@ const myMiddleware = store => next => action => {
         console.log(body)
         axios.post(API_HOST + '/activity/edit', body, { headers: headers})
         .then(response => {
-            action.loadActivityTypeList(action.userID, action.token, store.dispatch)
+          action.loadActivityTypeList(action.userID, action.token, store.dispatch)
+          action.loadAllTeamActivityTypeList(action.userID, action.teamList ,action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)
@@ -149,7 +150,8 @@ const myMiddleware = store => next => action => {
         }
         axios.post(API_HOST + '/activity/add', body, { headers: headers})
         .then(response => {
-            action.loadActivityTypeList(action.userID, action.token, store.dispatch)
+          action.loadActivityTypeList(action.userID, action.token, store.dispatch)
+          action.loadAllTeamActivityTypeList(action.userID, action.teamList ,action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)
@@ -168,6 +170,7 @@ const myMiddleware = store => next => action => {
         axios.post(API_HOST + '/activity/remove', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
+            action.loadAllTeamActivityTypeList(action.userID, action.teamList ,action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)

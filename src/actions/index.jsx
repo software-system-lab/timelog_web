@@ -18,7 +18,7 @@ export function setActivityTypeList(activityTypeList) {
     }
 }
 
-export function addActivityType(userID, token, activityTypeName, isEnable, isPrivate) {
+export function addActivityType(userID, token, activityTypeName, isEnable, isPrivate, teamList) {
     return {
         type: "ADD_ACTIVITY_TYPE",
         userID: userID,
@@ -30,7 +30,7 @@ export function addActivityType(userID, token, activityTypeName, isEnable, isPri
     }
 }
 
-export function removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) {
+export function removeActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID, teamList) {
     return {
         type: "REMOVE_ACTIVITY_TYPE",
         userID: userID,
@@ -42,7 +42,7 @@ export function removeActivityType(userID, token, targetActivityTypeName, activi
     }
 }
 
-export function editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID) {
+export function editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate, unitID, teamList) {
     return {
         type: "EDIT_ACTIVITY_TYPE",
         userID: userID,

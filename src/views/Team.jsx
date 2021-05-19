@@ -122,5 +122,3 @@ function mapStateToProps(state) {
 }
 
 export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps)(withRouter(Team)))
-
-

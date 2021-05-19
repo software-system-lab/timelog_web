@@ -130,11 +130,9 @@ const myMiddleware = store => next => action => {
             unitID: action.unitID,
             groupname: action.groupname
         }
-        console.log(body)
         axios.post(API_HOST + '/activity/edit', body, { headers: headers})
         .then(response => {
           action.loadActivityTypeList(action.userID, action.token, store.dispatch)
-          action.loadAllTeamActivityTypeList(action.userID, action.teamList ,action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)
@@ -151,7 +149,6 @@ const myMiddleware = store => next => action => {
         axios.post(API_HOST + '/activity/add', body, { headers: headers})
         .then(response => {
           action.loadActivityTypeList(action.userID, action.token, store.dispatch)
-          action.loadAllTeamActivityTypeList(action.userID, action.teamList ,action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)
@@ -170,7 +167,6 @@ const myMiddleware = store => next => action => {
         axios.post(API_HOST + '/activity/remove', body, { headers: headers})
         .then(response => {
             action.loadActivityTypeList(action.userID, action.token, store.dispatch)
-            action.loadAllTeamActivityTypeList(action.userID, action.teamList ,action.token, store.dispatch)
         })
         .catch(err => {
             console.log(err)
@@ -191,7 +187,6 @@ const myMiddleware = store => next => action => {
         .then(response => {
           action.loadLogHistory(action.userID, action.token, store.dispatch)
           action.loadDashBoard(action.userID, action.token, store.dispatch)
-          console.log(action.userID!=action.unitID)
           if(action.userID!=action.unitID){
             action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
           }
@@ -384,7 +379,6 @@ const myMiddleware = store => next => action => {
         alert("Edit log failed")
       })
     } else if(action.type === "UPDATE_TEAM") {
-      console.log("gettingteam")
       const headers = getHeaders(action.token)
       const body = {
         groupname: action.groupname
@@ -413,7 +407,6 @@ const myMiddleware = store => next => action => {
       })
     } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {
       const headers = getHeaders(action.token)
-      console.log(action.teamID)
       const body = {
           unitID: action.teamID,
           targetActivityTypeName: action.targetActivityTypeName,
@@ -424,6 +417,7 @@ const myMiddleware = store => next => action => {
       axios.post(API_HOST + '/activity/edit', body, { headers: headers})
       .then(response => {
           action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+          action.loadAllTeamActivityTypeList(getTeamIdList(action.teamList) ,action.token, store.dispatch)
       })
       .catch(err => {
           console.log(err)
@@ -440,6 +434,7 @@ const myMiddleware = store => next => action => {
       axios.post(API_HOST + '/activity/add', body, { headers: headers})
       .then(response => {
           action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+          action.loadAllTeamActivityTypeList(getTeamIdList(action.teamList),action.token, store.dispatch)
       })
       .catch(err => {
           console.log(err)
@@ -457,6 +452,7 @@ const myMiddleware = store => next => action => {
       axios.post(API_HOST + '/activity/remove', body, { headers: headers})
       .then(response => {
           action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
+          action.loadAllTeamActivityTypeList(getTeamIdList(action.teamList) ,action.token, store.dispatch)
       })
       .catch(err => {
           console.log(err)

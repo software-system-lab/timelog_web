@@ -78,7 +78,7 @@ export function addTeamActivityType(teamID, token, activityTypeName, isEnable, i
         isPrivate: isPrivate,
         teamList: teamList,
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-        loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
+        loadAllTeamActivityTypeList: (teamList, token, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList, token)),
     }
 }
 
@@ -92,7 +92,7 @@ export function removeTeamActivityType(teamID, token, targetActivityTypeName, ac
         unitID: unitID,
         teamList: teamList,
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-        loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
+        loadAllTeamActivityTypeList: (teamList, token, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList, token)),
     }
 }
 
@@ -108,7 +108,7 @@ export function editTeamActivityType(teamID, token, targetActivityTypeName, acti
         unitID: unitID,
         teamList: teamList,
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-        loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
+        loadAllTeamActivityTypeList: (teamList, token, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList, token)),
     }
 }
 

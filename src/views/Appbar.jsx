@@ -1,4 +1,4 @@
-import React,{ useEffect} from 'react';
+import React,{ seCallback, useState , useEffect} from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { MenuItem } from '@material-ui/core';
 import { setOperatedTeam, getTeam} from 'actions/Team';
+import { ContactSupportOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,9 +56,23 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+function usePrevious(value) {
+  const ref = React.useRef();
+  useEffect(() => {
+    ref.current = value;
+    console.log("useeffect")
+    // console.log(props.groupList[0])
+  });
+  return ref.current;
+}
+
 function Appbar(props) {
   const classes = useStyles();
   const history = useHistory();
+  const [anchorProfile, setAnchorProfile] = useState(null);
+  const displayName = localStorage.getItem("displayName");
+  const [team, setTeam] = useState(''); 
+  const prevTeam = usePrevious(team)
 
   const handleDrawerToggle = () => {
     props.handleDrawerToggle();
@@ -67,8 +82,6 @@ function Appbar(props) {
     history.push("/welcome")
   };
 
-  const [anchorProfile, setAnchorProfile] = React.useState(null);
-
   const handleProfileClick = (event) => {
     setAnchorProfile(event.currentTarget);
   };
@@ -77,35 +90,31 @@ function Appbar(props) {
     setAnchorProfile(null);
   };
 
-  const displayName = localStorage.getItem("displayName");
-  const [team, setTeam] = React.useState(props.groupList[0]); 
-
   const handleTeamSelect = (event) => {
     setTeam(event.target.value)
     props.setOperatedTeam(event.target.value)
     props.getTeam(event.target.value.teamName,event.target.value.teamID,localStorage.getItem("uid"))
   };
 
-  const initialize = () => {
-    console.log(props.groupList[0])
-    setTeam(props.groupList[0])
-  }; 
-
-  useEffect(() => {
-    /* 下面是 componentDidMount*/
-    
-    
-    /* 上面是 componentDidMount */
-    
-    return (() => {
-      /* 下面是 componentWillUnmount */
-      console.log("componentWillUnmount")
+  // useEffect(() => {
+  //   // setTeam(props.groupList[0])
+  //   return (() => {
+  //     console.log("componentWillUnmount")
+  //     console.log(team)
+  //     // setTeam(props.groupList[0])
       
-      initialize();
-      /* 上面是 componentWillUnmount */
-    });
+  //   });
     
-  }, [team]); 
+  // }, [team]); 
+
+  // const prevCountRef = React.useRef();
+  // useEffect(() => {
+  //   prevCountRef.current = team;
+  // });
+  // const prevCount = prevCountRef.current;
+  // console.log(prevCount);
+
+ 
   
   return (
     <AppBar position="fixed" className={classes.appBar}>

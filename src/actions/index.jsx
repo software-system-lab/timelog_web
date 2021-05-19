@@ -1,5 +1,5 @@
 import { setHistory, loadLogHistory } from './History'
-import { loadDashBoard } from './DashBoard'
+import { updateTeamDashBoard, loadDashBoard } from './DashBoard'
 import { getTeam, setOperatedTeam, loadAllTeamActivityTypeList } from './Team'
 
 export function loadActivityTypeList(userID, token) {
@@ -92,7 +92,7 @@ export function newLog(userID, token, title, activityTypeName, startTime, endTim
     memberList : memberList,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
-    updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(getTeam(teamID, memberList, userID, token)),
+    updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, userID, token)),
   }
 }
 
@@ -106,7 +106,7 @@ export function removeLog(userID, token, logID, unitID, memberList) {
     memberList : memberList,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
-    updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(getTeam(teamID, memberList, userID, token)),
+    updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, userID, token)),
   }
 }
 
@@ -125,7 +125,7 @@ export function editLog(userID, token, logID, title, activityTypeName, startTime
         memberList : memberList,
         loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
         loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
-        updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(getTeam(teamID, memberList, userID, token)),
+        updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, userID, token)),
     }
 }
 

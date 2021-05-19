@@ -3,8 +3,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
 import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
 import Avatar from '@material-ui/core/Avatar';
@@ -19,6 +17,7 @@ import { MenuItem } from '@material-ui/core';
 import { setOperatedTeam, getTeam} from 'actions/Team';
 import { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from "react-router";
 
 const useStyles = (theme) => ({
   root: {
@@ -68,55 +67,55 @@ class MyAppBar extends Component {
     this.initialize = this.initialize.bind(this)
     this.state = { 
       anchorProfile: null, 
-      team: this.props.groupList[0],
+      team: '',
       displayName : localStorage.getItem("displayName"),
       
     };
   }
-
 
   handleDrawerToggle = () => {
     this.props.handleDrawerToggle();
   };
 
   goToWelcome = () => {
-    this.props.history.push("/welcome")
+    this.props.history.push("/")
   };
 
   handleProfileClick = (event) => {
-    this.setAnchorProfile(event.currentTarget);
+    this.setState({anchorProfile: event.currentTarget});
   };
 
   handleProfileClose = () => {
-    this.setAnchorProfile(null);
+    this.setState({anchorProfile: null});
   };
 
   handleTeamSelect = (event) => {
-    this.setTeam(event.target.value)
+    this.setState({
+      team: event.target.value
+    })
     this.props.setOperatedTeam(event.target.value)
     this.props.getTeam(event.target.value.teamName,event.target.value.teamID,localStorage.getItem("uid"))
   };
 
   initialize = () => {
-    console.log(this.props.groupList[0])
+    this.setState({
+      team: this.props.operatedTeam
+    })
+    
   };
   
+  componentWillMount() {
+    this.initialize();
+  }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props.groupList)
-    if (this.state.team !== prevProps.team) {
+    if (this.props.operatedTeam !== prevProps.operatedTeam) {
       this.initialize();
     }
   }
 
-  componentWillMount() {
-    this.initialize();
-    console.log(this.props.groupList)
-  }
-
-
   render() {
-    const { classes } = this.props;
+    const { classes , history } = this.props;
     
     return (
       <div>
@@ -196,6 +195,7 @@ function mapStateToProps(state) {
   return {
     timeString: state.stopWatchTime,
     groupList: state.groupList,
+    operatedTeam: state.operatedTeam,
   }
 }
 function mapDispatchToProps(dispatch) {
@@ -204,140 +204,7 @@ function mapDispatchToProps(dispatch) {
     getTeam: (groupname, teamID, userID ,token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }
-export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(MyAppBar))
+export default withRouter(withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(MyAppBar)))
 
 
 
-
-// function Appbar(props) {
-//   const classes = useStyles();
-//   const history = useHistory();
-
-//   const handleDrawerToggle = () => {
-//     props.handleDrawerToggle();
-//   };
-
-//   const goToWelcome = () => {
-//     history.push("/welcome")
-//   };
-
-//   const [anchorProfile, setAnchorProfile] = React.useState(null);
-
-//   const handleProfileClick = (event) => {
-//     setAnchorProfile(event.currentTarget);
-//   };
-
-//   const handleProfileClose = () => {
-//     setAnchorProfile(null);
-//   };
-
-//   const displayName = localStorage.getItem("displayName");
-//   const [team, setTeam] = React.useState(props.groupList[0]); 
-
-//   const handleTeamSelect = (event) => {
-//     setTeam(event.target.value)
-//     props.setOperatedTeam(event.target.value)
-//     props.getTeam(event.target.value.teamName,event.target.value.teamID,localStorage.getItem("uid"))
-//   };
-
-//   const initialize = () => {
-//     console.log(props.groupList[0])
-//     setTeam(props.groupList[0])
-//   }; 
-
-//   useEffect(() => {
-//     /* 下面是 componentDidMount*/
-    
-    
-//     /* 上面是 componentDidMount */
-    
-//     return (() => {
-//       /* 下面是 componentWillUnmount */
-//       console.log("componentWillUnmount")
-      
-//       initialize();
-//       /* 上面是 componentWillUnmount */
-//     });
-    
-//   }, [team]); 
-  
-//   return (
-//     <AppBar position="fixed" className={classes.appBar}>
-//       <Toolbar className={classes.toolBar}> 
-//         <IconButton
-//           color="inherit"
-//           aria-label="open drawer"
-//           edge="start"
-//           onClick={handleDrawerToggle}
-//           className={classes.menuButton}
-//         >
-//         <MenuIcon />
-//         </IconButton>
-//         <div className="appbar-LOGO">
-//           <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome(); } }>
-//           </img>
-//         </div>
-//         <div className="timer-bar">
-//           <h1 className="timer-header">{props.timeString === '0.0' ? '': readableCounter(props.timeString)}</h1>
-//         </div>
-//         <div className="team-list">
-//           <FormControl >
-//             <InputLabel >Team</InputLabel>
-//             <Select
-//               value = {team} 
-//               style={{color: '#000000', borderColor: '#FFFFFF', background: '#FFFFFF', width: '150px', height: '40px'}}
-//               label={"Team"}
-//               inputProps={{
-//                 name: 'Team'
-//               }}
-//               onChange={handleTeamSelect} 
-//               className={classes.select}
-//             >
-//               {
-//                 props.groupList.map((group,index) => {
-//                   return(
-//                     <MenuItem key={index} value={group}>{group.teamName}</MenuItem>
-//                   )
-//                 })
-//               }
-//             </Select>
-//           </FormControl>
-//         </div>
-//         <div className="profile-btn" >
-//           <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleProfileClick} id="profile-icon"/>
-//           <Popover
-//             open={Boolean(anchorProfile)}
-//             margin='100px'
-//             anchorEl={anchorProfile}
-//             onClose={handleProfileClose}
-//             anchorOrigin={{
-//               vertical: 'bottom',
-//               horizontal: 'right',
-//             }}
-//             transformOrigin={{
-//               vertical: 'top',
-//               horizontal: 'right',
-//             }}
-//             className={classes.popover}
-//           >
-//             <PopoverProfile></PopoverProfile>
-//           </Popover>
-//         </div>
-//       </Toolbar>
-//     </AppBar>
-//   )
-// }
-
-// function mapStateToProps(state) {
-//   return {
-//     timeString: state.stopWatchTime,
-//     groupList: state.groupList,
-//   }
-// }
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     setOperatedTeam: (team) => dispatch(setOperatedTeam(team)),
-//     getTeam: (groupname, teamID, userID ,token) => dispatch(getTeam(groupname, teamID, userID, token))
-//   }
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(Appbar)

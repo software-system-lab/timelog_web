@@ -281,6 +281,7 @@ const myMiddleware = store => next => action => {
         teamID: action.teamID,
         memberList: action.memberList
       }      
+      
       body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
       body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
       axios.post(API_HOST + '/dash-board/team/dashboard', body, {headers: headers})

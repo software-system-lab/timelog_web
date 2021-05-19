@@ -80,7 +80,8 @@ class Activity extends Component {
                       null,
                       newData.name,
                       newData.enable,
-                      newData.private
+                      newData.private,
+                      this.props.teamList
                     )
                     resolve();
                   }, 1000)
@@ -103,7 +104,8 @@ class Activity extends Component {
                       newData.name,
                       newData.enable,
                       newData.private,
-                      this.props.id
+                      this.props.id,
+                      this.props.teamList
                     )
                     resolve();
                   }, 1000);
@@ -120,7 +122,8 @@ class Activity extends Component {
                   oldData.name,
                   oldData.enable,
                   oldData.private,
-                  this.props.id
+                  this.props.id,
+                  this.props.teamList
                 )
                 resolve();
               }, 1000);

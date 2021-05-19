@@ -110,7 +110,7 @@ class AddLog extends Component {
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
         this.state.team.unitID,
-        this.state.team.unitName,
+        this.props.memberList
         )
     } else{
         this.props.newLog(
@@ -122,7 +122,7 @@ class AddLog extends Component {
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
         localStorage.getItem("uid"),
-        null,
+        this.props.memberList
       )
     }
     this.setState({
@@ -321,12 +321,13 @@ function mapStateToProps(state) {
   return {
     activityTypeList: state.activityTypeList,
     allTeamActivityTypeList : state.allTeamActivityTypeList,
+    memberList : state.memberList,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID, groupname) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, groupname)),
+    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList)),
   }
 }
 

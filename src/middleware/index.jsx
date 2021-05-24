@@ -321,6 +321,7 @@ const myMiddleware = store => next => action => {
             tableData.push({activityTypeName: index, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %"})
           })
           const dashboard = {
+            unitID: response.data.memberDashboardList[key].unitID,
             username: response.data.memberDashboardList[key].username,
             totalTime: response.data.memberDashboardList[key].totalTime,
             pieData: pieData,

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import moment from "moment";
 import { withStyles } from '@material-ui/core/styles';
 import DashBoard from './DashBoard';
-
+import { setOperatedTeam, getTeam} from 'actions/Team';
 
 const useStyles = (theme) => ({
   container: {
@@ -35,6 +35,7 @@ class Team extends Component {
   constructor(props) {
     super(props)
     this.exportReport = this.exportReport.bind(this)
+    this.handleChangeTeamUUID = this.handleChangeTeamUUID.bind(this)
     this.render = this.render.bind(this)
     this.state = { 
       anchorEl: null, 
@@ -48,6 +49,11 @@ class Team extends Component {
 
   exportReport() {
     Export.exportHTML(this.reportElement)
+  };
+
+  handleChangeTeamUUID(event) {
+    this.props.setOperatedTeam([event.target.value.username,event.target.value.unitID])
+    this.props.getTeam(event.target.value.username,event.target.value.unitID,localStorage.getItem("uid"))
   };
 
   render() {
@@ -95,7 +101,7 @@ class Team extends Component {
               {
                 this.props.teamDashBoardData.member.map((member, key) => {
                   return (
-                    <div className="team-member-board board-title board-text">
+                    <div className="team-member-board board-title board-text" onClick={this.handleChangeTeamUUID(member)}>
                       <h2>{member.username}'s Dashboard</h2>
                       <DashBoard pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
                     </div>
@@ -121,4 +127,11 @@ function mapStateToProps(state) {
   }
 }
 
-export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps)(withRouter(Team)))
+function mapDispatchToProps(dispatch) {
+  return {
+    setOperatedTeam: (team) => dispatch(setOperatedTeam(team)),
+    getTeam: (groupname, teamID, userID ,token) => dispatch(getTeam(groupname, teamID, userID, token))
+  }
+}
+
+export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(withRouter(Team)))

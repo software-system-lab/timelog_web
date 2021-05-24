@@ -55,6 +55,7 @@ class History extends Component {
           title: "Activity Type",
           field: "activityTypeName",
           width: "30%",
+          render: rowData => getDocumentTypeForRow(rowData.activityTypeName),
           editComponent:
            props => (
             <div>
@@ -127,6 +128,17 @@ class History extends Component {
       ],
     }
     this.editSubmit = this.editSubmit.bind(this);
+    this.getDocumentTypeForRow = this.getDocumentTypeForRow.bind(this);
+    
+  }
+
+  getDocumentTypeForRow(value) {
+    if(value == this.state.personal.unitName) {
+      return "-"
+    } else {
+      return value
+    }
+    //得到的value是?? 去console取得props的initialize那邊資料型態是甚麼
   }
 
   editSubmit(oldData,newData) {

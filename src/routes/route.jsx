@@ -1,13 +1,15 @@
-import Welcome from 'views/Welcome';
-import Board from 'views/Board';
-import History from 'views/History';
-import Activity from 'views/Activity';
+import Welcome from '../views/Welcome';
+import Board from '../component_connect_redux/Board';
+import History from '../component_connect_redux/History';
+import Activity from '../component_connect_redux/Activity';
+import { withRouter } from 'react-router';
 
-const appRoutes = [
-  {path: "/board", name: "Board", component: Board},
-  {path: "/history", name: "History", component: History},
-  {path: "/activity", name: "Activity", component: Activity},
-  {path: "/", name:"Welcome", component: Welcome},
+
+const route = [
+  {path: "/board", name: "Board", component: withRouter(Board)},
+  {path: "/history", name: "History", component: withRouter(History)},
+  {path: "/activity", name: "Activity", component: withRouter(Activity)},
+  {path: "/", name:"Welcome", component: withRouter(Welcome)},
 ]
 
-export default appRoutes;
+export default route;

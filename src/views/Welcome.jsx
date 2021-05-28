@@ -17,7 +17,7 @@ export default function Welcome() {
 
   return (
   <div>
-    <div className="welcome">
+    <div className="welcome" data-testid='welcome'>
       <div className="dropwater-container">
         <div className="dropwater" ></div>
       </div>
@@ -27,7 +27,7 @@ export default function Welcome() {
         </div>
       </div>
       <div className="get-started-button fade-in">   
-          <Button variant="outlined" color="primary" onClick={handleTutorialOpen}>
+          <Button variant="outlined" color="primary" onClick={handleTutorialOpen} data-testid='tutorial-btn'>
             Get Started
           </Button>
       </div>

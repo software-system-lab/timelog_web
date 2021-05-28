@@ -1,16 +1,4 @@
 kind: secret
-name: timelog_docker_user
----
-kind: secret
-name: timelog_docker_passwd
----
-kind: secret
-name: rancher_cluster_token
----
-kind: secret
-name: rancher_host
----
-kind: secret
 name: sonar_host
 ---
 kind: secret
@@ -25,82 +13,23 @@ steps:
   - name: Install node modules
     image: node:10.16.3
     commands:
-      - yarn
+      - yarn install
 
-trigger:
-    branch:
-      - master
-      - dev
-
----
-
-kind: pipeline
-type: docker
-name: Build
-
-steps:
-  - name: Install node modules
+  - name: Test
     image: node:10.16.3
     commands:
-      - yarn
+      - yarn test
 
-  - name: Build production web
-    image: node:10.16.3
-    commands:
-      - yarn run build
-    when:
-        branch:
-          - master
-
-  - name: Publish
-    image: plugins/docker
+  - name: Sonar Scanner
+    image: aosapps/drone-sonar-plugin
     settings:
-        repo: nightlord851108/timelog_web
-        tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-        username:
-            from_secret: timelog_docker_user
-        password:
-            from_secret: timelog_docker_passwd
-    when: 
-        event:
-            - push
+      sonar_token:
+        from_secret: sonar_project_token
+      sonar_host:
+        from_secret:
+          sonar_url
+      ver: 1.0
 
 trigger:
     branch:
-      - master
-
-depends_on:
-  - Analysis
-
----
-
-kind: pipeline
-type: docker
-name: Deployment
-
-steps:
-  - name: Deploy Production
-    image: nightlord851108/kustomize
-    environment:
-        RANCHER_HOST:
-            from_secret:
-                rancher_host
-        CLUSTER_TOKEN:
-            from_secret:
-                rancher_cluster_token
-    commands:
-        - cd kustomize/overlays/production
-        - kustomize edit set image nightlord851108/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-        - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-production -f -
-    when:
-        branch:
-          - master
-        event:
-          - push
-
-trigger:
-    branch:
-      - master
-
-depends_on:
-  - Build
+      - main

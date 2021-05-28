@@ -16,7 +16,6 @@ import AddIcon from '@material-ui/icons/Add';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import HistoryIcon from '@material-ui/icons/History';
-import TimelapseIcon from '@material-ui/icons/Timelapse';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ReportIcon from '@material-ui/icons/Report';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -24,9 +23,10 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
 import './Sidebar.css'
-import AddLog from './AddLog'
+import AddLog from '../component_connect_redux/AddLog'
 import Duration from './Duration'
-import Stopwatch from './Stopwatch'
+import Stopwatch from '../component_connect_redux/Stopwatch'
+import { load_activity_type_list } from '../request/loadData'
 
 const drawerWidth = '15vw';
 
@@ -48,14 +48,19 @@ const useStyles = makeStyles((theme) => ({
 
 function Sidebar(props) {
   const classes = useStyles();
-  const [logDuration, setLogDuration] = React.useState(3600);
   const [addLogOpen, setAddLogOpen] = React.useState(false);
   const [durationOpen, setDurationOpen] = React.useState(false);
   const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
+  
+  load_activity_type_list(localStorage.getItem("uid"), response => {
+    props.updateActivity(response.data)
+  }, err => {
+    console.log(err)
+    alert('Load activity type list failed')
+  })
 
-  const handleAddLogOpen = (logDuration = 3600) => {
+  const handleAddLogOpen = () => {
     setAddLogOpen(true);
-    setLogDuration(logDuration);
   };
 
   const handleAddLogClose = () => {
@@ -92,10 +97,6 @@ function Sidebar(props) {
     history.push("/activity")
   };
 
-  const goToTimebox = () => {
-    history.push("/timebox")
-  };
-
   const drawer = (
     <div>
       <div className={classes.toolbar}>
@@ -104,12 +105,13 @@ function Sidebar(props) {
         <div className="sidebar-button">
           <Slide direction="right" in={true} timeout={{appear:500, enter:500, exit:500}}>
             <ListItem className="sidebar-list">
-              <Button startIcon={<AddIcon/>}
+              <Button id="add-log-button" startIcon={<AddIcon/>}
                 className="sidebar-list-item"
                 onClick={handleAddLogOpen}
                 variant="contained"
                 fullWidth={true}
-                color="primary" 
+                color="primary"
+                data-testid="add-log-button"
                 >
                 Add Log
               </Button>
@@ -122,7 +124,9 @@ function Sidebar(props) {
                 onClick={handleStopwatchOpen}
                 variant="contained"
                 fullWidth={true}
-                color="primary" 
+                color="primary"
+                data-testid="stopwatch-button"
+                id="stopwatch-button"
                 >
                 Stopwatch
               </Button>
@@ -136,6 +140,8 @@ function Sidebar(props) {
                 variant="contained"
                 fullWidth={true}
                 color="primary" 
+                data-testid="duration-button"
+                id="duration-button"
                 >
                 Duration
               </Button>
@@ -184,27 +190,21 @@ function Sidebar(props) {
       <Divider/>
       <List>
       <Slide direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
-        <ListItem button key="Board" onClick={goToBoard}>
+        <ListItem button key="Board" onClick={goToBoard} data-testid="board-button">
           <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
           <ListItemText primary="Board" />
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:1800, enter:1800, exit:1800}}>
-        <ListItem button key="History" onClick={goToHistory}>
+        <ListItem button key="History" onClick={goToHistory} id="history-button" data-testid="history-button">
           <ListItemIcon>{<HistoryIcon />}</ListItemIcon>
           <ListItemText primary="History" />
         </ListItem>
       </Slide>
       <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
-        <ListItem button key="Activity" onClick={goToActivity}>
+        <ListItem button key="Activity" onClick={goToActivity} data-testid="activity-button">
           <ListItemIcon>{<LibraryBooksIcon />}</ListItemIcon>
           <ListItemText primary="Activity" />
-        </ListItem>
-      </Slide>
-      <Slide direction="right" in={true} timeout={{appear:2400, enter:2400, exit:2400}}>
-        <ListItem button key="Timebox" onClick={goToTimebox} style={{display:"none"}}>
-          <ListItemIcon>{<TimelapseIcon />}</ListItemIcon>
-          <ListItemText primary="Timebox" />
         </ListItem>
       </Slide>
       <Divider style={{margin:'25px 20px'}}/>
@@ -231,7 +231,7 @@ function Sidebar(props) {
       >
         {drawer}
       </Drawer>
-      <AddLog className="AddLog" duration={logDuration} open={addLogOpen} handleClose={handleAddLogClose}/>
+      <AddLog lassName="AddLog" open={addLogOpen} handleClose={handleAddLogClose}/>
       <Duration className="Duration" open={durationOpen} handleClose={handleDurationClose} startDate={props.startDate} endDate={props.endDate} updateDates={props.updateDates}/>
       <Stopwatch className="Stopwatch" open={stopwatchOpen} handleClose={handleStopwatchClose} openAddLogDialog={handleAddLogOpen} />
     </nav>

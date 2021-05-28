@@ -2,7 +2,7 @@ import html from './header.js'
 import FileSaver from 'file-saver'
 import moment from 'moment'
 
-export default {
+const Export = {
   exportHTML (element) {
     const completeHTML = html(element.outerHTML)
     var blob = new Blob([completeHTML], { type: 'text/plain;charset=utf-8' })
@@ -12,3 +12,5 @@ export default {
     FileSaver.saveAs(blob, duration + ".html")
   }
 }
+
+export default Export

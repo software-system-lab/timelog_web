@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { loadDashBoard } from 'actions/DashBoard';
-import { loadLogHistory } from 'actions/History';
-import { connect } from 'react-redux'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -40,15 +37,15 @@ class Duration extends Component {
 
   render() {
     return (
-      <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="edit-user-profile">Duration</DialogTitle>
+      <Dialog data-testid="duration-pop-up" open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="edit-user-profile" data-testid="duration-title">Duration</DialogTitle>
         <DialogContent>
           <form>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <FormControl className="">
-                    <DatePicker
+                    <DatePicker data-testid="start-date-pick" 
                       autoOk
                       label="Start Date"
                       value={this.state.startDate}
@@ -61,7 +58,7 @@ class Duration extends Component {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl>
-                    <DatePicker
+                    <DatePicker data-testid="end-date-pick" 
                       autoOk
                       label="End Date"
                       value={this.state.endDate}
@@ -77,10 +74,10 @@ class Duration extends Component {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleClose} color="secondary">
+          <Button onClick={this.props.handleClose} color="secondary" data-testid='duration-close'>
             Cancel
           </Button>
-          <Button onClick={this.submit} color="primary">
+          <Button onClick={this.submit} color="primary" data-testid='submit-button'>
             Submit
           </Button>
         </DialogActions>
@@ -90,11 +87,4 @@ class Duration extends Component {
 
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateDashBoard: (userID, token) => dispatch(loadDashBoard(userID, token)),
-    updateHistory: (userID, token) => dispatch(loadLogHistory(userID, token))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Duration)
+export default Duration

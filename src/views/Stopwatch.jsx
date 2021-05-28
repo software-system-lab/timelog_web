@@ -1,9 +1,7 @@
-import React, { useCallback, useState , useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { readableCounter } from "../utils";
 import useAnimationFrame from "../useAnimationFrame";
 import "./Stopwatch.css";
-import { connect } from 'react-redux';
-import { updateTime } from 'actions/StopWatch';
 import CloseIcon from '@material-ui/icons/Close';
 import {
   Dialog,
@@ -54,8 +52,8 @@ function Stopwatch(props) {
     }
   };
 
-  const UpdateTime = useCallback(() => {
-    props.updateTime(time.toFixed(1)) 
+  const updateStopWatchTime = useCallback(() => {
+    props.updateStopWatchTime(time.toFixed(1)) 
   }, [props, time]) 
 
   useEffect(() => {
@@ -63,13 +61,13 @@ function Stopwatch(props) {
   }, [props.stopWatchTime])
 
   useEffect(() => {
-    UpdateTime()
-  }, [UpdateTime])
+    updateStopWatchTime()
+  }, [updateStopWatchTime])
 
   return (
-    <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title" maxWidth='md'>
+    <Dialog data-testid="stopwatch-pop-up" open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title" maxWidth='md'>
       <DialogActions>
-        <Button onClick={props.handleClose} color="secondary">
+        <Button onClick={props.handleClose} data-testid="stopwatch-close" color="secondary">
           <CloseIcon style={{ fontSize: 35 }}/>
         </Button>
       </DialogActions>
@@ -86,6 +84,7 @@ function Stopwatch(props) {
           <div className="buttons">
             <div className =  {isStartClicked ? 'circle-button-primary' : 'circle-button-grey'}>
               <svg 
+              data-testid="stopwatch-start-button"
               width="5em" 
               height="5em" 
               viewBox="0 0 14 14"
@@ -95,6 +94,7 @@ function Stopwatch(props) {
             </div>
             <div className = {isStopClicked ? 'circle-button-red' : 'circle-button-grey'}>
               <svg 
+              data-testid="stopwatch-stop-button"
               width="5em" 
               height="5em" 
               viewBox="0 0 24 21"
@@ -106,21 +106,7 @@ function Stopwatch(props) {
         </center>
       </DialogContent>
     </Dialog>
-  );
-};
-
-function mapStateToProps(state) {
-  return {
-    stopWatchTime: state.stopWatchTime
-  }
+  )
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateTime: (time) => {
-      dispatch(updateTime(time))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Stopwatch);
+export default Stopwatch

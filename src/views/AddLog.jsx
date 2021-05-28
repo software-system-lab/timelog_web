@@ -15,8 +15,8 @@ import {
 import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
-import { connect } from 'react-redux'
-import { newLog } from 'actions'
+import { post } from '../request/http'
+import {load_history, load_dash_board} from '../request/loadData'
 
 class AddLog extends Component {
 
@@ -27,30 +27,34 @@ class AddLog extends Component {
       description: "",
       startTime: 0,
       endTime: 0,
-      activityTypeName: "",
+      activityTypeName: props.testMode ? "default" : "",
       isEnable: true
     }
     this.submit = this.submit.bind(this)
   }
 
   componentDidMount() {
-    const currentTime = moment();
-    const endTime = currentTime.toDate();
-    const startTime = currentTime.subtract(this.props.duration, "seconds").toDate();
+    this._isMounted = true;
 
     this.setState({
-      startTime: startTime,
-      endTime: endTime
+      startTime: moment().subtract(1, "hours").toDate(),
+      endTime: moment().toDate()
     });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.duration !== prevProps.duration) {
-      this.setState({
-        endTime: moment().toDate(),
-        startTime: moment().subtract(this.props.duration, "seconds").toDate()
-      })
+      if (this._isMounted) {
+        this.setState({
+          startTime: moment().subtract(1, "hours").toDate(),
+          endTime: moment().toDate()
+        })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   submit() {
@@ -71,23 +75,35 @@ class AddLog extends Component {
     }
 
     const dateFormat = 'YYYY/MM/DD HH:mm'
-    // send request to server
     this.props.handleClose()
 
-    this.props.newLog(
-      localStorage.getItem("uid"),
-      null,
-      this.state.title,
-      this.state.activityTypeName,
-      moment(this.state.startTime).format(dateFormat),
-      moment(this.state.endTime).format(dateFormat),
-      this.state.description
-    )
-
+    const body = {
+        userID: localStorage.getItem("uid"),
+        title: this.state.title,
+        activityTypeName: this.state.activityTypeName,
+        startTime: moment(this.state.startTime).format(dateFormat),
+        endTime: moment(this.state.endTime).format(dateFormat),
+        description: this.state.description
+    }
+    const route = '/log/record'
+    const headers = {}
+    post(route, body, headers, response => {
+      load_history(localStorage.getItem("uid"), (historyResponse) => {this.props.updateHistory(historyResponse.data)}, (err) => {
+        console.log(err)
+        alert("Update History failed")
+      })
+      load_dash_board(localStorage.getItem("uid"), null, (boardResponse) => {this.props.updateBoard(boardResponse.data)}, (err) => {
+        console.log(err)
+        alert("Update Board failed")
+      })
+    }, err => {
+      console.log(err)
+      alert("Add log failed")
+    })
     this.setState({
         title: "",
         activityTypeName: "",
-        startTime: moment().add(-1, "hours").toDate(),
+        startTime: moment().subtract(1, "hours").toDate(),
         endTime: moment().toDate(),
         description: ""
     })
@@ -95,33 +111,28 @@ class AddLog extends Component {
 
   render() {
     return (
-      <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="add-log-dialog-title">Add Log</DialogTitle>
+      <Dialog data-testid="add-log-pop-up" open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle data-testid="add-log-dialog-title" id="add-log-dialog-title">Add Log</DialogTitle>
         <DialogContent>
           <form>
             <FormControl fullWidth={true} required={true}>
-              <InputLabel htmlFor="title" required={true} >Title</InputLabel>
+              <InputLabel  htmlFor="title" required={true} >Title</InputLabel>
               <Input id="title" onChange={(e) => {this.setState({title: e.target.value})}} />
             </FormControl>
             <br/><br/>
             <FormControl fullWidth>
             <InputLabel id="activity-type-select-label" required={true} >Activity Type</InputLabel>
               <Select
-                labelId="activity-type-select-label"
+              data-testid="activity_type_select" native={this.props.testMode ? true : false} labelId="activity-type-select-label"
                 id="activity-type-select"
                 value={this.state.activityTypeName}
                 onChange={(event) => this.setState({activityTypeName: event.target.value})}
               >
                 {
-                  this.props.activityTypeList.map((activityType, key) => {
-                      if(activityType.enable !== false) {
-                        return (
-                            <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                        )
-                      }
-                      else {
-                        return 0
-                      }
+                  this.props.activityData.activityTypeList.filter(activityType => activityType.enable === true).map((activityType, key) => {
+                    return (
+                        <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                    )
                   })
                 }
               </Select>
@@ -131,7 +142,7 @@ class AddLog extends Component {
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <FormControl className="">
-                    <DatePicker
+                    <DatePicker data-testid="start-date-pick" 
                       autoOk
                       label="Start Date"
                       required={true}
@@ -154,7 +165,7 @@ class AddLog extends Component {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl>
-                    <TimePicker
+                    <TimePicker data-testid="start-time-pick" 
                       autoOk
                       label="Start Time"
                       required={true}
@@ -178,7 +189,7 @@ class AddLog extends Component {
 
                 <Grid item xs={6}>
                   <FormControl>
-                    <DatePicker
+                    <DatePicker data-testid="end-date-pick" 
                       autoOk
                       label="End Date"
                       required={true}
@@ -209,7 +220,7 @@ class AddLog extends Component {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl>
-                    <TimePicker
+                    <TimePicker data-testid="end-time-pick" 
                       autoOk
                       label="End Time"
                       required={true}
@@ -229,29 +240,16 @@ class AddLog extends Component {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleClose} color="secondary">
+          <Button data-testid="cancel-button" onClick={this.props.handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.submit} color="primary">
+          <Button data-testid="submit-button" onClick={this.submit} color="primary">
             Submit
           </Button>
         </DialogActions>
       </Dialog>
     )
   }
-
 }
 
-function mapStateToProps(state) {
-  return {
-    activityTypeList: state.activityTypeList
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    newLog: (userID, token, title, activityTypeName, startTime, endTime, description) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddLog)
+export default AddLog

@@ -53,11 +53,11 @@ export default function Tutorial(props) {
   };
 
   return (
-    <div>
+    <div data-testid='tutorial'>
       <Dialog open={props.open} 
       onClose={props.handleClose} 
       aria-labelledby="form-dialog-title" 
-      maxWidth='md'>
+      maxWidth='md' data-testid='tutorial-dialog'>
         <DialogTitle style={{textAlign:"center"}}>How To Use Timelog</DialogTitle>
         <DialogContent>
           <div className={classes.root}>
@@ -72,13 +72,13 @@ export default function Tutorial(props) {
               variant="dots"
               activeStep={activeStep}
               nextButton={
-                <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+                <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1} data-testid='next-btn'>
                   Next
                   {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                 </Button>
               }
               backButton={
-                <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                <Button size="small" onClick={handleBack} disabled={activeStep === 0} data-testid='back-btn'>
                   {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
                   Back
                 </Button>
@@ -87,7 +87,7 @@ export default function Tutorial(props) {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="secondary">
+          <Button onClick={props.handleClose} color="secondary" data-testid="close-btn">
             Close
           </Button>
         </DialogActions>

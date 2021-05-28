@@ -12,12 +12,12 @@ export default function PopoverProfile() {
 
   const logout = () => {
     localStorage.clear();
-    window.location.href = '/';
+    window.location.replace('/');
   }
 
   return (
     <center>
-      <div className="profile-box">
+      <div className="profile-box" data-testid='profile'>
         <div className="profile-split"></div>
         <Avatar className="avatar-name" alt={displayName} src="/broken-image.jpg"/>
         <div className="profile-split"></div>
@@ -32,7 +32,7 @@ export default function PopoverProfile() {
           variant="contained" 
           color="primary" 
           style = {{minWidth : "6vw"}}
-          onClick = {logout}
+          onClick = {logout} data-testid='logout-btn'
           >
             LOGOUT
         </Button>

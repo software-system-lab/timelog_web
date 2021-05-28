@@ -3,36 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-transform-runtime": "7.12.10",
     "@date-io/date-fns": "^1.3.13",
-    "@material-ui/core": "^4.10.2",
+    "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
+    "@testing-library/react": "^10.0.0",
     "@testing-library/user-event": "^7.1.2",
-    "axios": "^0.21.1",
+    "axios": "^0.19.2",
     "date-fns": "^2.13.0",
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.2.0",
     "file-saver": "^2.0.2",
     "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
-    "material-table": "^1.61.0",
+    "material-table": "^1.69.0",
     "moment": "^2.25.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-charts": "^3.0.15",
     "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
     "redux": "^4.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-beta": "dotenv -e .env.development react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "jest --collect-coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +51,10 @@
     ]
   },
   "devDependencies": {
-    "cypress-xpath": "^1.6.1"
+    "canvas": "^2.8.0",
+    "cypress-xpath": "^1.6.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "msw": "^0.28.2"
   }
 }

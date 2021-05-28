@@ -1,38 +1,12 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom"
 import MaterialTable from "material-table"
 import { Input, Select, MenuItem } from "@material-ui/core";
-import { forwardRef } from 'react'
-import { connect } from 'react-redux'
-import { removeLog } from 'actions'
-import { editLog } from 'actions'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
-
-import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
-  Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
-  Remove, SaveAlt, Search, ViewColumn } from '@material-ui/icons';
-
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-};
+import {post} from '../request/http'
+import {load_dash_board, load_history} from '../request/loadData'
+import tableIcons from '../icon/tableIcons'
 
 class History extends Component {
   constructor(props) {
@@ -44,28 +18,23 @@ class History extends Component {
         {
           title: "Title",
           field: "title",
-          editComponent: props => (
-            <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+          editComponent: title => (
+            <Input defaultValue={title.value} onChange={e => title.onChange(e.target.value)} autoFocus/>
           )
         },
         {
           title: "Activity Type",
           field: "activityTypeName",
-          editComponent: props => (
+          editComponent: activityTypeName => (
             <Select
-              value={props.value}
-              onChange={event => props.onChange(event.target.value)}
+              value={activityTypeName.value}
+              onChange={event => activityTypeName.onChange(event.target.value)}
             >
               {
-                this.props.activityTypeList.map((activityType, key) => {
-                    if(activityType.enable !== false) {
-                      return (
-                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
-                      )
-                    }
-                    else {
-                      return 0
-                    }
+                this.props.activityData.activityTypeList.filter(activityType => activityType.enable === true).map((activityType, key) => {
+                  return (
+                      <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                  )
                 })
               }
             </Select>
@@ -75,68 +44,112 @@ class History extends Component {
           title: "Start Time",
           field: "startTime",
           defaultSort: "desc",
-          editComponent: ({ value, onChange }) => (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DateTimePicker maxDate={moment().toDate()} format="yyyy/MM/dd HH:mm" value={value} onChange={onChange} />
-            </MuiPickersUtilsProvider>
-          )
+          editComponent: this.editDateTimePicker
         },{
           title: "End Time",
           field: "endTime",
-          editComponent: ({ value, onChange }) => (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DateTimePicker maxDate={moment().toDate()} format="yyyy/MM/dd HH:mm" value={value} onChange={onChange} />
-            </MuiPickersUtilsProvider>
-          )
+          editComponent: this.editDateTimePicker
         }
       ],
     }
   }
 
+  editDateTimePicker({ value, onChange }) {
+    return (
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <DateTimePicker maxDate={moment().toDate()} format="yyyy/MM/dd HH:mm" value={value} onChange={onChange} />
+      </MuiPickersUtilsProvider>
+    )
+  }  
+
+  loadHistory() {
+    load_history(localStorage.getItem("uid"), response => {
+      this.props.updateHistory(response.data)
+    }, err => {
+      console.log(err)
+      alert('Get histroy logs failed')
+    })
+  }
+
+  loadDashBoard() {
+    load_dash_board(localStorage.getItem("uid"), null, response => {
+      this.props.updateBoard(response.data)
+    }, err => {
+      console.log(err)
+      alert('load board data failed')
+    })
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+    this.loadHistory()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     return (
-      <div>
-        <MaterialTable title="Log History"
+      <div data-testid="history" id='history'>
+        <MaterialTable title="Log History" id='history_table'
           icons={ tableIcons }
           columns={this.state.columns}
-          data={ this.props.logHistory }
+          data={ this.props.historyData.logItemList }
           options={{
             search: true,
-            paging: false
+            paging: false,
+            draggable: false
           }}
           localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this log?' } } }}
           editable={{
             onRowDelete: oldData =>
             new Promise((resolve, reject) => {
-              this.props.removeLog(
-                localStorage.getItem("uid"),
-                null,
-                oldData.id
-              )
+              const headers = {}
+              const body = {
+                userID: localStorage.getItem("uid"),
+                logID: oldData.id
+              }
+              post('/log/remove', body, headers, response => {
+                this.loadHistory()
+                this.loadDashBoard()
+              }, err => {
+                console.log(err)
+                alert("Remove log failed")
+              })
               resolve();
             }),
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
                 if (!newData.title || newData.title === '') {
-                  alert("Title should not be empty.")
-                  reject()
+                  const msg = "Title should not be empty."
+                  alert(msg)
+                  reject(msg)
                 }
                 else if (moment(newData.endTime) <= moment(newData.startTime)) {
-                  alert("Start Time should be eariler than End Time.")
-                  reject()
+                  const msg = "Start Time should be eariler than End Time."
+                  alert(msg)
+                  reject(msg)
                 } 
                 else {
-                   setTimeout(() => {
-                    this.props.editLog(
-                      localStorage.getItem("uid"),
-                      null,
-                      oldData.id,              
-                      newData.title,
-                      newData.activityTypeName,
-                      moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
-                      moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
-                      null
-                    )
+                  setTimeout(() => {
+                    const headers = {}
+                    const body = {
+                      userID: localStorage.getItem("uid"),
+                      logID: oldData.id,
+                      title: newData.title,
+                      activityTypeName: newData.activityTypeName,
+                      startTime: moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
+                      endTime: moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
+                      description: oldData.description
+                  }
+                    post('/log/edit', body, headers, response => {
+                      this.loadHistory()
+                      this.loadDashBoard()
+                    }, err => {
+                      console.log(err)
+                      alert("Edit log failed")
+                    })
                     resolve();
                   }, 1000);
                 }
@@ -147,23 +160,4 @@ class History extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    activityTypeList: state.activityTypeList,
-    logHistory: state.logHistory
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    removeLog: (userID, token, logID) => {
-      dispatch(removeLog(userID, token, logID))
-    },
-    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description) => {
-      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(History))
+export default History

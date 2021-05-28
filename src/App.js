@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import AllRoutes from './routes/allRoutes';
-import Sidebar from './views/Sidebar';
-import Appbar from './views/Appbar';
+import Sidebar from './component_connect_redux/Sidebar';
+import Appbar from './component_connect_redux/Appbar';
 import './App.css';
-import { enterTimelog } from 'actions';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './theme'
+import { post } from './request/http'
 
 class App extends Component {
 
@@ -46,14 +45,24 @@ class App extends Component {
           return
         }
       }
-      this.props.enterTimelog(localStorage.getItem('uid'), null)
+
+      const headers = {}
+      const body = {
+        userID: localStorage.getItem('uid')
+      }
+      post('/login', body, headers, response => {
+        alert("login Success.")
+    }, err => {
+      console.log(err)
+      alert("Login to timelog failed")
+    })
   }
 
   handleDrawerToggle () {
     this.setState({
       mobileOpen: !this.mobileOpen
     })
-  };
+  }
 
   updateDates(startDate, endDate){
     this.setState({
@@ -82,16 +91,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activityTypeList: state.activityTypeList
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    enterTimelog: (userID, token) => dispatch(enterTimelog(userID, token))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

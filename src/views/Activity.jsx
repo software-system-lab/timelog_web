@@ -1,34 +1,9 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
 import { Input } from "@material-ui/core";
-import { forwardRef } from 'react';
-import { editActivityType, addActivityType, removeActivityType } from 'actions';
-import { connect } from 'react-redux';
-
-import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
-  Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
-  Remove, SaveAlt, Search, ViewColumn } from '@material-ui/icons';
-
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-};
+import { post } from '../request/http';
+import {load_activity_type_list} from '../request/loadData'
+import tableIcons from '../icon/tableIcons'
 
 class Activity extends Component {
   constructor(props) {
@@ -38,8 +13,8 @@ class Activity extends Component {
         {
           title: "Activity Type",
           field: "name",
-          editComponent: props => (
-              <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+          editComponent: name => (
+              <Input defaultValue={name.value} onChange={e => name.onChange(e.target.value)} autoFocus/>
           )
         },{
           title: "Private",
@@ -51,21 +26,37 @@ class Activity extends Component {
           type: "boolean",
           initialEditValue: 'true'
         }
-      ]
+      ],
+      activityTypeList: []
     }
+  }
+
+  loadActivityTypeList() {
+    load_activity_type_list(localStorage.getItem("uid"), response => {
+      this.props.updateActivity(response.data)
+    }, err => {
+      console.log(err)
+      alert('Load activity type list failed')
+    })
+  }
+
+  componentDidMount() {
+    this.loadActivityTypeList()
   }
 
   render() {
     return (
-      <div>
+      <div data-testid="activity">
         <MaterialTable title="Activity"
           icons={tableIcons}
           columns={this.state.columns}
-          data={this.props.activityTypeList}
+          data={this.props.activityData.activityTypeList}
+          id='activity-table'
           options={{
             search: true,
             sorting: true,
-            paging: false
+            paging: false,
+            draggable: false
           }}
           localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity?' } } }}
           editable={{
@@ -74,13 +65,19 @@ class Activity extends Component {
             onRowAdd: newData =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  this.props.addActivityType(
-                    localStorage.getItem("uid"),
-                    null,
-                    newData.name,
-                    newData.enable,
-                    newData.private
-                  )
+                  const headers = {}
+                  const body = {
+                      userID: localStorage.getItem("uid"),
+                      activityTypeName: newData.name,
+                      isEnable: newData.enable,
+                      isPrivate: newData.private
+                  }
+                  post('/activity/add', body, headers, response => {
+                    this.loadActivityTypeList()
+                  }, err => {
+                    console.log(err)
+                    alert("Add activity type failed")
+                  })
                   resolve();
                 }, 1000)
               })
@@ -88,14 +85,20 @@ class Activity extends Component {
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  this.props.editActivityType(
-                    localStorage.getItem("uid"),
-                    null,
-                    oldData.name,
-                    newData.name,
-                    newData.enable,
-                    newData.private
-                  )
+                  const headers = {}
+                  const body = {
+                      userID: localStorage.getItem("uid"),
+                      targetActivityTypeName: oldData.name,
+                      activityTypeName: newData.name,
+                      isEnable: newData.enable,
+                      isPrivate: newData.private
+                  }
+                  post('/activity/edit', body, headers, response => {
+                    this.loadActivityTypeList()
+                  }, err => {
+                    console.log(err)
+                    alert("Edit failed")
+                  })
                   resolve();
                 }, 1000);
               })
@@ -103,11 +106,17 @@ class Activity extends Component {
             onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                this.props.removeActivityType(
-                  localStorage.getItem("uid"),
-                  null,
-                  oldData.name
-                )
+                const headers = {}
+                const body = {
+                    userID: localStorage.getItem("uid"),
+                    activityTypeName: oldData.name
+                }
+                post('/activity/remove', body, headers, response => {
+                  this.loadActivityTypeList()
+                }, err => {
+                  console.log(err)
+                  alert("Remove activity type failed")
+                })
                 resolve();
               }, 1000);
             })
@@ -118,21 +127,4 @@ class Activity extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activityTypeList: state.activityTypeList
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-      dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
-    addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
-      dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
-    removeActivityType: (userID, token, activityTypeName) =>
-      dispatch(removeActivityType(userID, token, activityTypeName))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))
+export default Activity

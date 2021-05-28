@@ -1,4 +1,4 @@
-function html (content) {
+function header (content) {
   return `
   <html lang="en"
   <head>
@@ -291,4 +291,4 @@ tr {
   </html>`
 }
 
-export default html
+export default header

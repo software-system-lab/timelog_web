@@ -5,28 +5,17 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import rootReducer from './reducers';
-import myMiddleware from './middleware'
+import { createStore } from 'redux';
+import rootReducer from './redux/reducer';
 
-// import './assets/css/index.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import './assets/css/animate.min.css';
-// import './assets/sass/light-bootstrap-dashboard.css';
-// import './assets/css/demo.css';
-// import './assets/css/pe-icon-7-stroke.css';
-// import 'mdbootstrap/css/mdb.min.css';
-// import 'mdbootstrap/css/style.css';
-// import 'mdbootstrap/css/addons/datatables.min.css'
-
-const myStore = createStore(
-  rootReducer,
-  applyMiddleware(myMiddleware)
+const store = createStore(
+  rootReducer
 )
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={myStore}>
+    <Provider store={store}>
       <BrowserRouter>
         <Route path="/" component={App}/>
       </BrowserRouter>

@@ -9,7 +9,6 @@ import './Appbar.css';
 import Popover from '@material-ui/core/Popover';
 import Avatar from '@material-ui/core/Avatar';
 import PopoverProfile from './PopoverProfile';
-import { connect } from 'react-redux';
 import "./Stopwatch.css";
 import { readableCounter } from "../utils";
 
@@ -53,7 +52,7 @@ function Appbar(props) {
   };
 
   const goToWelcome = () => {
-    history.push("/welcome")
+    history.push("/")
   };
 
   const [anchorProfile, setAnchorProfile] = React.useState(null);
@@ -81,14 +80,14 @@ function Appbar(props) {
         <MenuIcon />
         </IconButton>
         <div className="appbar-LOGO">
-          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome(); } }>
+          <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ goToWelcome(); } } data-testid='timelog-btn'>
           </img>
         </div>
         <div className="timer-bar">
           <h1 className="timer-header">{props.timeString === '0.0' ? '': readableCounter(props.timeString)}</h1>
         </div>
         <div className="profile-btn" >
-          <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleProfileClick} id="profile-icon"/>
+          <Avatar className={classes.iconColor}  alt={displayName} src="/broken-image.jpg" onClick={handleProfileClick} id="profile-icon" data-testid='profile-btn'/>
           <Popover
             open={Boolean(anchorProfile)}
             margin='100px'
@@ -112,10 +111,4 @@ function Appbar(props) {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    timeString: state.stopWatchTime
-  }
-}
-
-export default connect(mapStateToProps, null)(Appbar)
+export default Appbar

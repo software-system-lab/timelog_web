@@ -1,5 +1,5 @@
 import React from "react";
-export default (callback) => {
+const useAnimationFrame = (callback) => {
     const requestRef = React.useRef(0);
     const previousTimeRef = React.useRef(0);
     const _loop = (time = 0) => {
@@ -21,4 +21,6 @@ export default (callback) => {
         return stop;
     }, []); 
     return [start, stop];
-  };
+};
+
+export default useAnimationFrame

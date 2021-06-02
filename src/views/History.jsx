@@ -55,12 +55,12 @@ class History extends Component {
           title: "Activity Type",
           field: "activityTypeName",
           width: "30%",
-          render: rowData => getDocumentTypeForRow(rowData.activityTypeName),
+          render: rowData => this.getDocumentTypeForRow(rowData),
           editComponent:
            props => (
             <div>
               <Select
-                value={this.state.selectTeam}
+                value={this.state.selectTeam,console.log(props.rowData)}
                 onChange={event => this.setState({selectTeam: event.target.value})}
               >
                 <MenuItem value={this.state.personal}>Personal</MenuItem>
@@ -133,12 +133,14 @@ class History extends Component {
   }
 
   getDocumentTypeForRow(value) {
-    if(value == this.state.personal.unitName) {
-      return "-"
+    console.log(value.activityTypeName)
+    console.log(value.teamName)
+    if(value.teamName === "Personal") {
+      return value.activityTypeName 
     } else {
-      return value
+      return value.activityTypeName + " / "+value.teamName
     }
-    //得到的value是?? 去console取得props的initialize那邊資料型態是甚麼
+    
   }
 
   editSubmit(oldData,newData) {

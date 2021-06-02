@@ -52,8 +52,9 @@ class Team extends Component {
   };
 
   handleChangeTeamUUID(event) {
-    this.props.setOperatedTeam([event.target.value.username,event.target.value.unitID])
-    this.props.getTeam(event.target.value.username,event.target.value.unitID,localStorage.getItem("uid"))
+    console.log(event)
+    // this.props.setOperatedTeam([event.username,event.unitID])
+    // this.props.getTeam(event.username,event.unitID,localStorage.getItem("uid"))
   };
 
   render() {
@@ -101,7 +102,7 @@ class Team extends Component {
               {
                 this.props.teamDashBoardData.member.map((member, key) => {
                   return (
-                    <div className="team-member-board board-title board-text" onClick={this.handleChangeTeamUUID(member)}>
+                    <div className="team-member-board board-title board-text" onClick={() => this.handleChangeTeamUUID(member)}>
                       <h2>{member.username}'s Dashboard</h2>
                       <DashBoard pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
                     </div>
@@ -123,7 +124,6 @@ function mapStateToProps(state) {
     activityTypeList: state.activityTypeList,
     operatedTeam: state.operatedTeam,
     groupList: state.groupList,
-
   }
 }
 

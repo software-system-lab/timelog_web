@@ -93,6 +93,7 @@ const myMiddleware = store => next => action => {
             axios.post(API_HOST + '/log/history', body, {headers: headers})
             .then( response => {
               action.setHistory(response.data.logItemList, store.dispatch);
+              console.log(response.data.logItemList)
             })
             .catch ( err => {
               console.log(err)

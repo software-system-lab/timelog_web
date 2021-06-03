@@ -2,10 +2,12 @@ import React, { Component } from "react"
 import MaterialTable from "material-table";
 import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
+import { connect } from 'react-redux';
 
-import { ArrowDownward } from '@material-ui/icons';
+import { ArrowDownward, FreeBreakfastTwoTone } from '@material-ui/icons';
 import Chart from "react-google-charts";
 import "./Board.css";
+import GroupIcon from '@material-ui/icons/Group';
 
 
 
@@ -17,25 +19,14 @@ class DashBoard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      columns: [
-        {
-          title: "Activity Type",
-          field: "name",
-          editComponent: props => (
-              <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
-          )
-        },{
-          title: "Private",
-          field: "private",
-          type: "boolean"
-        },{
-          title: "Enable",
-          field: "enable",
-          type: "boolean",
-          initialEditValue: 'true'
-        }
-      ],
-      id: props.id,
+      group: [],
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.groupList !== prevProps.groupList) {
+      this.props.groupList.map((team)=>{
+        this.state.group.push(team.teamName)
+      })
     }
   }
 
@@ -68,6 +59,8 @@ class DashBoard extends Component {
                 <MaterialTable title=""
                   icons={ tableIcons }
                   columns={[
+                    this.props.isPersonal?
+                    { render: rowData =>this.state.group.includes(rowData.activityTypeName)?<GroupIcon/>:"" } : { hidden: true},
                     { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
                     { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
                     { title: "Percentage", field: "percentage" },
@@ -88,4 +81,11 @@ class DashBoard extends Component {
   }
 }
 
-export default DashBoard
+function mapStateToProps(state) {
+  return {
+    groupList: state.groupList,
+  }
+}
+
+
+export default connect(mapStateToProps)(DashBoard)

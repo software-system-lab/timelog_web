@@ -104,7 +104,7 @@ class Team extends Component {
                   return (
                     <div className="team-member-board board-title board-text" onClick={() => this.handleChangeTeamUUID(member)}>
                       <h2>{member.username}'s Dashboard</h2>
-                      <DashBoard pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
+                      <DashBoard  isPersonal= {false} pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
                     </div>
                   )
                 }) 

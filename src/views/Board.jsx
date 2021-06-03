@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
-import { updateDashBoard } from 'actions/DashBoard';
+import { updateDashBoard , loadDashBoard} from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
 
 import DashBoard from './DashBoard';
@@ -108,6 +108,12 @@ class Board extends Component {
       this.setState({ activityTypeList: this.state.activityTypeList});
   }
 
+  componentDidMount(){
+    this.props.loadDashBoard(
+      localStorage.getItem("uid"),
+      null);
+  }
+
   initialize() {
     if(this.state.activityTypeList.length === 0) {
       this.setState({ activityTypeList: [] });
@@ -137,12 +143,23 @@ class Board extends Component {
             })
           })
       })
+      this.props.groupList.map((team) => {
+        return this.props.dashBoardData.tableData.map((data)=>{
+          if(data.activityTypeName === team.teamName){
+            var activityTypeInput = {
+            name : team.teamName,
+            checked : false}
+            this.state.activityTypeList.push(activityTypeInput);
+            return true;
+          }
+          return false;
+        })
+      })
     } else {
       for(const each of this.state.activityTypeList) {
         each.checked = false;
       }
       this.setState({select: false});
-
     }
   };
 
@@ -238,7 +255,7 @@ class Board extends Component {
             <h3 className="board-spent-time board-text">
               Spent Time : {this.props.dashBoardData.totalTime}
             </h3>
-            <DashBoard pieData={this.props.dashBoardData.pieData} tableData={this.props.dashBoardData.tableData} chartArea= {"50vh"}/>
+            <DashBoard groupList = {this.state.group} pieData={this.props.dashBoardData.pieData} tableData={this.props.dashBoardData.tableData} chartArea= {"50vh"} isPersonal= {true}/>
 
           </div>
         </div>
@@ -251,12 +268,14 @@ function mapStateToProps(state) {
     dashBoardData: state.dashBoardData,
     activityTypeList: state.activityTypeList,
     allTeamActivityTypeList : state.allTeamActivityTypeList,
+    groupList: state.groupList,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     updateDashBoard: (userID, token, filterList) => dispatch(updateDashBoard(userID, token, filterList)),
+    loadDashBoard: (userID, toker) => dispatch(loadDashBoard(userID, toker)),
   }
 }
 

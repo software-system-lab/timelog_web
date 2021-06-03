@@ -56,14 +56,13 @@ export function editActivityType(userID, token, targetActivityTypeName, activity
     }
 }
 
-export function enterTimelog(userID, token) {
+export function enterTimelog(accessToken) {
     return {
         type: "ENTER_TIMELOG",
-        userID: userID,
-        token: token,
+        accessToken: accessToken,
         setActivityTypeList: (activityTypeList, dispatch) => dispatch(setActivityTypeList(activityTypeList)),
         setHistory: (logHistory, dispatch) => dispatch(setHistory(logHistory)),
-        loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
+        loadDashBoard: (accessToken, dispatch) => dispatch(loadDashBoard(accessToken)),
         setGroupList: (groupList, dispatch) => dispatch(setGroupList(groupList)),
         getTeam: (groupname, teamID, userID, dispatch) => dispatch(getTeam(groupname, teamID, userID)),
         setOperatedTeam: (team, dispatch) => dispatch(setOperatedTeam(team)),

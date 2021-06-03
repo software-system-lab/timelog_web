@@ -3,10 +3,10 @@ import moment from 'moment'
 
 const API_HOST = process.env.REACT_APP_HOST;
 
-function getHeaders(token) {
+function getHeaders(accessToken) {
     return ({
         'Content-Type': 'application/json',
-        'Authorization': token
+        'Authorization': 'Bearer ' + accessToken
     })
 }
 
@@ -81,9 +81,9 @@ const myMiddleware = store => next => action => {
           alert('Load Team All activity type list failed')
       })
     } else if(action.type === "ENTER_TIMELOG") {
-        const headers = getHeaders(action.token)
-        const body = getBody(action.userID)
-        axios.post(API_HOST + '/login', body, { headers: headers})
+        const headers = getHeaders(action.accessToken)
+        // axios.post(API_HOST + '/login', body, { headers: headers})
+        axios.get(API_HOST + '/login', {headers: headers})
         .then( response => {
             action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
 
@@ -113,7 +113,7 @@ const myMiddleware = store => next => action => {
               alert("Get Team failed");
             })
 
-            action.loadDashBoard(action.userID, action.token, store.dispatch)
+            action.loadDashBoard(action.userID, action.accessToken, store.dispatch)
         })
         .catch( err => {
             console.log(err)

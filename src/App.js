@@ -31,22 +31,32 @@ class App extends Component {
 
   componentDidMount() {
       const searchParams = new URLSearchParams(this.props.location.search)
-      if (searchParams.get('uid') !== null) {
-        localStorage.setItem('uid', searchParams.get('uid'))
-        localStorage.setItem('cn', searchParams.get('cn'))
-        localStorage.setItem('sn', searchParams.get('sn'))
-        localStorage.setItem('givenName', searchParams.get('givenName'))
-        localStorage.setItem('displayName', searchParams.get('displayName'))
-        localStorage.setItem('mail', searchParams.get('mail'))
+      // if (searchParams.get('uid') !== null) {
+      //   localStorage.setItem('uid', searchParams.get('uid'))
+      //   localStorage.setItem('cn', searchParams.get('cn'))
+      //   localStorage.setItem('sn', searchParams.get('sn'))
+      //   localStorage.setItem('givenName', searchParams.get('givenName'))
+      //   localStorage.setItem('displayName', searchParams.get('displayName'))
+      //   localStorage.setItem('mail', searchParams.get('mail'))
+      // } else {
+      //   if (!!!localStorage.getItem('uid')) {
+      //     var amsURL = process.env.REACT_APP_AMS_LOGIN_URL
+      //     amsURL += '?' + encodeURIComponent('redirect_url=' + window.location.href)
+      //     window.location.replace(amsURL)
+      //     return
+      //   }
+      // }
+      if (searchParams.get('accessToken')) {
+        localStorage.setItem('accessToken', searchParams.get('accessToken'))
       } else {
-        if (!!!localStorage.getItem('uid')) {
+        if (!!!localStorage.getItem('accessToken')) {
           var amsURL = process.env.REACT_APP_AMS_LOGIN_URL
           amsURL += '?' + encodeURIComponent('redirect_url=' + window.location.href)
           window.location.replace(amsURL)
           return
         }
       }
-      this.props.enterTimelog(localStorage.getItem('uid'), null)
+      this.props.enterTimelog(localStorage.getItem('accessToken'))
     }
 
   handleDrawerToggle () {
@@ -92,7 +102,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    enterTimelog: (userID, token) => dispatch(enterTimelog(userID, token))
+    enterTimelog: (accessToken) => dispatch(enterTimelog(accessToken))
   }
 }
 

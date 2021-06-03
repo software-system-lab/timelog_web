@@ -83,10 +83,12 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "ENTER_TIMELOG") {
         const headers = getHeaders(action.accessToken)
         // axios.post(API_HOST + '/login', body, { headers: headers})
-        axios.get(API_HOST + '/login', {headers: headers})
+        // axios.get(API_HOST + '/login', {headers: headers})
+        axios.get('http://localhost:7000/timelog/api/login', {headers: headers})
         .then( response => {
             action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
 
+            const body = getBody(response.data.userId)
             body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
             body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
 
@@ -280,8 +282,8 @@ const myMiddleware = store => next => action => {
       const body = {
         teamID: action.teamID,
         memberList: action.memberList
-      }      
-      
+      }
+
       body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
       body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
       axios.post(API_HOST + '/dash-board/team/dashboard', body, {headers: headers})
@@ -374,7 +376,7 @@ const myMiddleware = store => next => action => {
         if(action.userID!=action.unitID){
           action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
         }
-        
+
       })
       .catch(err => {
         console.log(err)
@@ -462,7 +464,7 @@ const myMiddleware = store => next => action => {
       })
   } else {
         return next(action)
-    } 
+    }
 }
 
 export default myMiddleware

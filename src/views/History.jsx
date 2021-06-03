@@ -55,7 +55,7 @@ class History extends Component {
           title: "Activity Type",
           field: "activityTypeName",
           width: "30%",
-          render: rowData => getDocumentTypeForRow(rowData.activityTypeName),
+          render: rowData => this.getDocumentTypeForRow(rowData.activityTypeName),
           editComponent:
            props => (
             <div>
@@ -86,9 +86,9 @@ class History extends Component {
                       )
                     }
                   })
-                
+
                 :
-                
+
                   this.props.allTeamActivityTypeList.map((team) => {
                     if(this.state.selectTeam.unitName === team.unitName){
                       return(
@@ -100,7 +100,7 @@ class History extends Component {
                       )
                     }
                   })
-                
+
               }
               </Select>
             </div>
@@ -129,7 +129,7 @@ class History extends Component {
     }
     this.editSubmit = this.editSubmit.bind(this);
     this.getDocumentTypeForRow = this.getDocumentTypeForRow.bind(this);
-    
+
   }
 
   getDocumentTypeForRow(value) {
@@ -146,7 +146,7 @@ class History extends Component {
         this.props.editLog(
           localStorage.getItem("uid"),
           null,
-          oldData.id,              
+          oldData.id,
           newData.title,
           newData.activityTypeName,
           moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
@@ -159,7 +159,7 @@ class History extends Component {
         this.props.editLog(
           localStorage.getItem("uid"),
           null,
-          oldData.id,              
+          oldData.id,
           newData.title,
           newData.activityTypeName,
           moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
@@ -204,7 +204,7 @@ class History extends Component {
                 else if (moment(newData.endTime) <= moment(newData.startTime)) {
                   alert("Start Time should be eariler than End Time.")
                   reject()
-                } 
+                }
                 else {
                   setTimeout(() => {
                     this.editSubmit(oldData,newData)

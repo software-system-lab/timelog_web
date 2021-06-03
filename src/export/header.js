@@ -152,7 +152,6 @@ function html (content) {
   line-height: 1.5rem;
 }
 .MuiTableCell-body {
-  
   color: #FFFFFF;
 }
 .MuiTableCell-footer {
@@ -211,6 +210,16 @@ function html (content) {
   position: sticky;
   background-color: #fafafa;
 }
+
+</style>
+<style data-jss="" data-meta="MuiSvgIcon">
+svg.MuiSvgIcon-root {
+  fill: white;
+  width: 2em;
+  hight: 2em;
+}
+</style>
+
 </style>
 <style data-jss="" data-meta="MuiTableFooter">
 .MuiTableFooter-root {

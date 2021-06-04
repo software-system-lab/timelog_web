@@ -22,12 +22,15 @@ class DashBoard extends Component {
       group: [],
     }
   }
+
   componentDidUpdate(prevProps) {
-    if (this.props.groupList !== prevProps.groupList) {
+    if (this.state.group !== prevProps.group) {
       this.props.groupList.map((team)=>{
         this.state.group.push(team.teamName)
       })
     }
+
+    console.log(this.state.group)
   }
 
   render() {

@@ -17,11 +17,11 @@ function PopoverProfile(props) {
   }
 
   const ams = () => {
-    var redirectURL = "http://localhost:8000" + "?";
+    var redirectURL = process.env.REACT_APP_AMS_WEB + "?";
     redirectURL += "cn=" + username + "&";
     redirectURL += "displayName=" + displayName + "&"; 
     redirectURL += "teamName=" + props.operatedTeam.teamName; 
-    window.location.href = redirectURL;
+    window.open(redirectURL);
   
   }
 

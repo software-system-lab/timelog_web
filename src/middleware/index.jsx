@@ -2,6 +2,8 @@ import axios from 'axios'
 import moment from 'moment'
 
 const API_HOST = process.env.REACT_APP_HOST;
+const AMS_HOST = process.env.REACT_APP_AMS_HOST;
+const TIMELOG_OBSERVER = process.env.REACT_APP_TIMELOG_OBSERVER;
 
 function getHeaders(token) {
     return ({
@@ -91,29 +93,49 @@ const myMiddleware = store => next => action => {
             body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
 
             axios.post(API_HOST + '/log/history', body, {headers: headers})
-            .then( response => {
+            .then(response => {
               action.setHistory(response.data.logItemList, store.dispatch);
               console.log(response.data.logItemList)
             })
-            .catch ( err => {
+            .catch (err => {
               console.log(err)
               alert("Get histroy logs failed");
             })
             const data = {
               username : localStorage.getItem("cn")
             }
-            axios.post(API_HOST + '/belong', data, {headers: headers})
-            .then( response => {
-              action.setGroupList(response.data.teamList, store.dispatch);
-              action.setOperatedTeam(response.data.teamList[0], store.dispatch);
-              action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
-              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
-            })
-            .catch ( err => {
-              console.log(err)
-              alert("Get Team failed");
-            })
+            if(data.username === TIMELOG_OBSERVER) {
+              axios.get(`${AMS_HOST}/team`).then(response => {
+                axios.post(`${API_HOST}/activity/all`, {unitIdList: response.data}).then(response => {
+                  const teamList = response.data.unitDTOList.map(ele => {return {teamName: ele.unitName, teamID: ele.unitID}});
+                  action.setGroupList(teamList, store.dispatch);
+                  action.setOperatedTeam(teamList[0], store.dispatch);
+                  action.loadAllTeamActivityTypeList(getTeamIdList(teamList), store.dispatch);
+                  action.getTeam(teamList[0].teamName, teamList[0].teamID, action.userID, store.dispatch);
+                }).catch(err => {
+                  console.log(err)
+                })
+              })
+              axios.post(`${API_HOST}/belong`, data).then(response => {
+                action.setBelongingTeams(response.data.teamList, store.dispatch)
+              })
 
+            } else {
+              axios.post(API_HOST + '/belong', data, {headers: headers})
+              .then( response => {
+                action.setGroupList(response.data.teamList, store.dispatch);
+                action.setOperatedTeam(response.data.teamList[0], store.dispatch);
+                action.setBelongingTeams(response.data.teamList, store.dispatch)
+                action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
+                action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
+              })
+              .catch ( err => {
+                console.log(err)
+                alert("Get Team failed");
+              })
+            }
+
+            
             action.loadDashBoard(action.userID, action.token, store.dispatch)
         })
         .catch( err => {
@@ -188,7 +210,7 @@ const myMiddleware = store => next => action => {
         .then(response => {
           action.loadLogHistory(action.userID, action.token, store.dispatch)
           action.loadDashBoard(action.userID, action.token, store.dispatch)
-          if(action.userID!=action.unitID){
+          if(action.userID!=action.unitID && action.operatedTeam.teamID == action.unitID){
             action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
           }
         })
@@ -406,6 +428,7 @@ const myMiddleware = store => next => action => {
       })
       .catch(err => {
         console.log(err)
+        if (localStorage.getItem("cn") === TIMELOG_OBSERVER) return
         alert("Getting authorization failed")
       })
     } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {

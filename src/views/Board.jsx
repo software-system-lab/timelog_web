@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
+import Tooltip from '@material-ui/core/Tooltip';
 import { updateDashBoard , loadDashBoard} from 'actions/DashBoard';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -26,11 +27,15 @@ const useStyles = (theme) => ({
     opacity: 0
   },
   exportButton: {
-    position: 'absolute',
-    top: '5%',
     '&:hover p': { 
       opacity: 1,
     }
+  },
+  boardHead: {
+    display: 'flex',
+    width: '100%',
+    'justify-content': 'space-around',
+    'align-items': 'center'
   }
 });
 
@@ -61,6 +66,7 @@ class Board extends Component {
   flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
   handleClick = event => {
     this.initialize();
+    console.log(event.currentTarget)
     this.state.anchorEl
       ? this.setState({ anchorEl: null })
       : this.setState({ anchorEl: event.currentTarget });
@@ -181,80 +187,89 @@ class Board extends Component {
     const white = '#FFFFFF';
     return (
         <div>
-          <div className={classes.exportButton}>
-            <Button startIcon={<GetAppIcon/>}
-              onClick={ this.exportReport }
-              variant="outlined"
-              style={{color: white, borderColor: white, marginLeft:35}}>
-              Export
-            </Button>
-            <p className={classes.exportText}>
-                Please adjust the web browser<br></br>
-                zoom to 100% for better result
-            </p>
-          </div>
-          <div className="selector-button">
-            <Button            
-              onClick={event => this.handleClick(event)}
-              startIcon={<FilterListIcon/>}
-              variant="outlined"
-              style={{color: white, borderColor: white, marginLeft:35}}
-            >
-              Filter
-            </Button>
-            <div className="popover">
-              <Popover 
-                open={this.state.open}
-                anchorEl={this.state.anchorEl}
-                onClose={this.handleProfileClose}
-                anchorOrigin={{
-                  vertical: 'center',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-                style={{
-                  width: '150%',
-                  height: '150%',
-                }}
-              >
-                <div className="filter-list">
-                  <Checkbox checked={this.state.select} onChange={this.handleSelectAll}></Checkbox>
-                  Select All
-                </div>
-              {
-                this.state.activityTypeList.map((activityType, key) => {
-                  return (
-                    <div className="filter-list">
-                      <Checkbox  value={activityType.name} checked={activityType.checked} onChange={this.handleInputChange}></Checkbox>
-                      {activityType.name}
-
-                    </div>
-                    )
-                  })
-              } 
-                <center>
-                  <Button className="filter-btn" onClick={this.submit} color="secondary">
-                    Submit
-                  </Button>
-                </center>
-              </Popover>
-            </div>
-          </div>
           <div ref={ (element) => {this.reportElement = element} }>
-            <h1 className="board-title board-text">
-              {`${localStorage.getItem('displayName')}'s Dashboard`}
-            </h1>
-            <h2 className="board-duration board-text">
-              {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
-               ~
-              {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
-            </h2>
-            <h3 className="board-spent-time board-text">
-              Spent Time : {this.props.dashBoardData.totalTime}
-            </h3>
+            <div className={classes.boardHead}>
+              <div>
+                <div className={classes.exportButton}>
+                <Tooltip
+                  title="Zoom the web browser to 100% for better result"
+                  classes={{popper: {'font-size': '20px'}}}
+                >
+                  <Button startIcon={<GetAppIcon/>}
+                    onClick={ this.exportReport }
+                    variant="outlined"
+                    style={{color: white, borderColor: white}}>
+                    Export
+                  </Button>
+                </Tooltip>
+                </div>
+              </div>
+              <div>
+                <h1 className="board-title board-text">
+                  {`${localStorage.getItem('displayName')}'s Dashboard`}
+                </h1>
+                <h2 className="board-duration board-text">
+                  {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
+                  ~
+                  {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
+                </h2>
+                <h3 className="board-spent-time board-text">
+                  Spent Time : {this.props.dashBoardData.totalTime}
+                </h3>
+              </div>
+              <div>
+                <div className="selector-button">
+                  <Button            
+                    onClick={event => this.handleClick(event)}
+                    startIcon={<FilterListIcon/>}
+                    variant="outlined"
+                    style={{color: white, borderColor: white}}
+                  >
+                    Filter
+                  </Button>
+                  <div className="popover">
+                    <Popover 
+                      open={this.state.open}
+                      anchorEl={this.state.anchorEl}
+                      onClose={this.handleProfileClose}
+                      anchorOrigin={{
+                        vertical: 'center',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
+                      style={{
+                        width: '150%',
+                        height: '150%',
+                      }}
+                    >
+                      <div className="filter-list">
+                        <Checkbox checked={this.state.select} onChange={this.handleSelectAll}></Checkbox>
+                        Select All
+                      </div>
+                    {
+                      this.state.activityTypeList.map((activityType, key) => {
+                        return (
+                          <div className="filter-list">
+                            <Checkbox  value={activityType.name} checked={activityType.checked} onChange={this.handleInputChange}></Checkbox>
+                            {activityType.name}
+
+                          </div>
+                          )
+                        })
+                    } 
+                      <center>
+                        <Button className="filter-btn" onClick={this.submit} color="secondary">
+                          Submit
+                        </Button>
+                      </center>
+                    </Popover>
+                  </div>
+                </div>
+              </div>
+            </div>
             <DashBoard groupList = {this.state.group} pieData={this.props.dashBoardData.pieData} tableData={this.props.dashBoardData.tableData} chartArea= {"50vh"} isPersonal= {true}/>
 
           </div>

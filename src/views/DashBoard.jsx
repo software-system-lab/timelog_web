@@ -29,14 +29,11 @@ class DashBoard extends Component {
         this.state.group.push(team.teamName)
       })
     }
-
-    console.log(this.state.group)
   }
 
   render() {
     const white = '#FFFFFF';
     return (
- 
         <div className="board-split">
               <div className="chart">
                 <Chart
@@ -63,7 +60,7 @@ class DashBoard extends Component {
                   icons={ tableIcons }
                   columns={[
                     this.props.isPersonal?
-                    { render: rowData =>this.state.group.includes(rowData.activityTypeName)?<GroupIcon/>:"" } : { hidden: true},
+                    { render: rowData =>this.state.group.includes(rowData.activityTypeName) ? <GroupIcon/> : ""} : { hidden: true},
                     { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
                     { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
                     { title: "Percentage", field: "percentage" },

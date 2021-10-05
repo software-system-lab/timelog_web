@@ -48,4 +48,11 @@ export const allTeamActivityTypeListReducer = (state = [], action) => {
     }
 }
 
-
+export const myTeamsReducer = (state = [], action) => {
+    switch (action.type) {
+    case 'SET_BELONGING_TEAM':
+        return [...action.myTeams]
+    default:
+        return state
+    }
+}

@@ -24,18 +24,22 @@
 }
 
 .report-button{
-  position: relative;
+  position: absolute;
   bottom: 0;
   text-decoration: none;
   color: black;
-  width: 15%;
+  width: 100%;
 }
 
-@media screen and (min-width: 1024px){
+/* @media screen and (min-width: 1024px){
   .report-button{
     position: fixed;
     text-decoration: none;
     color: black;
     background-color: white;
   }
+} */
+
+.drawer-wrapper {
+  height: 100%;
 }

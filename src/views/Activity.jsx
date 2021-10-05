@@ -55,7 +55,8 @@ class Activity extends Component {
   render() {
     return (
       <div>
-        <MaterialTable title="Activity"
+        <MaterialTable
+          title="Activity"
           icons={tableIcons}
           columns={this.state.columns}
           data={this.props.activityTypeList}

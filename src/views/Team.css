@@ -14,16 +14,10 @@
     top: 5%; 
 }
 
-.selector-button {
-    position: absolute;
-    right: 5%;
-    top: 5%;
-}
-
 .team-list {
-    position: absolute;
-    right: 5%;
-    top: 5%;
+    margin-left: auto;
+    margin-right: 20px;
+    color: white;
 }
 
 .popover {

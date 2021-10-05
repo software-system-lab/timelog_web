@@ -11,8 +11,7 @@ import { connect } from 'react-redux';
 import "./Stopwatch.css";
 import { readableCounter } from "../utils";
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
 import { MenuItem } from '@material-ui/core';
 import { setOperatedTeam, getTeam} from 'actions/Team';
 import { Component } from 'react';
@@ -24,15 +23,15 @@ const useStyles = (theme) => ({
     display: 'flex',
   },
   appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    background:'#303030',
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100%)`,
-      zIndex: theme.zIndex.drawer + 1,
-      background:'#303030',
+      width: `calc(100%)`, 
     },
   },
   menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    marginRight: theme.spacing(1),
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -43,17 +42,26 @@ const useStyles = (theme) => ({
   toolbar: theme.mixins.toolbar,
   toolBar: {
     justifyContent:'space-between',
+    'align-items': 'center'
   },
   popover: {
     width: '150%',
     height: '150%',
   },
-  select: {
+  teamTextField: {
     width: '150px',
-    height: '40px',
-    margin: '10px'
+    'border-radius': '5px'
+  },
+  selectLabel: {
+    color: 'white'
+  },
+  teamSelect: {
+    color: 'white',
+    'border-bottom': '2px solid white',
+  },
+  teamSelectIcon: {
+    color: 'white'
   }
-
 });
 
 class MyAppBar extends Component {
@@ -128,7 +136,7 @@ class MyAppBar extends Component {
               onClick={this.handleDrawerToggle}
               className={classes.menuButton}
             >
-            <MenuIcon />
+              <MenuIcon />
             </IconButton>
             <div className="appbar-LOGO">
               <img src="TIME_LOG.png" alt="TIMELOG" onClick={ ()=>{ this.goToWelcome(); } }>
@@ -139,16 +147,23 @@ class MyAppBar extends Component {
             </div>
             <div className="team-list">
               <FormControl >
-                <InputLabel >Team</InputLabel>
-                <Select
-                  value = {this.state.team} 
-                  style={{color: '#000000', borderColor: '#FFFFFF', background: '#FFFFFF', width: '150px', height: '40px'}}
-                  label={"Team"}
-                  inputProps={{
-                    name: 'Team'
-                  }}
+                <TextField
+                  value = {this.state.team}
+                  select
+                  label="Team"
                   onChange={this.handleTeamSelect} 
-                  className={classes.select}
+                  className={classes.teamTextField}
+                  variant='standard'
+                  size='small'
+                  margin='none'
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.selectLabel,
+                    }
+                  }}
+                  SelectProps={{
+                    classes: {select: classes.teamSelect, icon: classes.teamSelectIcon}
+                  }}
                 >
                   {
                     this.props.groupList.map((group,index) => {
@@ -157,7 +172,7 @@ class MyAppBar extends Component {
                       )
                     })
                   }
-                </Select>
+                </TextField>
               </FormControl>
             </div>
             <div className="profile-btn" >

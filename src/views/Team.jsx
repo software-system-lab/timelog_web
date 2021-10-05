@@ -7,6 +7,7 @@ import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import moment from "moment";
 import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import DashBoard from './DashBoard';
 import { setOperatedTeam, getTeam} from 'actions/Team';
 
@@ -22,11 +23,18 @@ const useStyles = (theme) => ({
     opacity: 0
   },
   exportButton: {
-    position: 'absolute',
-    top: '5%',
     '&:hover p': { 
       opacity: 1,
     }
+  },
+  boardHead: {
+    display: 'flex',
+    width: '100%',
+    'justify-content': 'space-around',
+    'align-items': 'center'
+  },
+  tooltip: {
+    
   }
 });
 
@@ -63,39 +71,49 @@ class Team extends Component {
     
     return (
         <div>
-          <div className={classes.exportButton}>
-            <Button startIcon={<GetAppIcon/>}
-              onClick={ this.exportReport }
-              variant="outlined"
-              style={{color: white, borderColor: white, marginLeft:35}}>
-              Export
-            </Button>
-            <p className={classes.exportText}>
-                Please adjust the web browser<br></br>
-                zoom to 100% for better result
-            </p>
-          </div>
           <div ref={ (element) => {this.reportElement = element} }>
-            {
-              this.props.groupList.map((group,index) => {
-                if(group.teamID == this.props.operatedTeam.teamID)
+            <div className={classes.boardHead}>
+              <div>
+                <div className={classes.exportButton}>
+                  <Tooltip
+                    arrow
+                    title={"Zoom the web browser to 100% for better result"}
+                    // classes={{tooltip: {'font-size': '19px'}}}
+                    className={classes.tooltip}
+                  >
+                    <Button startIcon={<GetAppIcon/>}
+                      onClick={ this.exportReport }
+                      variant="outlined"
+                      style={{color: white, borderColor: white}}>
+                      Export
+                    </Button>
+                  </Tooltip>
+                </div>
+              </div>
+              <div>
                 {
-                  return(
-                    <h1 className="board-title board-text">
-                      {`${group.teamName}'s Dashboard`}
-                    </h1>
-                  )
+                  this.props.groupList.map((group,index) => {
+                    if(group.teamID == this.props.operatedTeam.teamID)
+                    {
+                      return(
+                        <h1 className="board-title board-text">
+                          {`${group.teamName}'s Dashboard`}
+                        </h1>
+                      )
+                    }
+                  })
                 }
-              })
-            }
-            <h2 className="board-duration board-text">
-              {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
-               ~
-              {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
-            </h2>
-            <h3 className="board-spent-time board-text">
-              Spent Time : {this.props.teamDashBoardData.team.totalTime}
-            </h3>
+                <h2 className="board-duration board-text">
+                  {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
+                    ~
+                  {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
+                </h2>
+                <h3 className="board-spent-time board-text">
+                  Spent Time : {this.props.teamDashBoardData.team.totalTime}
+                </h3>
+              </div>
+              <div style={{width: '115px'}}></div>
+            </div>
             <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea= {"50vh"}/>
 
             <div>
@@ -111,8 +129,6 @@ class Team extends Component {
               }
             </div>
           </div>
-
-         
         </div>
       );
     }

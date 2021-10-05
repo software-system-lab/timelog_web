@@ -1,6 +1,6 @@
 import { setHistory, loadLogHistory } from './History'
 import { updateTeamDashBoard, loadDashBoard } from './DashBoard'
-import { getTeam, setOperatedTeam, loadAllTeamActivityTypeList } from './Team'
+import { getTeam, setOperatedTeam, loadAllTeamActivityTypeList, setBelongingTeams } from './Team'
 
 export function loadActivityTypeList(userID, token) {
     return {
@@ -68,6 +68,7 @@ export function enterTimelog(userID, token) {
         getTeam: (groupname, teamID, userID, dispatch) => dispatch(getTeam(groupname, teamID, userID)),
         setOperatedTeam: (team, dispatch) => dispatch(setOperatedTeam(team)),
         loadAllTeamActivityTypeList: (teamList, dispatch) => dispatch(loadAllTeamActivityTypeList(teamList)),
+        setBelongingTeams: (teams, dispatch) => dispatch(setBelongingTeams(teams)),
     }
 }
 
@@ -78,7 +79,7 @@ export function setGroupList(groupList) {
     }
 }
 
-export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList) {
+export function newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList, operatedTeam) {
   return {
     type: "NEW_LOG",
     userID: userID,
@@ -90,6 +91,7 @@ export function newLog(userID, token, title, activityTypeName, startTime, endTim
     description: description,
     unitID : unitID,
     memberList : memberList,
+    operatedTeam: operatedTeam,
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
     updateTeamDashBoard: (teamID, memberList, token, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, userID, token)),

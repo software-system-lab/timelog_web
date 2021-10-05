@@ -19,9 +19,8 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
 import { getTeam } from '../actions/Team';
-import { ContactSupportOutlined } from '@material-ui/icons';
-
-
+import { AlbumSharp, ContactSupportOutlined } from '@material-ui/icons';
+import axios from 'axios'
 
 class AddLog extends Component {
 
@@ -35,7 +34,8 @@ class AddLog extends Component {
       activityTypeName: "",
       isEnable: true,
       selectTeam: false,
-      team: []
+      team: [],
+      // myTeams: []
     }
     this.submit = this.submit.bind(this);
     this.handleSelectTeam = this.handleSelectTeam.bind(this)
@@ -71,7 +71,6 @@ class AddLog extends Component {
   }
 
   submit() {
-
     if (!this.state.title || this.state.title === ''){
       alert("Title should not be empty.")
       return
@@ -89,7 +88,6 @@ class AddLog extends Component {
         return
       }
     }
-  
 
     if (moment(this.state.endTime) <= moment(this.state.startTime)){
       alert("Start Time should be eariler than End Time.")
@@ -101,7 +99,7 @@ class AddLog extends Component {
     this.props.handleClose()
 
     if(this.state.selectTeam){
-        this.props.newLog(
+      this.props.newLog(
         localStorage.getItem("uid"),
         null,
         this.state.title,
@@ -109,9 +107,10 @@ class AddLog extends Component {
         moment(this.state.startTime).format(dateFormat),
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
-        this.state.team.unitID,
-        this.props.memberList
-        )
+        this.state.team.teamID,
+        this.props.memberList,
+        this.props.operatedTeam
+      )
     } else{
         this.props.newLog(
         localStorage.getItem("uid"),
@@ -141,31 +140,31 @@ class AddLog extends Component {
         <DialogContent>
           <form>
             <FormControl fullWidth={true} required={true}>
-              <InputLabel htmlFor="title" required={true} >Title</InputLabel>
+              <InputLabel htmlFor="title" required={true}>Title</InputLabel>
               <Input id="title" onChange={(e) => {this.setState({title: e.target.value})}} />
             </FormControl>
             <br/><br/>
             <div>
-            <Radio checked={this.state.selectTeam === false} onChange={this.handleSelectTeam} value="personal" ></Radio>Personal
-            <Radio checked={this.state.selectTeam === true} onChange={this.handleSelectTeam} value="team" ></Radio>Team
-            <FormControl required={true}>
-            <InputLabel id="activity-type-select-label" required={this.state.selectTeam} style={{margin:"-12px 15px"}}> Team</InputLabel>
-              <Select
-                style={{margin:"0px 10px", width:"150px"}}
-                disabled={!this.state.selectTeam}
-                labelId="activity-type-select-label"
-                id="activity-type-select"
-                value={this.state.team}
-                onChange={(event) => this.setState({team: event.target.value})}
-              >
-                {
-                  this.props.allTeamActivityTypeList.map((team, key) => {
-                    return (
-                          <MenuItem value={team} key={key}>{team.unitName}</MenuItem>
-                          )
-                  })
-              }
-              </Select>
+              <Radio checked={this.state.selectTeam === false} onChange={this.handleSelectTeam} value="personal" ></Radio>Personal
+              <Radio checked={this.state.selectTeam === true} onChange={this.handleSelectTeam} value="team" ></Radio>Team
+              <FormControl required={true}>
+              <InputLabel id="activity-type-select-label" required={this.state.selectTeam} style={{margin:"-12px 15px"}}> Team</InputLabel>
+                <Select
+                  style={{margin:"0px 10px", width:"150px"}}
+                  disabled={!this.state.selectTeam}
+                  labelId="activity-type-select-label"
+                  id="activity-type-select"
+                  value={this.state.team}
+                  onChange={(event) => this.setState({team: event.target.value})}
+                >
+                  {
+                    this.props.myTeams.map((team, key) => {
+                      return (
+                        <MenuItem value={team} key={key}>{team.teamName}</MenuItem>
+                      )
+                    })
+                  }
+                </Select>
               </FormControl>
             </div>
             
@@ -177,23 +176,23 @@ class AddLog extends Component {
               value={this.state.activityTypeName}
               onChange={(event) => this.setState({activityTypeName: event.target.value})}
             >
-            {  
+            {
               this.state.selectTeam ?
                 this.props.allTeamActivityTypeList.map((team) => {
-                  if(this.state.team.unitName === team.unitName){
+                  if(this.state.team.teamName === team.unitName){
                     return(
                       team.activityTypeList.map((activityType, key) => {
                         return (
-                        <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                         )
                       }) 
-                      )
+                    )
                   }
                 })
               :
                 this.props.activityTypeList.map((activityType, key) => {
                   if(activityType.enable !== false) {
-                  return (
+                    return (
                       <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                     )
                   }
@@ -322,12 +321,14 @@ function mapStateToProps(state) {
     activityTypeList: state.activityTypeList,
     allTeamActivityTypeList : state.allTeamActivityTypeList,
     memberList : state.memberList,
+    operatedTeam: state.operatedTeam,
+    myTeams: state.myTeams
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList)),
+    newLog: (userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList, operatedTeam = null) => dispatch(newLog(userID, token, title, activityTypeName, startTime, endTime, description, unitID, memberList, operatedTeam)),
   }
 }
 

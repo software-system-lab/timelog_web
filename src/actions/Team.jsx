@@ -112,5 +112,10 @@ export function editTeamActivityType(teamID, token, targetActivityTypeName, acti
     }
 }
 
-
+export function setBelongingTeams(teams) {
+    return {
+        type: 'SET_BELONGING_TEAM',
+        myTeams: teams
+    }
+}
 

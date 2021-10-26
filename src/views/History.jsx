@@ -226,6 +226,7 @@ function mapStateToProps(state) {
     activityTypeList: state.activityTypeList,
     logHistory: state.logHistory,
     allTeamActivityTypeList: state.allTeamActivityTypeList,
+    operatedTeam: state.operatedTeam,
     memberList : state.memberList,
   }
 }

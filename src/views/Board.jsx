@@ -60,7 +60,14 @@ class Board extends Component {
   }
 
   exportReport() {
-    Export.exportHTML(this.reportElement)
+    let clonedNode = this.reportElement.cloneNode(true)
+    let exportButton = clonedNode.firstChild.firstChild
+    let selectButton = clonedNode.firstChild.lastChild
+
+    clonedNode.firstChild.removeChild(exportButton)
+    clonedNode.firstChild.removeChild(selectButton)
+
+    Export.exportHTML(clonedNode)
   };
 
   flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
@@ -191,17 +198,17 @@ class Board extends Component {
             <div className={classes.boardHead}>
               <div>
                 <div className={classes.exportButton}>
-                <Tooltip
-                  title="Zoom the web browser to 100% for better result"
-                  classes={{popper: {'font-size': '20px'}}}
-                >
-                  <Button startIcon={<GetAppIcon/>}
-                    onClick={ this.exportReport }
-                    variant="outlined"
-                    style={{color: white, borderColor: white}}>
-                    Export
-                  </Button>
-                </Tooltip>
+                  <Tooltip
+                    title="Zoom the web browser to 100% for better result"
+                    classes={{popper: {'font-size': '20px'}}}
+                  >
+                    <Button startIcon={<GetAppIcon/>}
+                      onClick={ this.exportReport }
+                      variant="outlined"
+                      style={{color: white, borderColor: white}}>
+                      Export
+                    </Button>
+                  </Tooltip>
                 </div>
               </div>
               <div>

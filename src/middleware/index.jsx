@@ -3,7 +3,7 @@ import moment from 'moment'
 
 const API_HOST = process.env.REACT_APP_HOST;
 const AMS_HOST = process.env.REACT_APP_AMS_HOST;
-const TIMELOG_OBSERVER = process.env.REACT_APP_TIMELOG_OBSERVER;
+const TIMELOG_ADMIN = process.env.REACT_APP_TIMELOG_ADMIN;
 
 function getHeaders(token) {
     return ({
@@ -104,7 +104,7 @@ const myMiddleware = store => next => action => {
             const data = {
               username : localStorage.getItem("cn")
             }
-            if(data.username === TIMELOG_OBSERVER) {
+            if(data.username === TIMELOG_ADMIN) {
               axios.get(`${AMS_HOST}/team`).then(response => {
                 axios.post(`${API_HOST}/activity/all`, {unitIdList: response.data}).then(response => {
                   const teamList = response.data.unitDTOList.map(ele => {return {teamName: ele.unitName, teamID: ele.unitID}});
@@ -428,7 +428,7 @@ const myMiddleware = store => next => action => {
       })
       .catch(err => {
         console.log(err)
-        if (localStorage.getItem("cn") === TIMELOG_OBSERVER) return
+        if (localStorage.getItem("cn") === TIMELOG_ADMIN) return
         alert("Getting authorization failed")
       })
     } else if(action.type === "EDIT_TEAM_ACTIVITY_TYPE") {

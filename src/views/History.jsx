@@ -60,7 +60,7 @@ class History extends Component {
            props => (
             <div>
               <Select
-                value={this.state.selectTeam,console.log(props.rowData)}
+                value={this.state.selectTeam}
                 onChange={event => this.setState({selectTeam: event.target.value})}
               >
                 <MenuItem value={this.state.personal}>Personal</MenuItem>
@@ -85,6 +85,7 @@ class History extends Component {
                           <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                       )
                     }
+                    return false;
                   })
                 
                 :
@@ -99,6 +100,7 @@ class History extends Component {
                         })
                       )
                     }
+                    return false;
                   })
                 
               }

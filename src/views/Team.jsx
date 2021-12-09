@@ -93,7 +93,7 @@ class Team extends Component {
               <div>
                 {
                   this.props.groupList.map((group,index) => {
-                    if(group.teamID == this.props.operatedTeam.teamID)
+                    if(group.teamID === this.props.operatedTeam.teamID)
                     {
                       return(
                         <h1 className="board-title board-text">
@@ -101,6 +101,7 @@ class Team extends Component {
                         </h1>
                       )
                     }
+                    return false;
                   })
                 }
                 <h2 className="board-duration board-text">

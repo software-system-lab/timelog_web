@@ -2,7 +2,6 @@ import Welcome from 'views/Welcome';
 import Board from 'views/Board';
 import History from 'views/History';
 import UserActivity from 'views/UserActivity';
-import Activity from 'views/Activity';
 import Team from 'views/Team';
 import TeamActivity from 'views/TeamActivity';
 

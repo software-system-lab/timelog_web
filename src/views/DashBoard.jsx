@@ -1,10 +1,9 @@
 import React, { Component } from "react"
 import MaterialTable from "material-table";
-import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
 import { connect } from 'react-redux';
 
-import { ArrowDownward, FreeBreakfastTwoTone } from '@material-ui/icons';
+import { ArrowDownward } from '@material-ui/icons';
 import Chart from "react-google-charts";
 import "./Board.css";
 import GroupIcon from '@material-ui/icons/Group';
@@ -25,7 +24,7 @@ class DashBoard extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.state.group !== prevProps.group) {
-      this.props.groupList.map((team)=>{
+      this.props.groupList.forEach((team)=>{
         this.state.group.push(team.teamName)
       })
     }

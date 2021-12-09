@@ -145,7 +145,6 @@ const myMiddleware = store => next => action => {
     } else if(action.type === "EDIT_ACTIVITY_TYPE") {
         const headers = getHeaders(action.token)
         const body = {
-            unitID: action.userID,
             targetActivityTypeName: action.targetActivityTypeName,
             activityTypeName: action.activityTypeName,
             isEnable: action.isEnable,
@@ -210,7 +209,7 @@ const myMiddleware = store => next => action => {
         .then(response => {
           action.loadLogHistory(action.userID, action.token, store.dispatch)
           action.loadDashBoard(action.userID, action.token, store.dispatch)
-          if(action.userID!=action.unitID && action.operatedTeam.teamID == action.unitID){
+          if(action.userID!==action.unitID && action.operatedTeam.teamID === action.unitID){
             action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
           }
         })
@@ -394,7 +393,7 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        if(action.userID!=action.unitID){
+        if(action.userID!==action.unitID){
           action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
         }
         

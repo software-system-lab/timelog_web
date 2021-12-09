@@ -223,12 +223,12 @@ function Sidebar(props) {
           </ListItem>
         </Slide>
         <Collapse in={userOpen} timeout="auto" unmountOnExit>
-        <Slide className={classes.nested} direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
+        {/* <Slide className={classes.nested} direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
           <ListItem button key="Board" onClick={goToBoard}>
             <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
             <ListItemText primary="Board" />
           </ListItem>
-        </Slide>
+        </Slide> */}
         <Slide direction="right" in={true} timeout={{appear:1800, enter:1800, exit:1800}}>
           <ListItem className={classes.nested} button key="History" onClick={goToHistory}>
             <ListItemIcon>{<HistoryIcon />}</ListItemIcon>

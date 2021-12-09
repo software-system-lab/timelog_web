@@ -242,7 +242,7 @@ function Sidebar(props) {
           </ListItem>
         </Slide>
         </Collapse>
-        <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
+        {/* <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
           <ListItem button key="Team" onClick={handleTeam}>
             <ListItemIcon>{<GroupIcon />}</ListItemIcon>
             <ListItemText primary="Team" />
@@ -262,7 +262,7 @@ function Sidebar(props) {
             <ListItemText primary="Activity" />
           </ListItem>
         </Slide>
-        </Collapse>
+        </Collapse> */}
         <Slide direction="right" in={true} timeout={{appear:2400, enter:2400, exit:2400}}>
           <ListItem button key="Timebox" onClick={goToTimebox} style={{display:"none"}}>
             <ListItemIcon>{<TimelapseIcon />}</ListItemIcon>

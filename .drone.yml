@@ -1,38 +1,15 @@
 kind: secret
-name: timelog_docker_user
+name: docker_hub_user
 ---
 kind: secret
-name: timelog_docker_passwd
+name: docker_hub_password
+---
+kind: secret
+name: rancher_kube_cluster_url
 ---
 kind: secret
 name: rancher_cluster_token
 ---
-kind: secret
-name: rancher_host
----
-kind: secret
-name: sonar_host
----
-kind: secret
-name: sonar_project_token
----
-
-# kind: pipeline
-# type: docker
-# name: Analysis
-
-# steps:
-#   - name: Install node modules
-#     image: node:10.16.3
-#     commands:
-#       - yarn install
-
-# trigger:
-#     branch:
-#       - master
-#       - dev
-
-# ---
 
 kind: pipeline
 type: docker
@@ -51,6 +28,7 @@ steps:
     when:
         branch:
           - master
+          - tdcc-demo
 
   - name: Publish
     image: plugins/docker
@@ -58,9 +36,9 @@ steps:
         repo: ssl1321ois/timelog_web
         tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
         username:
-            from_secret: timelog_docker_user
+            from_secret: docker_hub_user
         password:
-            from_secret: timelog_docker_passwd
+            from_secret: docker_hub_password
     when: 
         event:
             - push
@@ -68,9 +46,7 @@ steps:
 trigger:
     branch:
       - master
-
-# depends_on:
-#   - Analysis
+      - tdcc-demo
 
 ---
 
@@ -79,28 +55,30 @@ type: docker
 name: Deployment
 
 steps:
-  - name: Deploy Production
+  - name: Deploy Demo
     image: nightlord851108/kustomize
     environment:
-        RANCHER_HOST:
+        rancher_kube_cluster_url:
             from_secret:
-                rancher_host
+                rancher_kube_cluster_url
         CLUSTER_TOKEN:
             from_secret:
                 rancher_cluster_token
     commands:
-        - cd kustomize/overlays/production
+        - cd kustomize/overlays/demo
         - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-        - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-production -f -
+        - kustomize build . | kubectl apply --server=$${rancher_kube_cluster_url}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-demo -f -
     when:
         branch:
           - master
+          - tdcc-demo
         event:
           - push
 
 trigger:
     branch:
       - master
+      - tdcc-demo
 
 depends_on:
   - Build

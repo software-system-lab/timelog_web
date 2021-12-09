@@ -14,13 +14,13 @@ import {
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+// import DashboardIcon from '@material-ui/icons/Dashboard';
 import HistoryIcon from '@material-ui/icons/History';
 import TimelapseIcon from '@material-ui/icons/Timelapse';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ReportIcon from '@material-ui/icons/Report';
 import TimerIcon from '@material-ui/icons/Timer';
-import GroupIcon from '@material-ui/icons/Group';
+// import GroupIcon from '@material-ui/icons/Group';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
@@ -64,15 +64,15 @@ function Sidebar(props) {
   const [durationOpen, setDurationOpen] = React.useState(false);
   const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
   const [userOpen, setUserOpen] = React.useState(false);
-  const [teamOpen, setTeamOpen] = React.useState(false);
+  // const [teamOpen, setTeamOpen] = React.useState(false);
 
   const handleUser= () => {
     setUserOpen(!userOpen);
   };
 
-  const handleTeam = () => {
-    setTeamOpen(!teamOpen);
-  };
+  // const handleTeam = () => {
+  //   setTeamOpen(!teamOpen);
+  // };
 
   const handleAddLogOpen = (logDuration = 3600) => {
     setAddLogOpen(true);
@@ -101,25 +101,25 @@ function Sidebar(props) {
 
   const history = useHistory();
 
-  const goToBoard = () => {
-    history.push("/board")
-  };
+  // const goToBoard = () => {
+  //   history.push("/board")
+  // };
 
   const goToHistory = () => {
     history.push("/history")
   };
 
-  const goToTeam = () => {
-    history.push("/team")
-  };
+  // const goToTeam = () => {
+  //   history.push("/team")
+  // };
 
   const goToActivity = () => {
     history.push("/userActivity")
   };
 
-  const goToTeamActivity = () => {
-    history.push("/teamActivity")
-  };
+  // const goToTeamActivity = () => {
+  //   history.push("/teamActivity")
+  // };
 
 
   const goToTimebox = () => {

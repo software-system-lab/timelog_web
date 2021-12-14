@@ -3,19 +3,12 @@
     color: #FFFFFF;
 }
 
-.board-split {
-    display: flex;
-    flex-direction: row;
-    margin-top: 50px; 
-}
-
 .export-button {
     position: absolute;
     top: 5%; 
 }
 
 .team-list {
-    margin-left: auto;
     margin-right: 20px;
     color: white;
 }
@@ -34,13 +27,7 @@
     width: 50%;
 }
 
-.table {
-    margin-left: 5%;
-    width: 40%;
-}
-
 .team-member-board {
-    height: 45vh;
     background-color: #ffffff0c;
     border-width: 2pt;
     border-color: #ffffff80;

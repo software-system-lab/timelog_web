@@ -12,8 +12,8 @@ import GroupIcon from '@material-ui/icons/Group';
 
 
 const tableIcons = {
-    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
-  };
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
+};
 
 class DashBoard extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class DashBoard extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.state.group !== prevProps.group) {
-      this.props.groupList.map((team)=>{
+      this.props.groupList.map((team) => {
         this.state.group.push(team.teamName)
       })
     }
@@ -34,49 +34,52 @@ class DashBoard extends Component {
   render() {
     const white = '#FFFFFF';
     return (
-        <div className="board-split">
-              <div className="chart">
-                <Chart
-                  minWidth={''}
-                  width={'99%'}
-                  height={this.props.chartArea}
-                  chartType="PieChart"
-                  loader={<div>Loading Chart</div>}
-                  data={this.props.pieData}
-                  options={{
-                    chartArea: {width: '100%', height: '95%', left: '5%', right: '5%'},
-                    title: 'DashBoard',
-                    tooltip: {trigger:'none'},
-                    legend: {position: 'left'},
-                    legendTextStyle: {color:white},
-                    backgroundColor: 'transparent',
-                    color: white
-                  }}
-                  rootProps={{ 'data-testid': '1' }}
-                />
-              </div>
-              <div className="table">
-                <MaterialTable title=""
-                  icons={ tableIcons }
-                  columns={[
-                    this.props.isPersonal?
-                    { render: rowData =>this.state.group.includes(rowData.activityTypeName) ? <GroupIcon/> : ""} : { hidden: true},
-                    { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42'},
-                    { title: "Spent Time", field: "timeLength", defaultSort:'desc' },
-                    { title: "Percentage", field: "percentage" },
-                  ]}
-                  data={this.props.tableData}
-                  sortDirection={"timeLength"}
-                  options={{
-                    search: false,
-                    paging: false,
-                    toolbar: false,
-                    sorting: true,
-                    tableLayout: "fixed"
-                  }}
-                />
-              </div>
-            </div>
+      <div className="board-split">
+        <div className="chart">
+          <Chart
+            minWidth={''}
+            width={'99%'}
+            height={this.props.chartArea}
+            chartType="PieChart"
+            loader={<div>Loading Chart</div>}
+            data={this.props.pieData}
+            options={{
+              chartArea: { width: '100%', height: '95%', left: '5%', right: '5%' },
+              title: 'DashBoard',
+              tooltip: { trigger: 'none' },
+              legend: { position: 'left' },
+              legendTextStyle: { color: white },
+              backgroundColor: 'transparent',
+              color: white
+            }}
+            rootProps={{ 'data-testid': '1' }}
+          />
+        </div>
+        <div className="table">
+          <MaterialTable title=""
+            icons={tableIcons}
+            columns={[
+              this.props.isPersonal ?
+                { render: rowData => this.state.group.includes(rowData.activityTypeName) ? <GroupIcon /> : "" } : { hidden: true },
+              { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42' },
+              { title: "Spent Time", field: "timeLength", defaultSort: 'desc' },
+              { title: "Percentage", field: "percentage" },
+            ]}
+            data={this.props.tableData}
+            sortDirection={"timeLength"}
+            options={{
+              search: false,
+              paging: false,
+              toolbar: false,
+              sorting: true,
+              tableLayout: "fixed"
+            }}
+            sx={{
+              maxHeight: 100
+            }}
+          />
+        </div>
+      </div>
     )
   }
 }

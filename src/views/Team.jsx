@@ -9,7 +9,8 @@ import moment from "moment";
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import DashBoard from './DashBoard';
-import { setOperatedTeam, getTeam} from 'actions/Team';
+import { setOperatedTeam, getTeam } from 'actions/Team';
+import { updateTeamDashBoard } from 'actions/DashBoard';
 
 const useStyles = (theme) => ({
   container: {
@@ -19,11 +20,11 @@ const useStyles = (theme) => ({
   },
   exportText: {
     fontSize: '10pt',
-    color:'#FFFFFF',
+    color: '#FFFFFF',
     opacity: 0
   },
   exportButton: {
-    '&:hover p': { 
+    '&:hover p': {
       opacity: 1,
     }
   },
@@ -34,25 +35,29 @@ const useStyles = (theme) => ({
     'align-items': 'center'
   },
   tooltip: {
-    
+
   }
 });
 
 class Team extends Component {
-  
+
   constructor(props) {
     super(props)
     this.exportReport = this.exportReport.bind(this)
     this.handleChangeTeamUUID = this.handleChangeTeamUUID.bind(this)
     this.render = this.render.bind(this)
-    this.state = { 
-      anchorEl: null, 
+    this.state = {
+      anchorEl: null,
       open: false,
       activityTypeList: [],
       flag: true,
       filterList: [],
       select: false,
-      };
+    };
+  }
+
+  componentDidMount() {
+    this.props.refreshTeamDashBoard(this.props.operatedTeam.teamID, this.props.memberList);
   }
 
   exportReport() {
@@ -68,76 +73,76 @@ class Team extends Component {
   render() {
     const { classes } = this.props;
     const white = '#FFFFFF';
-    
-    return (
-        <div>
-          <div ref={ (element) => {this.reportElement = element} }>
-            <div className={classes.boardHead}>
-              <div>
-                <div className={classes.exportButton}>
-                  <Tooltip
-                    arrow
-                    title={"Zoom the web browser to 100% for better result"}
-                    // classes={{tooltip: {'font-size': '19px'}}}
-                    className={classes.tooltip}
-                  >
-                    <Button startIcon={<GetAppIcon/>}
-                      onClick={ this.exportReport }
-                      variant="outlined"
-                      style={{color: white, borderColor: white}}>
-                      Export
-                    </Button>
-                  </Tooltip>
-                </div>
-              </div>
-              <div>
-                {
-                  this.props.groupList.map((group,index) => {
-                    if(group.teamID == this.props.operatedTeam.teamID)
-                    {
-                      return(
-                        <h1 className="board-title board-text">
-                          {`${group.teamName}'s Dashboard`}
-                        </h1>
-                      )
-                    }
-                  })
-                }
-                <h2 className="board-duration board-text">
-                  {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
-                    ~
-                  {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
-                </h2>
-                <h3 className="board-spent-time board-text">
-                  Spent Time : {this.props.teamDashBoardData.team.totalTime}
-                </h3>
-              </div>
-              <div style={{width: '115px'}}></div>
-            </div>
-            <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea= {"50vh"}/>
 
+    return (
+      <div>
+        <div ref={(element) => { this.reportElement = element }}>
+          <div className={classes.boardHead}>
+            <div>
+              <div className={classes.exportButton}>
+                <Tooltip
+                  arrow
+                  title={"Zoom the web browser to 100% for better result"}
+                  // classes={{tooltip: {'font-size': '19px'}}}
+                  className={classes.tooltip}
+                >
+                  <Button startIcon={<GetAppIcon />}
+                    onClick={this.exportReport}
+                    variant="outlined"
+                    style={{ color: white, borderColor: white }}>
+                    Export
+                  </Button>
+                </Tooltip>
+              </div>
+            </div>
             <div>
               {
-                this.props.teamDashBoardData.member.map((member, key) => {
-                  return (
-                    <div className="team-member-board board-title board-text" onClick={() => this.handleChangeTeamUUID(member)}>
-                      <h2>{member.username}'s Dashboard</h2>
-                      <DashBoard  isPersonal= {false} pieData={member.pieData} tableData={member.tableData} chartArea= {"25vh"}/>
-                    </div>
-                  )
-                }) 
+                this.props.groupList.map((group, index) => {
+                  if (group.teamID == this.props.operatedTeam.teamID) {
+                    return (
+                      <h1 className="board-title board-text">
+                        {`${group.teamName}'s Dashboard`}
+                      </h1>
+                    )
+                  }
+                })
               }
+              <h2 className="board-duration board-text">
+                {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
+                ~
+                {moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")}
+              </h2>
+              <h3 className="board-spent-time board-text">
+                Spent Time : {this.props.teamDashBoardData.team.totalTime}
+              </h3>
             </div>
+            <div style={{ width: '115px' }}></div>
+          </div>
+          <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea={"50vh"} />
+
+          <div>
+            {
+              this.props.teamDashBoardData.member.map((member, key) => {
+                return (
+                  <div className="team-member-board board-title board-text" onClick={() => this.handleChangeTeamUUID(member)}>
+                    <h2>{member.username}'s Dashboard</h2>
+                    <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
+}
 
 function mapStateToProps(state) {
   return {
     teamDashBoardData: state.teamDashBoardData,
     activityTypeList: state.activityTypeList,
+    memberList: state.memberList,
     operatedTeam: state.operatedTeam,
     groupList: state.groupList,
   }
@@ -145,9 +150,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    refreshTeamDashBoard: (teamId, memberList) => dispatch(updateTeamDashBoard(teamId, memberList)),
     setOperatedTeam: (team) => dispatch(setOperatedTeam(team)),
-    getTeam: (groupname, teamID, userID ,token) => dispatch(getTeam(groupname, teamID, userID, token))
+    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token))
   }
 }
 
-export default withStyles(useStyles,{withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(withRouter(Team)))
+export default withStyles(useStyles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(withRouter(Team)))

@@ -330,7 +330,7 @@ const myMiddleware = store => next => action => {
         }
         const memberDashboardList = response.data.memberDashboardList
         Object.keys(memberDashboardList).forEach((key) => {
-          const totalTimeString = response.data.totalTime
+          const totalTimeString = response.data.memberDashboardList[key].totalTime
           const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
           const pieData = [
             ['Task', 'Hours per Project']

@@ -226,7 +226,7 @@ class Board extends Component {
               </div>
               <div>
                 <div className="selector-button">
-                  <Button            
+                  <Button
                     onClick={event => this.handleClick(event)}
                     startIcon={<FilterListIcon/>}
                     variant="outlined"

@@ -6,7 +6,7 @@
 .board-split {
     display: flex;
     flex-direction: row;
-    margin-top: 50px; 
+    margin: 25px 0px;
 }
 
 .export-button {
@@ -34,7 +34,7 @@
 
 .table {
     margin-left: 5%;
-    width: 40%;
+    width:40%;
 }
 
 

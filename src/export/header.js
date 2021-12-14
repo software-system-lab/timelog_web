@@ -27,9 +27,6 @@ function html (content) {
         text-align: center;
         color: #FFFFFF;
       }
-      .board-split {
-        margin-top: 50px;
-      }
       .export-button {
         position: absolute;
         left: 0;
@@ -38,7 +35,6 @@ function html (content) {
         color: #FFFFFF;
       }
       .team-member-board {
-        height: 45vh;
         background-color: #ffffff0c;
         border-width: 2pt;
         border-color: #ffffff80;
@@ -301,7 +297,7 @@ tr {
 .board-split {
   display: flex;
   flex-direction: row;
-  margin-top: 50px; 
+  margin: 25px 0px; 
 }
 .export-button {
   position: absolute;

@@ -27,5 +27,6 @@
 .timer-bar {
     display: flex;
     align-items: center;
+    margin: auto;
 }
 

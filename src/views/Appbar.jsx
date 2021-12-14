@@ -15,14 +15,15 @@ import TextField from '@material-ui/core/TextField';
 import { MenuItem } from '@material-ui/core';
 import { setOperatedTeam, getTeam} from 'actions/Team';
 import { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 
-const useStyles = (theme) => ({
+const useStyles = (theme) => createStyles({
   root: {
-    display: 'flex',
+    
   },
   appBar: {
+    position: 'fixed',
     zIndex: theme.zIndex.drawer + 1,
     background:'#303030',
     [theme.breakpoints.up('sm')]: {
@@ -40,10 +41,7 @@ const useStyles = (theme) => ({
     backgroundColor: '#00C6CF' ,
   },
   toolbar: theme.mixins.toolbar,
-  toolBar: {
-    justifyContent:'space-between',
-    'align-items': 'center'
-  },
+  toolBar: {},
   popover: {
     width: '150%',
     height: '150%',
@@ -127,7 +125,7 @@ class MyAppBar extends Component {
     
     return (
       <div>
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar className={classes.appBar}>
           <Toolbar className={classes.toolBar}> 
             <IconButton
               color="inherit"

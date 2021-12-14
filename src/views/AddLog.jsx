@@ -112,7 +112,7 @@ class AddLog extends Component {
         this.props.operatedTeam
       )
     } else{
-        this.props.newLog(
+      this.props.newLog(
         localStorage.getItem("uid"),
         null,
         this.state.title,

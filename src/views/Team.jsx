@@ -61,7 +61,12 @@ class Team extends Component {
   }
 
   exportReport() {
-    Export.exportHTML(this.reportElement)
+    let clonedNode = this.reportElement.cloneNode(true)
+    let exportButton = clonedNode.firstChild.firstChild
+
+    clonedNode.firstChild.removeChild(exportButton)
+
+    Export.exportHTML(clonedNode)
   };
 
   handleChangeTeamUUID(event) {

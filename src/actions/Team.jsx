@@ -2,18 +2,18 @@ import { updateTeamDashBoard } from './DashBoard'
 
 export function getTeam(groupname, teamID, userID, token) {
     return {
-      type: "UPDATE_TEAM",
-      groupname: groupname,
-      token: token,
-      teamID: teamID,
-      userID: userID,
-      setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
-      setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
-      loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-      updateTeamDashBoard: (teamID, memberList, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList)),
-    }   
+        type: "UPDATE_TEAM",
+        groupname: groupname,
+        token: token,
+        teamID: teamID,
+        userID: userID,
+        setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
+        setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
+        loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
+        updateTeamDashBoard: (teamID, memberList, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList)),
+    }
 }
-  
+
 export function setMemberList(memberList) {
     return {
         type: "SET_MEMBER_LIST",

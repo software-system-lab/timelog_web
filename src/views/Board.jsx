@@ -1,17 +1,18 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import moment from "moment";
 import { withRouter } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import "./Board.css";
-import Export from '../export/export.js';
-import { connect } from 'react-redux';
-import Popover from '@material-ui/core/Popover';
-import moment from "moment";
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
-import { updateDashBoard, loadDashBoard } from 'actions/DashBoard';
+import Popover from '@material-ui/core/Popover';
 import { withStyles } from '@material-ui/core/styles';
+
+import "./Board.css";
+import Export from '../export/export.js';
+import { updateDashBoard, loadDashBoard } from 'actions/DashBoard';
 
 import DashBoard from './DashBoard';
 
@@ -40,7 +41,6 @@ const useStyles = (theme) => ({
 });
 
 class Board extends Component {
-
   constructor(props) {
     super(props)
     this.exportReport = this.exportReport.bind(this)

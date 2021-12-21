@@ -1,6 +1,6 @@
 export const memberListReducer = (state = [], action) => {
-    switch(action.type){
-        case "SET_MEMBER_LIST":{
+    switch (action.type) {
+        case "SET_MEMBER_LIST": {
             return [...action.memberList]
         }
         default:
@@ -9,8 +9,8 @@ export const memberListReducer = (state = [], action) => {
 }
 
 export const isLeaderReducer = (state = [], action) => {
-    switch(action.type){
-        case "SET_LEADER":{
+    switch (action.type) {
+        case "SET_LEADER": {
             return action.isLeader
         }
         default:
@@ -19,8 +19,8 @@ export const isLeaderReducer = (state = [], action) => {
 }
 
 export const operatedTeamReducer = (state = [], action) => {
-    switch(action.type){
-        case "SET_OPERATED_TEAM":{
+    switch (action.type) {
+        case "SET_OPERATED_TEAM": {
             return action.team
         }
         default:
@@ -29,8 +29,8 @@ export const operatedTeamReducer = (state = [], action) => {
 }
 
 export const teamActivityTypeListReducer = (state = [], action) => {
-    switch(action.type){
-        case "SET_TEAM_ACTIVITY_TYPE_LIST":{
+    switch (action.type) {
+        case "SET_TEAM_ACTIVITY_TYPE_LIST": {
             return [...action.teamActivityTypeList]
         }
         default:
@@ -39,8 +39,8 @@ export const teamActivityTypeListReducer = (state = [], action) => {
 }
 
 export const allTeamActivityTypeListReducer = (state = [], action) => {
-    switch(action.type){
-        case "SET_ALL_TEAM_ACTIVITY_TYPE_LIST":{
+    switch (action.type) {
+        case "SET_ALL_TEAM_ACTIVITY_TYPE_LIST": {
             return [...action.allTeamActivityTypeList]
         }
         default:
@@ -50,9 +50,9 @@ export const allTeamActivityTypeListReducer = (state = [], action) => {
 
 export const myTeamsReducer = (state = [], action) => {
     switch (action.type) {
-    case 'SET_BELONGING_TEAM':
-        return [...action.myTeams]
-    default:
-        return state
+        case 'SET_BELONGING_TEAM':
+            return [...action.myTeams]
+        default:
+            return state
     }
 }

@@ -1,13 +1,20 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { Button } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import "./Team.css";
-import Export from '../export/export.js';
 import { connect } from 'react-redux';
 import moment from "moment";
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
+import { withRouter } from "react-router-dom";
+import GetAppIcon from '@material-ui/icons/GetApp';
+import FilterListIcon from '@material-ui/icons/FilterList';
+
+import {
+  Button,
+  Checkbox,
+  Tooltip,
+  Popover,
+  withStyles
+} from '@material-ui/core'
+
+import "./Team.css";
+import Export from '../export/export.js';
 import DashBoard from './DashBoard';
 import { setOperatedTeam, getTeam } from 'actions/Team';
 import { updateTeamDashBoard } from 'actions/DashBoard';
@@ -34,30 +41,56 @@ const useStyles = (theme) => ({
     'justify-content': 'space-around',
     'align-items': 'center'
   },
-  tooltip: {
-
+  exportButton: {
+    color: 'white',
+    borderColor: 'white',
+    width: '120px'
+  },
+  selectButton: {
+    color: 'white',
+    borderColor: 'white',
+    width: '120px'
+  },
+  teamActivityFilterList: {
+    padding: '5px'
+  },
+  teamActivityFilterOption: {
+    marginRight: '15px'
+  },
+  btnSubmitFilterArea: {
+    marginBottom: '5px'
+  },
+  btnSubmitFilter: {
+    padding: '5px'
   }
 });
 
 class Team extends Component {
-
   constructor(props) {
     super(props)
     this.exportReport = this.exportReport.bind(this)
     this.handleChangeTeamUUID = this.handleChangeTeamUUID.bind(this)
     this.render = this.render.bind(this)
+    this.clickSelectButton = this.clickSelectButton.bind(this)
+    this.closeSelectFilter = this.closeSelectFilter.bind(this)
+    this.selectAllFilterOptions = this.selectAllFilterOptions.bind(this)
+    this.selectFilterOption = this.selectFilterOption.bind(this)
+    this.clickSubmitFilter = this.clickSubmitFilter.bind(this)
+    this.selectPersonalFilterOptions = this.selectPersonalFilterOptions.bind(this)
+
     this.state = {
-      anchorEl: null,
-      open: false,
-      activityTypeList: [],
-      flag: true,
-      filterList: [],
-      select: false,
+      filterAnchorEl: null,
+      selectedFilterList: [],
+      isPersonalFilterOptionSelected: true
     };
   }
 
   componentDidMount() {
-    this.props.refreshTeamDashBoard(this.props.operatedTeam.teamID, this.props.memberList);
+    this.props.refreshTeamDashBoard(
+      this.props.operatedTeam.teamID,
+      this.props.memberList,
+      null
+    );
   }
 
   exportReport() {
@@ -70,15 +103,68 @@ class Team extends Component {
   };
 
   handleChangeTeamUUID(event) {
-    console.log(event)
+    // console.log(event)
     // this.props.setOperatedTeam([event.username,event.unitID])
     // this.props.getTeam(event.username,event.unitID,localStorage.getItem("uid"))
   };
 
+  clickSelectButton(event) {
+    // set anchor for popover
+    this.setState({ filterAnchorEl: event.currentTarget })
+
+    if (this.state.selectedFilterList.length == 0)
+      this.setState({ selectedFilterList: [...Array(this.props.teamActivityTypeList.length).fill(true)] })
+  }
+
+  closeSelectFilter() {
+    // set anchor element to null
+    this.setState({ filterAnchorEl: null })
+  }
+
+  selectAllFilterOptions(event) {
+    // update activity type list
+    const newList = this.state.selectedFilterList.map(opt => event.target.checked)
+    this.setState({ selectedFilterList: newList })
+
+    // update personal option
+    const oldState = this.state.isPersonalFilterOptionSelected
+    this.setState({ isPersonalFilterOptionSelected: !oldState })
+  }
+
+  selectFilterOption(idx) {
+    let list = [...this.state.selectedFilterList]
+    list[idx] = !this.state.selectedFilterList[idx]
+
+    this.setState({ selectedFilterList: list })
+  }
+
+  selectPersonalFilterOptions() {
+    const oldState = this.state.isPersonalFilterOptionSelected
+    this.setState({ isPersonalFilterOptionSelected: !oldState })
+  }
+
+  clickSubmitFilter() {
+    // make filter list (array of string)
+    const selectedFilterList = this.state.selectedFilterList
+    let filterList = this.props.teamActivityTypeList
+      .filter((activity, idx) => selectedFilterList[idx])
+      .map(activity => activity.name)
+
+    // close filter panel
+    this.closeSelectFilter()
+
+    // call api to update team dashboard
+    this.props.refreshTeamDashBoard(
+      this.props.operatedTeam.teamID,
+      this.props.memberList,
+      filterList,
+      this.state.isPersonalFilterOptionSelected
+    );
+  }
+
   render() {
     const { classes } = this.props;
     const white = '#FFFFFF';
-
     return (
       <div>
         <div ref={(element) => { this.reportElement = element }}>
@@ -88,13 +174,14 @@ class Team extends Component {
                 <Tooltip
                   arrow
                   title={"Zoom the web browser to 100% for better result"}
-                  // classes={{tooltip: {'font-size': '19px'}}}
                   className={classes.tooltip}
                 >
-                  <Button startIcon={<GetAppIcon />}
+                  <Button
                     onClick={this.exportReport}
+                    startIcon={<GetAppIcon />}
                     variant="outlined"
-                    style={{ color: white, borderColor: white }}>
+                    className={classes.exportButton}
+                  >
                     Export
                   </Button>
                 </Tooltip>
@@ -121,7 +208,72 @@ class Team extends Component {
                 Spent Time : {this.props.teamDashBoardData.team.totalTime}
               </h3>
             </div>
-            <div style={{ width: '115px' }}></div>
+            <div>
+              <div className="selector-button">
+                <Button
+                  onClick={event => this.clickSelectButton(event)}
+                  startIcon={<FilterListIcon />}
+                  variant="outlined"
+                  className={classes.selectButton}
+                >
+                  Filter
+                </Button>
+                <div className="team-filter-popover">
+                  <Popover
+                    open={!!this.state.filterAnchorEl}
+                    anchorEl={this.state.filterAnchorEl}
+                    onClose={this.closeSelectFilter}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <div className={classes.teamActivityFilterList}>
+                      <div className={classes.teamActivityFilterOption}>
+                        <Checkbox
+                          onChange={this.selectAllFilterOptions}
+                          checked={this.state.selectedFilterList.every(opt => opt) && this.state.isPersonalFilterOptionSelected}
+                        />
+                        <span>Select All</span>
+                      </div>
+                      {
+                        this.props.teamActivityTypeList.map((activityType, idx) => {
+                          return (
+                            <div className={classes.teamActivityFilterOption}>
+                              <Checkbox
+                                onChange={() => this.selectFilterOption(idx)}
+                                checked={this.state.selectedFilterList[idx]}
+                              />
+                              <span>{activityType.name}</span>
+                            </div>
+                          )
+                        })
+                      }
+                      <div className={classes.teamActivityFilterOption}>
+                        <Checkbox
+                          onChange={this.selectPersonalFilterOptions}
+                          checked={this.state.isPersonalFilterOptionSelected}
+                        />
+                        <span>Personal</span>
+                      </div>
+                    </div>
+                    <center className={classes.btnSubmitFilterArea}>
+                      <Button
+                        className={classes.btnSubmitFilter}
+                        color="secondary"
+                        onClick={this.clickSubmitFilter}
+                      >
+                        Submit
+                      </Button>
+                    </center>
+                  </Popover>
+                </div>
+              </div>
+            </div>
           </div>
           <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea={"50vh"} />
 
@@ -150,14 +302,15 @@ function mapStateToProps(state) {
     memberList: state.memberList,
     operatedTeam: state.operatedTeam,
     groupList: state.groupList,
+    teamActivityTypeList: state.teamActivityTypeList
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshTeamDashBoard: (teamId, memberList) => dispatch(updateTeamDashBoard(teamId, memberList)),
+    refreshTeamDashBoard: (teamId, memberList, filterList, isPersonal) => dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal)),
     setOperatedTeam: (team) => dispatch(setOperatedTeam(team)),
-    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token))
+    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token)),
   }
 }
 

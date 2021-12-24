@@ -2,19 +2,18 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import moment from "moment";
 import { withRouter } from "react-router-dom";
-import GetAppIcon from '@material-ui/icons/GetApp';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 import {
   Button,
   Checkbox,
-  Tooltip,
   Popover,
   withStyles
 } from '@material-ui/core'
 
+import DashboardExporter from "../components/DashboardExporter";
+
 import "./Team.css";
-import Export from '../export/export.js';
 import DashBoard from './DashBoard';
 import { setOperatedTeam, getTeam } from 'actions/Team';
 import { updateTeamDashBoard } from 'actions/DashBoard';
@@ -68,7 +67,7 @@ const useStyles = (theme) => ({
 class Team extends Component {
   constructor(props) {
     super(props)
-    this.exportReport = this.exportReport.bind(this)
+    this.buildReportElement = this.buildReportElement.bind(this)
     this.handleChangeTeamUUID = this.handleChangeTeamUUID.bind(this)
     this.render = this.render.bind(this)
     this.clickSelectButton = this.clickSelectButton.bind(this)
@@ -93,13 +92,16 @@ class Team extends Component {
     );
   }
 
-  exportReport() {
-    let clonedNode = this.reportElement.cloneNode(true)
-    let exportButton = clonedNode.firstChild.firstChild
+  buildReportElement() {
+    // console.log(this.reportElement)
+    // let clonedNode = this.reportElement.cloneNode(true)
+    // clonedNode.parentElement.
+    // let exportButton = clonedNode.firstChild.firstChild
 
-    clonedNode.firstChild.removeChild(exportButton)
+    // clonedNode.firstChild.removeChild(exportButton)
 
-    Export.exportHTML(clonedNode)
+    // return clonedNode
+    // Export.exportHTML(clonedNode)
   };
 
   handleChangeTeamUUID(event) {
@@ -164,28 +166,15 @@ class Team extends Component {
 
   render() {
     const { classes } = this.props;
-    const white = '#FFFFFF';
+
     return (
       <div>
-        <div ref={(element) => { this.reportElement = element }}>
+        <div ref={el => { this.reportElement = el }}>
           <div className={classes.boardHead}>
-            <div>
-              <div className={classes.exportButton}>
-                <Tooltip
-                  arrow
-                  title={"Zoom the web browser to 100% for better result"}
-                  className={classes.tooltip}
-                >
-                  <Button
-                    onClick={this.exportReport}
-                    startIcon={<GetAppIcon />}
-                    variant="outlined"
-                    className={classes.exportButton}
-                  >
-                    Export
-                  </Button>
-                </Tooltip>
-              </div>
+            <div className={classes.exportButton} id="export-delete">
+              <DashboardExporter
+                targetEl={this.reportElement}
+              />
             </div>
             <div>
               {
@@ -209,7 +198,7 @@ class Team extends Component {
               </h3>
             </div>
             <div>
-              <div className="selector-button">
+              <div className="selector-button" id="export-delete">
                 <Button
                   onClick={event => this.clickSelectButton(event)}
                   startIcon={<FilterListIcon />}
@@ -218,60 +207,58 @@ class Team extends Component {
                 >
                   Filter
                 </Button>
-                <div className="team-filter-popover">
-                  <Popover
-                    open={!!this.state.filterAnchorEl}
-                    anchorEl={this.state.filterAnchorEl}
-                    onClose={this.closeSelectFilter}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <div className={classes.teamActivityFilterList}>
-                      <div className={classes.teamActivityFilterOption}>
-                        <Checkbox
-                          onChange={this.selectAllFilterOptions}
-                          checked={this.state.selectedFilterList.every(opt => opt) && this.state.isPersonalFilterOptionSelected}
-                        />
-                        <span>Select All</span>
-                      </div>
-                      {
-                        this.props.teamActivityTypeList.map((activityType, idx) => {
-                          return (
-                            <div className={classes.teamActivityFilterOption}>
-                              <Checkbox
-                                onChange={() => this.selectFilterOption(idx)}
-                                checked={this.state.selectedFilterList[idx]}
-                              />
-                              <span>{activityType.name}</span>
-                            </div>
-                          )
-                        })
-                      }
-                      <div className={classes.teamActivityFilterOption}>
-                        <Checkbox
-                          onChange={this.selectPersonalFilterOptions}
-                          checked={this.state.isPersonalFilterOptionSelected}
-                        />
-                        <span>Personal</span>
-                      </div>
+                <Popover
+                  open={!!this.state.filterAnchorEl}
+                  anchorEl={this.state.filterAnchorEl}
+                  onClose={this.closeSelectFilter}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div className={classes.teamActivityFilterList}>
+                    <div className={classes.teamActivityFilterOption}>
+                      <Checkbox
+                        onChange={this.selectAllFilterOptions}
+                        checked={this.state.selectedFilterList.every(opt => opt) && this.state.isPersonalFilterOptionSelected}
+                      />
+                      <span>Select All</span>
                     </div>
-                    <center className={classes.btnSubmitFilterArea}>
-                      <Button
-                        className={classes.btnSubmitFilter}
-                        color="secondary"
-                        onClick={this.clickSubmitFilter}
-                      >
-                        Submit
-                      </Button>
-                    </center>
-                  </Popover>
-                </div>
+                    {
+                      this.props.teamActivityTypeList.map((activityType, idx) => {
+                        return (
+                          <div className={classes.teamActivityFilterOption}>
+                            <Checkbox
+                              onChange={() => this.selectFilterOption(idx)}
+                              checked={this.state.selectedFilterList[idx]}
+                            />
+                            <span>{activityType.name}</span>
+                          </div>
+                        )
+                      })
+                    }
+                    <div className={classes.teamActivityFilterOption}>
+                      <Checkbox
+                        onChange={this.selectPersonalFilterOptions}
+                        checked={this.state.isPersonalFilterOptionSelected}
+                      />
+                      <span>Personal</span>
+                    </div>
+                  </div>
+                  <center className={classes.btnSubmitFilterArea}>
+                    <Button
+                      className={classes.btnSubmitFilter}
+                      color="secondary"
+                      onClick={this.clickSubmitFilter}
+                    >
+                      Submit
+                    </Button>
+                  </center>
+                </Popover>
               </div>
             </div>
           </div>

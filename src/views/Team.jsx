@@ -174,6 +174,7 @@ class Team extends Component {
             <div className={classes.exportButton} id="export-delete">
               <DashboardExporter
                 targetEl={this.reportElement}
+                logData={this.props.teamDashBoardData}
               />
             </div>
             <div>

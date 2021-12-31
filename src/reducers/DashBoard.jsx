@@ -23,3 +23,12 @@ export const TeamDashBoardReducer = (state = defaultTeamState, action) => {
       return state;
   }
 }
+
+export const ExportExcelReducer = (state = [], action) => {
+  switch (action.type) {
+    case "SET_EXPORT_EXCEL_DATA":
+      return action.exportData
+    default:
+      return state
+  }
+}

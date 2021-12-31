@@ -1,6 +1,6 @@
 import activityTypeListReducer from './activityTypeList'
 import HistoryReducer from './History'
-import { DashBoardReducer, TeamDashBoardReducer} from './DashBoard'
+import { DashBoardReducer, ExportExcelReducer, TeamDashBoardReducer} from './DashBoard'
 import StopWatchReducer from './StopWatch'
 import { combineReducers } from 'redux'
 import groupListReducer from './groupList'
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
     allTeamActivityTypeList: allTeamActivityTypeListReducer,
     myTeams: myTeamsReducer,
     teamDashBoardData: TeamDashBoardReducer,
+    exportExcelData: ExportExcelReducer
 })
 
 export default rootReducer

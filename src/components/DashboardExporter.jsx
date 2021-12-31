@@ -1,11 +1,13 @@
 import React from 'react'
-import { Button, withStyles, Tooltip, Popover } from '@material-ui/core'
+import { Button, withStyles, Tooltip, Popover, Avatar, DialogContentText } from '@material-ui/core'
 import GetAppIcon from '@material-ui/icons/GetApp'
 import Export from '../export/export.js';
+import './DashboardExporter.css'
 
 import htmlImg from '../img/html.svg'
 import jsonImg from '../img/json.svg'
 import xlsImg from '../img/xls.svg'
+import { connect } from 'react-redux';
 
 const useStyles = () => ({
   exportButton: {
@@ -43,15 +45,22 @@ class DashboardExporter extends React.Component {
     this.exportAsExcel = this.exportAsExcel.bind(this)
     this.closeExportOption = this.closeExportOption.bind(this)
 
+
     this.state = {
       exportOptAnchorEl: null,
-      showTooltip: false
+      showTooltip: false,
     }
+
+    // preload images
+    const images = ['html.svg', 'json.svg', 'xls.svg']
+    images.forEach(i => {
+      const img = new Image()
+      img.src = i
+    })
   }
 
   clickExportReport(event) {
     this.setState({ exportOptAnchorEl: event.currentTarget })
-    console.log(this.exportOptAnchorEl)
   }
 
   exportAsHtml() {
@@ -64,7 +73,7 @@ class DashboardExporter extends React.Component {
 
     unwantedElements.forEach(el => { el.outerHTML = '' })
 
-    Export.exportHTML(clonedNode)
+    Export.exportHTML(clonedNode, this.props.operatedTeam.teamName)
   }
 
   exportAsJson() {
@@ -73,73 +82,85 @@ class DashboardExporter extends React.Component {
 
   exportAsExcel() {
     console.log('export as excel')
+    Export.exportExcel(this.props.exportExcelData, this.props.operatedTeam.teamName)
   }
 
   closeExportOption() {
     this.setState({ exportOptAnchorEl: null })
   }
 
-  render() {
-    const { classes } = this.props
+  buildOptionButtonIcon(srcImg) {
+    return <Avatar src={srcImg} style={{ width: 24, height: 24 }} variant="square" /> 
+  }
 
+  render() {
     return (
-      <Tooltip
-        arrow
-        title={<p style={{ fontSize: '1.2em', color: 'white' }}>Zoom the web browser to 100% for better result</p>}
-        open={!this.state.exportOptAnchorEl && this.state.showTooltip}
-      >
-        <div>
-          <Button
-            onClick={this.clickExportReport}
-            startIcon={<GetAppIcon />}
-            variant="outlined"
-            className={classes.exportButton}
-            onMouseEnter={() => this.setState({ showTooltip: true })}
-            onMouseLeave={() => this.setState({ showTooltip: false })}
-          >
-            Export
-          </Button>
-          <Popover
-            open={!!this.state.exportOptAnchorEl}
-            anchorEl={this.state.exportOptAnchorEl}
-            onClose={this.closeExportOption}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            <div className={classes.exportFormatList}>
-              <div
-                className={classes.exportFormatOption}
+      <div>
+        <Button
+          onClick={this.clickExportReport}
+          startIcon={<GetAppIcon />}
+          variant="outlined"
+          className="export-button"
+          onMouseEnter={() => this.setState({ showTooltip: true })}
+          onMouseLeave={() => this.setState({ showTooltip: false })}
+        >
+          Export
+        </Button>
+        <Popover
+          open={!!this.state.exportOptAnchorEl}
+          anchorEl={this.state.exportOptAnchorEl}
+          onClose={this.closeExportOption}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <div className="export-format-list">
+            <Tooltip
+              arrow
+              title={<p style={{ fontSize: '1.2em', color: 'white' }}>Zoom the web browser to 100% for better result</p>}
+            >
+              <Button
+                className="export-format-option"
                 onClick={this.exportAsHtml}
+                startIcon={this.buildOptionButtonIcon(htmlImg)}
+                style={{ justifyContent: 'space-around' }}
               >
-                <img src={htmlImg} className={classes.exportOptionIcon} />
-                <span className={classes.exportOptionText}>HTML</span>
-              </div>
-              <div
-                className={classes.exportFormatOption}
-                onClick={this.exportAsJson}
-              >
-                <img src={jsonImg} className={classes.exportOptionIcon} />
-                <span className={classes.exportOptionText}>JSON</span>
-              </div>
-              <div
-                className={classes.exportFormatOption}
-                onClick={this.exportAsExcel}
-              >
-                <img src={xlsImg} className={classes.exportOptionIcon} />
-                <span className={classes.exportOptionText}>EXCEL</span>
-              </div>
-            </div>
-          </Popover>
-        </div>
-      </Tooltip>
+                <span className="export-option-text">HTML</span>
+              </Button>
+            </Tooltip>
+            <Button
+              className="export-format-option"
+              onClick={this.exportAsJson}
+              startIcon={this.buildOptionButtonIcon(jsonImg)}
+              style={{ justifyContent: 'space-around' }}
+            >
+              <span className="export-option-text">JSON</span>
+            </Button>
+            <Button
+              className="export-format-option"
+              onClick={this.exportAsExcel}
+              startIcon={this.buildOptionButtonIcon(xlsImg)}
+              style={{ justifyContent: 'space-around' }}
+            >
+              <span className="export-option-text">EXCEL</span>
+            </Button>
+          </div>
+        </Popover>
+      </div>  
     )
   }
 }
 
-export default withStyles(useStyles, { withTheme: false })(DashboardExporter)
+function mapStateToProps(state) {
+  return {
+    exportExcelData: state.exportExcelData,
+    operatedTeam: state.operatedTeam,
+  }
+}
+
+export default withStyles(useStyles, { withTheme: false })(connect(mapStateToProps)((DashboardExporter)))

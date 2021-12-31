@@ -95,7 +95,6 @@ const myMiddleware = store => next => action => {
         axios.post(API_HOST + '/log/history', body, { headers: headers })
           .then(response => {
             action.setHistory(response.data.logItemList, store.dispatch);
-            console.log(response.data.logItemList)
           })
           .catch(err => {
             console.log(err)
@@ -312,6 +311,8 @@ const myMiddleware = store => next => action => {
     body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
     axios.post(API_HOST + '/dash-board/team/dashboard', body, { headers: headers })
       .then(response => {
+        console.log(response.data)
+        action.setExportExcelData(JSON.parse(JSON.stringify(response.data)), store.dispatch)
         const member = []
         const totalTimeString = response.data.totalTime
         const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])

@@ -31,7 +31,8 @@ export function updateTeamDashBoard(teamID, memberList, filterList = null, perso
     memberList: memberList,
     filterList: filterList,
     personal: personal,
-    setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData))
+    setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData)),
+    setExportExcelData: (exportData, dispatch) => dispatch(setExportExcelData(exportData))
   }
 }
 
@@ -42,3 +43,9 @@ export function setTeamDashBoard(teamDashBoardData) {
   }
 }
 
+export function setExportExcelData(exportData) {
+  return {
+    type: "SET_EXPORT_EXCEL_DATA",
+    exportData: exportData
+  }
+}

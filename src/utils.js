@@ -7,3 +7,7 @@ export const readableCounter = (secs) => {
       .map((v, i) => v < 10 ? "0" + v : v)
       .join(":");
 };
+
+export const formatDate = date => {
+  return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+}

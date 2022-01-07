@@ -125,12 +125,17 @@ class Team extends Component {
 
   selectAllFilterOptions(event) {
     // update activity type list
+    const atLeastOneNotSelected = this.state.selectedFilterList.some(opt => !opt)
     const newList = this.state.selectedFilterList.map(opt => event.target.checked)
     this.setState({ selectedFilterList: newList })
 
     // update personal option
-    const oldState = this.state.isPersonalFilterOptionSelected
-    this.setState({ isPersonalFilterOptionSelected: !oldState })
+    if (atLeastOneNotSelected) {
+      this.setState({ isPersonalFilterOptionSelected: true })
+    } else {
+      const oldState = this.state.isPersonalFilterOptionSelected
+      this.setState({ isPersonalFilterOptionSelected: !oldState })
+    }
   }
 
   selectFilterOption(idx) {

@@ -143,7 +143,8 @@ function html (content) {
   vertical-align: inherit;
 }
 .MuiTableCell-head {
-  color: #FFFFFF;
+  color: #000000;
+  background: rgba(224, 224, 224, 1)!important;
   font-weight: 500;
   line-height: 1.5rem;
 }
@@ -243,6 +244,8 @@ svg.MuiSvgIcon-root {
 </style>
 <style data-jss="" data-meta="MuiTableSortLabel">
 .MuiTableSortLabel-root {
+  color: black;
+  background: rgba(224, 224, 224, 1);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -256,7 +259,6 @@ svg.MuiSvgIcon-root {
   color: #FFFFFF;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active {
-  color: #FFFFFF;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon {
   color: #FFFFFF;

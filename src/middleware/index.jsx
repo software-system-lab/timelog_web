@@ -105,7 +105,8 @@ const myMiddleware = store => next => action => {
         }
         if (data.username === TIMELOG_ADMIN) {
           axios.get(`${AMS_HOST}/team`).then(response => {
-            axios.post(`${API_HOST}/activity/all`, { unitIdList: response.data }).then(response => {
+            const teamIdList = response.data.map(t => t.team.id)
+            axios.post(`${API_HOST}/activity/all`, { unitIdList: teamIdList}).then(response => {
               const teamList = response.data.unitDTOList.map(ele => { return { teamName: ele.unitName, teamID: ele.unitID } });
               action.setGroupList(teamList, store.dispatch);
               action.setOperatedTeam(teamList[0], store.dispatch);

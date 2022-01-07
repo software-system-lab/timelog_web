@@ -32,7 +32,7 @@ export function updateTeamDashBoard(teamID, memberList, filterList = null, perso
     filterList: filterList,
     personal: personal,
     setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData)),
-    setExportExcelData: (exportData, dispatch) => dispatch(setExportExcelData(exportData))
+    setExportExcelData: (exportData, dispatch) => dispatch(setExportExcelData(exportData)),
   }
 }
 

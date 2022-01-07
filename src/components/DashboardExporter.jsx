@@ -50,13 +50,6 @@ class DashboardExporter extends React.Component {
       exportOptAnchorEl: null,
       showTooltip: false,
     }
-
-    // preload images
-    const images = ['html.svg', 'json.svg', 'xls.svg']
-    images.forEach(i => {
-      const img = new Image()
-      img.src = i
-    })
   }
 
   clickExportReport(event) {
@@ -133,14 +126,14 @@ class DashboardExporter extends React.Component {
                 <span className="export-option-text">HTML</span>
               </Button>
             </Tooltip>
-            <Button
+            {/* <Button
               className="export-format-option"
               onClick={this.exportAsJson}
               startIcon={this.buildOptionButtonIcon(jsonImg)}
               style={{ justifyContent: 'space-around' }}
             >
               <span className="export-option-text">JSON</span>
-            </Button>
+            </Button> */}
             <Button
               className="export-format-option"
               onClick={this.exportAsExcel}

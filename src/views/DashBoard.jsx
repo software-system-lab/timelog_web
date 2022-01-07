@@ -31,6 +31,12 @@ class DashBoard extends Component {
     }
   }
 
+  getGroupIcon = () => {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}><GroupIcon /></div>
+    )
+  }
+
   render() {
     const white = '#FFFFFF';
     return (
@@ -60,10 +66,10 @@ class DashBoard extends Component {
             icons={tableIcons}
             columns={[
               this.props.isPersonal ?
-                { render: rowData => this.state.group.includes(rowData.activityTypeName) ? <GroupIcon /> : "" } : { hidden: true },
-              { title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42' },
-              { title: "Spent Time", field: "timeLength", defaultSort: 'desc' },
-              { title: "Percentage", field: "percentage" },
+              { headerStyle: {padding: 5, borderRight: '1px solid rgba(224, 224, 224, 1)', maxWidth: '5%'}, cellStyle: {padding: 5, borderRight: '1px solid rgba(224, 224, 224, 1)', maxWidth: '5%'}, align: 'center', render: rowData => this.state.group.includes(rowData.activityTypeName) ? this.getGroupIcon() : "" } : { hidden: true },
+              { headerStyle: {padding: '10px 0px 10px 10px'}, cellStyle: {padding: '10px 0px 10px 10px'}, title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42' },
+              { headerStyle: {padding: '10px 0px 10px 10px'}, cellStyle: {padding: '10px 0px 10px 10px'}, title: "Spent Time", field: "timeLength", defaultSort: 'desc' },
+              { headerStyle: {padding: '10px 0px 10px 10px'}, cellStyle: {padding: '10px 0px 10px 10px'}, title: "Percentage", field: "percentage" },
             ]}
             data={this.props.tableData}
             sortDirection={"timeLength"}
@@ -72,10 +78,15 @@ class DashBoard extends Component {
               paging: false,
               toolbar: false,
               sorting: true,
-              tableLayout: "fixed"
+              tableLayout: "auto",
+              headerStyle: {
+                background: "#EEEEEE",
+                color: 'black!important'
+              },
             }}
-            sx={{
-              maxHeight: 100
+            style={{
+              border: '4px solid #777777',
+              borderRadius: 3
             }}
           />
         </div>

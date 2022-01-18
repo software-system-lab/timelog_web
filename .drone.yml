@@ -1,8 +1,8 @@
 kind: secret
-name: timelog_docker_user
+name: docker_hub_user
 ---
 kind: secret
-name: timelog_docker_passwd
+name: docker_hub_password
 ---
 kind: secret
 name: rancher_cluster_token
@@ -17,57 +17,44 @@ kind: secret
 name: sonar_project_token
 ---
 
-# kind: pipeline
-# type: docker
-# name: Analysis
-
-# steps:
-#   - name: Install node modules
-#     image: node:10.16.3
-#     commands:
-#       - yarn install
-
-# trigger:
-#     branch:
-#       - master
-#       - dev
-
-# ---
 
 kind: pipeline
-type: docker
+type: kubernetes
 name: Build
 
 steps:
-  - name: Install node modules
-    image: node:10.16.3
-    commands:
-      - yarn install
+- name: Install node modules
+  image: node:10.16.3
+  commands:
+  - yarn install
 
-  - name: Build production web
-    image: node:10.16.3
-    commands:
-      - yarn run build
-    when:
-        branch:
-          - master
+- name: Build static web files
+  image: node:10.16.3
+  commands:
+  - yarn run build
+  when:
+    branch:
+    - master
 
-  - name: Publish
-    image: plugins/docker
-    settings:
-        repo: ssl1321ois/timelog_web
-        tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-        username:
-            from_secret: timelog_docker_user
-        password:
-            from_secret: timelog_docker_passwd
-    when: 
-        event:
-            - push
+- name: Publish
+  image: plugins/docker
+  settings:
+    repo: ssl1321ois/timelog_web
+    tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+    username:
+      from_secret: docker_hub_user
+    password:
+      from_secret: docker_hub_password
+  when: 
+    event:
+    - push
 
 trigger:
-    branch:
-      - master
+  branch:
+  - master
+  - dev
+  event:
+  - push
 
 # depends_on:
 #   - Analysis
@@ -75,32 +62,34 @@ trigger:
 ---
 
 kind: pipeline
-type: docker
+type: kubernetes
 name: Deployment
 
 steps:
-  - name: Deploy Production
-    image: nightlord851108/kustomize
-    environment:
-        RANCHER_HOST:
-            from_secret:
-                rancher_host
-        CLUSTER_TOKEN:
-            from_secret:
-                rancher_cluster_token
-    commands:
-        - cd kustomize/overlays/production
-        - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-        - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-production -f -
-    when:
-        branch:
-          - master
-        event:
-          - push
+- name: Deploy Production
+  image: nightlord851108/kustomize
+  environment:
+    RANCHER_HOST:
+      from_secret:
+        rancher_host
+    CLUSTER_TOKEN:
+      from_secret:
+        rancher_cluster_token
+  commands:
+  - cd kustomize/overlays/production
+  - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+  - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
+  when:
+    branch:
+    - master
+    event:
+    - push
 
 trigger:
-    branch:
-      - master
+  branch:
+  - master
+  event:
+  - push
 
 depends_on:
-  - Build
+- Build

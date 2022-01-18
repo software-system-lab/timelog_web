@@ -24,12 +24,12 @@ name: Build
 
 steps:
 - name: Install node modules
-  image: node:10.16.3
+  image: node:16
   commands:
   - npm install
 
 - name: Build static web files
-  image: node:10.16.3
+  image: node:16
   commands:
   - npm run build
   when:

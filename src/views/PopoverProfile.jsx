@@ -4,15 +4,25 @@ import {
   Avatar,
   Button
 } from '@material-ui/core';
+import { connect } from 'react-redux';
 
-export default function PopoverProfile() {
+function PopoverProfile(props) {
   const [displayName] = useState(localStorage.getItem("displayName"));
-  const [name] = useState(localStorage.getItem("cn"));
+  const [username] = useState(localStorage.getItem("cn"));
   const [email] = useState(localStorage.getItem("mail"));
 
   const logout = () => {
     localStorage.clear();
     window.location.href = '/';
+  }
+
+  const ams = () => {
+    var redirectURL = process.env.REACT_APP_AMS_WEB + "?";
+    redirectURL += "cn=" + username + "&";
+    redirectURL += "displayName=" + displayName + "&"; 
+    redirectURL += "teamName=" + props.operatedTeam.teamName; 
+    window.open(redirectURL);
+  
   }
 
   return (
@@ -23,20 +33,41 @@ export default function PopoverProfile() {
         <div className="profile-split"></div>
         <div>
           <p>{displayName}</p>
-          <p>{name}</p>
+          <p>{username}</p>
           <p>{email}</p>
         </div>
         <div className="profile-split"></div>
-        <Button 
-          className = "logout-btn" 
-          variant="contained" 
-          color="primary" 
-          style = {{minWidth : "6vw"}}
-          onClick = {logout}
-          >
-            LOGOUT
-        </Button>
+        <div className="btn-div">
+          <Button 
+            className = "ams-btn" 
+            variant="contained" 
+            color="primary" 
+            style = {{minWidth : "6vw"}}
+            onClick = {ams}
+            >
+              ACCOUNT
+          </Button>
+          <Button 
+            className = "logout-btn" 
+            variant="contained" 
+            color="primary" 
+            style = {{minWidth : "6vw", margin : "10px"}}
+            onClick = {logout}
+            >
+              LOGOUT
+          </Button>
+        </div>
+        
       </div>
     </center>
   )
+};
+
+function mapStateToProps(state) {
+  return {
+    operatedTeam: state.operatedTeam,
+  }
 }
+
+
+export default connect(mapStateToProps)(PopoverProfile);

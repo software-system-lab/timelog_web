@@ -1,14 +1,14 @@
-import React, { Component } from "react"
-import { withRouter } from "react-router-dom"
-import MaterialTable from "material-table"
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import MaterialTable from "material-table";
 import { Input, Select, MenuItem } from "@material-ui/core";
-import { forwardRef } from 'react'
-import { connect } from 'react-redux'
-import { removeLog } from 'actions'
-import { editLog } from 'actions'
+import { forwardRef } from 'react';
+import { connect } from 'react-redux';
+import { removeLog } from 'actions';
+import { editLog } from 'actions';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import moment from 'moment'
+import moment from 'moment';
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -38,6 +38,9 @@ class History extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      personal: [{unitID: localStorage.getItem("uid"),unitName: "Personal" }],
+      selectTeam: [],
+      teamName : "",
       startTime: 0,
       endTime: 0,
       columns: [
@@ -51,27 +54,60 @@ class History extends Component {
         {
           title: "Activity Type",
           field: "activityTypeName",
-          editComponent: props => (
-            <Select
-              value={props.value}
-              onChange={event => props.onChange(event.target.value)}
-            >
+          width: "30%",
+          render: rowData => this.getDocumentTypeForRow(rowData),
+          editComponent:
+           props => (
+            <div>
+              <Select
+                value={this.state.selectTeam}
+                onChange={event => this.setState({selectTeam: event.target.value})}
+              >
+                <MenuItem value={this.state.personal}>Personal</MenuItem>
+                {
+                  this.props.allTeamActivityTypeList.map((team, key) => {
+                    return (
+                        <MenuItem value={team} key={key}>{team.unitName}</MenuItem>
+                    )
+                  })
+                }
+              </Select>
+              <Select
+                style={{marginLeft:'10px'}}
+                value={props.value}
+                onChange={event => props.onChange(event.target.value)}
+              >
               {
-                this.props.activityTypeList.map((activityType, key) => {
+                this.state.selectTeam.unitName === this.state.personal.unitName?
+                  this.props.activityTypeList.map((activityType, key) =>{
                     if(activityType.enable !== false) {
                       return (
-                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                       )
                     }
-                    else {
-                      return 0
+                    return null
+                  })
+                :
+                  this.props.allTeamActivityTypeList.map((team) => {
+                    if(this.state.selectTeam.unitName === team.unitName){
+                      return(
+                        team.activityTypeList.map((activityType, key) => {
+                        return (
+                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        )
+                        })
+                      )
                     }
-                })
+                    return null
+                  })
+                
               }
-            </Select>
+              </Select>
+            </div>
           ),
           initialEditValue: props.value
-        },{
+        },
+        {
           title: "Start Time",
           field: "startTime",
           defaultSort: "desc",
@@ -90,6 +126,50 @@ class History extends Component {
           )
         }
       ],
+    }
+    this.editSubmit = this.editSubmit.bind(this);
+    this.getDocumentTypeForRow = this.getDocumentTypeForRow.bind(this);
+    
+  }
+
+  getDocumentTypeForRow(value) {
+    console.log(value.activityTypeName)
+    console.log(value.teamName)
+    if(value.teamName === "Personal") {
+      return value.activityTypeName 
+    } else {
+      return `${value.activityTypeName} (${value.teamName})`
+    }
+    
+  }
+
+  editSubmit(oldData,newData) {
+    if(this.state.selectTeam.unitName === this.state.personal.unitName) {
+        this.props.editLog(
+          localStorage.getItem("uid"),
+          null,
+          oldData.id,              
+          newData.title,
+          newData.activityTypeName,
+          moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
+          moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
+          null,
+          localStorage.getItem("uid"),
+          this.props.memberList
+        )
+    } else {
+        this.props.editLog(
+          localStorage.getItem("uid"),
+          null,
+          oldData.id,              
+          newData.title,
+          newData.activityTypeName,
+          moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
+          moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
+          null,
+          this.state.selectTeam.unitID,
+          this.props.memberList
+        )
     }
   }
 
@@ -111,7 +191,9 @@ class History extends Component {
               this.props.removeLog(
                 localStorage.getItem("uid"),
                 null,
-                oldData.id
+                oldData.id,
+                this.props.operatedTeam.teamID,
+                this.props.memberList
               )
               resolve();
             }),
@@ -126,17 +208,8 @@ class History extends Component {
                   reject()
                 } 
                 else {
-                   setTimeout(() => {
-                    this.props.editLog(
-                      localStorage.getItem("uid"),
-                      null,
-                      oldData.id,              
-                      newData.title,
-                      newData.activityTypeName,
-                      moment(newData.startTime).format("YYYY/MM/DD HH:mm"),
-                      moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
-                      null
-                    )
+                  setTimeout(() => {
+                    this.editSubmit(oldData,newData)
                     resolve();
                   }, 1000);
                 }
@@ -151,18 +224,21 @@ class History extends Component {
 function mapStateToProps(state) {
   return {
     activityTypeList: state.activityTypeList,
-    logHistory: state.logHistory
+    logHistory: state.logHistory,
+    allTeamActivityTypeList: state.allTeamActivityTypeList,
+    operatedTeam: state.operatedTeam,
+    memberList : state.memberList,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeLog: (userID, token, logID) => {
-      dispatch(removeLog(userID, token, logID))
+    removeLog: (userID, token, logID, unitID, memberList) => {
+      dispatch(removeLog(userID, token, logID, unitID, memberList))
     },
-    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description) => {
-      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description))
-    }
+    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList)=> {
+      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList))
+    },
   }
 }
 

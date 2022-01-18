@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { loadDashBoard } from 'actions/DashBoard';
 import { loadLogHistory } from 'actions/History';
+import { updateTeamDashBoard } from 'actions/DashBoard'
 import { connect } from 'react-redux'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -36,7 +37,8 @@ class Duration extends Component {
     this.props.updateDates(this.state.startDate, this.state.endDate)
     this.props.updateHistory(localStorage.getItem("uid"), null)
     this.props.updateDashBoard(localStorage.getItem("uid"), null)
-    }
+    this.props.updateTeamDashBoard(this.props.operatedTeam.teamID, this.props.memberList)
+  }
 
   render() {
     return (
@@ -44,7 +46,7 @@ class Duration extends Component {
         <DialogTitle id="edit-user-profile">Duration</DialogTitle>
         <DialogContent>
           <form>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <FormControl className="">
@@ -54,7 +56,8 @@ class Duration extends Component {
                       value={this.state.startDate}
                       format="yyyy/MM/dd"
                       onChange={(date) => {
-                        this.setState({startDate: date, minimumDate: date})}}
+                        this.setState({ startDate: date, minimumDate: date })
+                      }}
                       maxDate={this.state.maximumDate}    // +
                     />
                   </FormControl>
@@ -67,7 +70,8 @@ class Duration extends Component {
                       value={this.state.endDate}
                       format="yyyy/MM/dd"
                       onChange={(date) => {
-                        this.setState({endDate: date, maximumDate: date})}}
+                        this.setState({ endDate: date, maximumDate: date })
+                      }}
                       minDate={this.state.minimumDate}
                     />
                   </FormControl>
@@ -90,11 +94,19 @@ class Duration extends Component {
 
 }
 
+function mapStateToProps(state) {
+  return {
+    operatedTeam: state.operatedTeam,
+    memberList: state.memberList,
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     updateDashBoard: (userID, token) => dispatch(loadDashBoard(userID, token)),
+    updateTeamDashBoard: (teamID, memberList) => dispatch(updateTeamDashBoard(teamID, memberList)),
     updateHistory: (userID, token) => dispatch(loadLogHistory(userID, token))
   }
 }
 
-export default connect(null, mapDispatchToProps)(Duration)
+export default connect(mapStateToProps, mapDispatchToProps)(Duration)

@@ -47,11 +47,11 @@ class App extends Component {
         }
       }
       this.props.enterTimelog(localStorage.getItem('uid'), null)
-  }
+    }
 
   handleDrawerToggle () {
     this.setState({
-      mobileOpen: !this.mobileOpen
+      mobileOpen: !this.state.mobileOpen
     })
   };
 
@@ -64,6 +64,8 @@ class App extends Component {
     localStorage.setItem('endDate', endDate)
   }
 
+  
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -71,7 +73,7 @@ class App extends Component {
         <div className="container" style={{maxWidth: '100%'}}>
           <div className="view">
             <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
-            <Sidebar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
+            <Sidebar mobileOpen={this.state.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} startDate={this.state.startDate} endDate={this.state.endDate} updateDates={this.updateDates}/>
             <div className="main">
               <AllRoutes startDate={this.state.startDate} endDate={this.state.endDate} />
             </div>

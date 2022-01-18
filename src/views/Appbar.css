@@ -1,9 +1,12 @@
 .appbar-LOGO {
     transition: all 1s;
+    display: flex;
+    align-items: center;
 }
 
 .appbar-LOGO:hover {
     transform: scale(1.2);
+    cursor: pointer;
 }
 
 #profile-icon {
@@ -15,7 +18,7 @@
 }
 
 .timer-header {
-  color: #f5f5f5;
+  color: #ffffff;
   font-family: monospace;
   margin: 0;
   font-size: 24pt;
@@ -24,4 +27,6 @@
 .timer-bar {
     display: flex;
     align-items: center;
+    margin: auto;
 }
+

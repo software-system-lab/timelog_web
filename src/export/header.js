@@ -27,12 +27,29 @@ function html (content) {
         text-align: center;
         color: #FFFFFF;
       }
-      .board-split {
-        margin-top: 50px;
-      }
       .export-button {
         position: absolute;
         left: 0;
+      }
+      .table {
+        color: #FFFFFF;
+      }
+      .team-member-board {
+        background-color: #ffffff0c;
+        border-width: 2pt;
+        border-color: #ffffff80;
+        border-style:dashed;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+      
+      .team-member-board .chart {
+          width: 50%;
+      }
+      
+      .team-member-board h2{
+          margin:50px;
+          color:#FFFFFF;
       }
     </style>
     <style type="text/css">/* Chart.js */
@@ -127,11 +144,12 @@ function html (content) {
 }
 .MuiTableCell-head {
   color: #FFFFFF;
+  background: rgba(224, 224, 224, 0)!important;
   font-weight: 500;
   line-height: 1.5rem;
 }
 .MuiTableCell-body {
-  color: rgba(0, 0, 0, 0.87);
+  color: #FFFFFF;
 }
 .MuiTableCell-footer {
   color: rgba(0, 0, 0, 0.54);
@@ -189,6 +207,16 @@ function html (content) {
   position: sticky;
   background-color: #fafafa;
 }
+
+</style>
+<style data-jss="" data-meta="MuiSvgIcon">
+svg.MuiSvgIcon-root {
+  fill: white;
+  width: 2em;
+  hight: 2em;
+}
+</style>
+
 </style>
 <style data-jss="" data-meta="MuiTableFooter">
 .MuiTableFooter-root {
@@ -216,6 +244,8 @@ function html (content) {
 </style>
 <style data-jss="" data-meta="MuiTableSortLabel">
 .MuiTableSortLabel-root {
+  color: white;
+  background: rgba(224, 224, 224, 1);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -229,14 +259,14 @@ function html (content) {
   color: #FFFFFF;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active {
-  color: rgba(0, 0, 0, 0.87);
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon {
-  color: rgba(0, 0, 0, 0.54);
-  opacity: 1;
+  color: #FFFFFF;
+  opacity: 0;
 }
 .MuiTableSortLabel-root:hover .MuiTableSortLabel-icon {
-  opacity: 0.5;
+  opacity: 0;
+  color: #FFFFFF;
 }
 .MuiTableSortLabel-icon {
   opacity: 0;
@@ -245,12 +275,18 @@ function html (content) {
   margin-left: 4px;
   user-select: none;
   margin-right: 4px;
+  color: inherit !important;
 }
 .MuiTableSortLabel-iconDirectionDesc {
+  opacity: 0;
   transform: rotate(0deg);
 }
 .MuiTableSortLabel-iconDirectionAsc {
+  opacity: 0;
   transform: rotate(180deg);
+}
+.MuiButtonBase-root {
+  background: rgba(0, 0, 0, 0);
 }
 table {
   border: solid;
@@ -266,7 +302,7 @@ tr {
 .board-split {
   display: flex;
   flex-direction: row;
-  margin-top: 50px; 
+  margin: 25px 0px; 
 }
 .export-button {
   position: absolute;

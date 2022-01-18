@@ -1,10 +1,7 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom";
 import MaterialTable from "material-table";
 import { Input } from "@material-ui/core";
 import { forwardRef } from 'react';
-import { editActivityType, addActivityType, removeActivityType } from 'actions';
-import { connect } from 'react-redux';
 
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight,
   Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage,
@@ -33,32 +30,55 @@ const tableIcons = {
 class Activity extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      columns: [
-        {
-          title: "Activity Type",
-          field: "name",
-          editComponent: props => (
-              <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
-          )
-        },{
-          title: "Private",
-          field: "private",
-          type: "boolean"
-        },{
-          title: "Enable",
-          field: "enable",
-          type: "boolean",
-          initialEditValue: 'true'
-        }
-      ]
+    if (!props.isTeam) {
+      this.state = {
+        columns: [
+          {
+            title: "Activity Type",
+            field: "name",
+            editComponent: props => (
+                <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+            )
+          },
+          {
+            title: "Private",
+            field: "private",
+            type: "boolean"
+          },
+          {
+            title: "Enable",
+            field: "enable",
+            type: "boolean",
+            initialEditValue: 'true'
+          }
+        ],
+      }
+    } else {
+      this.state = {
+        columns: [
+          {
+            title: "Activity Type",
+            field: "name",
+            editComponent: props => (
+                <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+            )
+          },
+          {
+            title: "Enable",
+            field: "enable",
+            type: "boolean",
+            initialEditValue: 'true'
+          }
+        ],
+      }
     }
   }
 
   render() {
     return (
       <div>
-        <MaterialTable title="Activity"
+        <MaterialTable
+          title="Activity"
           icons={tableIcons}
           columns={this.state.columns}
           data={this.props.activityTypeList}
@@ -69,44 +89,64 @@ class Activity extends Component {
           }}
           localization={{ body: { editRow: { deleteText: 'Are you sure you want to delete this activity?' } } }}
           editable={{
-            isEditable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
-            isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty",
-            onRowAdd: newData =>
+            isEditable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty" && this.props.isLeader,
+            isDeletable: rowData => rowData.name !== "LabProject" && rowData.name !== "LabDuty" && this.props.isLeader,
+            onRowAdd: this.props.isLeader ? (newData =>
               new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  this.props.addActivityType(
-                    localStorage.getItem("uid"),
-                    null,
-                    newData.name,
-                    newData.enable,
-                    newData.private
-                  )
-                  resolve();
-                }, 1000)
-              })
+                if (!newData.name || newData.name === ''){
+                  alert("Activity Type name should not be empty.")
+                  reject()
+                } else {
+                  setTimeout(() => {
+                    this.props.add(
+                      this.props.id,
+                      null,
+                      newData.name,
+                      newData.enable,
+                      newData.private,
+                      this.props.teamList
+                    )
+                    resolve();
+                  }, 1000)
+                }
+                
+              })) : null
             ,
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  this.props.editActivityType(
-                    localStorage.getItem("uid"),
-                    null,
-                    oldData.name,
-                    newData.name,
-                    newData.enable,
-                    newData.private
-                  )
-                  resolve();
-                }, 1000);
+                if (!newData.name || newData.name === ''){
+                  alert("Activity Type name should not be empty.")
+                  reject()
+                }
+                else {
+                  setTimeout(() => {
+                    this.props.edit(
+                      this.props.id,
+                      null,
+                      oldData.name,
+                      newData.name,
+                      newData.enable,
+                      newData.private,
+                      this.props.id,
+                      this.props.teamList
+                    )
+                    resolve();
+                  }, 1000);
+                }
               })
             ,
             onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                this.props.removeActivityType(
-                  localStorage.getItem("uid"),
+                this.props.delete(
+                  this.props.id,
                   null,
-                  oldData.name
+                  oldData.name,
+                  oldData.name,
+                  oldData.enable,
+                  oldData.private,
+                  this.props.id,
+                  this.props.teamList
                 )
                 resolve();
               }, 1000);
@@ -118,21 +158,4 @@ class Activity extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activityTypeList: state.activityTypeList
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    editActivityType: (userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate) =>
-      dispatch(editActivityType(userID, token, targetActivityTypeName, activityTypeName, isEnable, isPrivate)),
-    addActivityType: (userID, token, activityTypeName, isEnable, isPrivate) =>
-      dispatch(addActivityType(userID, token, activityTypeName, isEnable, isPrivate)),
-    removeActivityType: (userID, token, activityTypeName) =>
-      dispatch(removeActivityType(userID, token, activityTypeName))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Activity))
+export default Activity

@@ -1,0 +1,47 @@
+.board-text {
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.export-button {
+    position: absolute;
+    top: 5%; 
+}
+
+.team-list {
+    margin-right: 20px;
+    color: white;
+}
+
+.popover {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
+
+.reactgooglegraph-1{
+    width: 80%;
+}
+
+.chart {
+    width: 50%;
+}
+
+.team-member-board {
+    background-color: #ffffff0c;
+    border-width: 2pt;
+    border-color: #ffffff80;
+    border-style:dashed;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.team-member-board .chart {
+    width: 50%;
+}
+
+.team-member-board h2{
+    margin:50px;
+    color:#FFFFFF;
+}
+

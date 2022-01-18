@@ -26,12 +26,12 @@ steps:
 - name: Install node modules
   image: node:10.16.3
   commands:
-  - yarn install
+  - npm install
 
 - name: Build static web files
   image: node:10.16.3
   commands:
-  - yarn run build
+  - npm run build
   when:
     branch:
     - master

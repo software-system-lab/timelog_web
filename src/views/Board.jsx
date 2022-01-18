@@ -142,7 +142,7 @@ class Board extends Component {
         })
       })
       this.props.allTeamActivityTypeList.map((team) => {
-        team.activityTypeList.map((activityType) => {
+        return team.activityTypeList.map((activityType) => {
           return this.props.dashBoardData.tableData.map((data) => {
             if (data.activityTypeName === activityType.name) {
               var activityTypeInput = {

@@ -1,11 +1,10 @@
 import React from 'react'
-import { Button, withStyles, Tooltip, Popover, Avatar, DialogContentText } from '@material-ui/core'
+import { Button, withStyles, Tooltip, Popover, Avatar } from '@material-ui/core'
 import GetAppIcon from '@material-ui/icons/GetApp'
 import Export from '../export/export.js';
 import './DashboardExporter.css'
 
 import htmlImg from '../img/html.svg'
-import jsonImg from '../img/json.svg'
 import xlsImg from '../img/xls.svg'
 import { connect } from 'react-redux';
 

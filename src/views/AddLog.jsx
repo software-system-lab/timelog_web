@@ -18,9 +18,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { newLog } from 'actions'
-import { getTeam } from '../actions/Team';
-import { AlbumSharp, ContactSupportOutlined } from '@material-ui/icons';
-import axios from 'axios'
 
 class AddLog extends Component {
 
@@ -188,6 +185,7 @@ class AddLog extends Component {
                       }) 
                     )
                   }
+                  return null
                 })
               :
                 this.props.activityTypeList.map((activityType, key) => {
@@ -196,6 +194,7 @@ class AddLog extends Component {
                       <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                     )
                   }
+                  return null
                 })   
             }
             </Select>

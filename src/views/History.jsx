@@ -60,7 +60,7 @@ class History extends Component {
            props => (
             <div>
               <Select
-                value={this.state.selectTeam,console.log(props.rowData)}
+                value={this.state.selectTeam}
                 onChange={event => this.setState({selectTeam: event.target.value})}
               >
                 <MenuItem value={this.state.personal}>Personal</MenuItem>
@@ -82,13 +82,12 @@ class History extends Component {
                   this.props.activityTypeList.map((activityType, key) =>{
                     if(activityType.enable !== false) {
                       return (
-                          <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
+                        <MenuItem value={activityType.name} key={key}>{activityType.name}</MenuItem>
                       )
                     }
+                    return null
                   })
-                
                 :
-                
                   this.props.allTeamActivityTypeList.map((team) => {
                     if(this.state.selectTeam.unitName === team.unitName){
                       return(
@@ -99,6 +98,7 @@ class History extends Component {
                         })
                       )
                     }
+                    return null
                   })
                 
               }

@@ -1,4 +1,4 @@
-import React,{ seCallback, useState , useEffect} from 'react';
+import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -121,7 +121,7 @@ class MyAppBar extends Component {
   }
 
   render() {
-    const { classes , history } = this.props;
+    const { classes } = this.props;
     
     return (
       <div>

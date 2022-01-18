@@ -29,11 +29,6 @@ const useStyles = (theme) => ({
     color: '#FFFFFF',
     opacity: 0
   },
-  exportButton: {
-    '&:hover p': {
-      opacity: 1,
-    }
-  },
   boardHead: {
     display: 'flex',
     width: '100%',
@@ -41,6 +36,9 @@ const useStyles = (theme) => ({
     'align-items': 'center'
   },
   exportButton: {
+    '&:hover p': {
+      opacity: 1,
+    },
     color: 'white',
     borderColor: 'white',
     width: '120px'
@@ -114,7 +112,7 @@ class Team extends Component {
     // set anchor for popover
     this.setState({ filterAnchorEl: event.currentTarget })
 
-    if (this.state.selectedFilterList.length == 0)
+    if (this.state.selectedFilterList.length === 0)
       this.setState({ selectedFilterList: [...Array(this.props.teamActivityTypeList.length).fill(true)] })
   }
 
@@ -185,13 +183,14 @@ class Team extends Component {
             <div>
               {
                 this.props.groupList.map((group, index) => {
-                  if (group.teamID == this.props.operatedTeam.teamID) {
+                  if (group.teamID === this.props.operatedTeam.teamID) {
                     return (
                       <h1 className="board-title board-text">
                         {`${group.teamName}'s Dashboard`}
                       </h1>
                     )
                   }
+                  return null
                 })
               }
               <h2 className="board-duration board-text">

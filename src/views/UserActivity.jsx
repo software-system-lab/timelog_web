@@ -14,7 +14,7 @@ class UserActivity extends Component {
   render() {
     return (
       <div>
-          <Activity className="Activity" isLeader={true} id={localStorage.getItem("uid")} teamList = {this.props.groupList} activityTypeList={this.props.activityTypeList} edit = {this.props.editActivityType} add = {this.props.addActivityType} delete = {this.props.removeActivityType}/>
+          <Activity className="Activity" isLeader={true} id={localStorage.getItem("uid")} teamList = {this.props.groupList} activityTypeList={this.props.activityTypeList} edit = {this.props.editActivityType} add = {this.props.addActivityType} delete = {this.props.removeActivityType} isTeam={false}/>
       </div>
       
     )

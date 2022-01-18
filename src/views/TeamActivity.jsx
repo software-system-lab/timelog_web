@@ -12,9 +12,14 @@ class TeamActivity extends Component {
   }
 
   render() {
+    const activityTypeList = this.props.teamActivityTypeList.map(at => {
+      delete at['private']
+      return at
+    })
+
     return (
       <div>
-          <Activity className="Activity" isLeader={this.props.isLeader} teamList = {this.props.groupList} id={this.props.operatedTeam.teamID} activityTypeList={this.props.teamActivityTypeList} edit = {this.props.editTeamActivityType} add = {this.props.addTeamActivityType} delete = {this.props.removeTeamActivityType}/>
+        <Activity className="Activity" isLeader={this.props.isLeader} teamList = {this.props.groupList} id={this.props.operatedTeam.teamID} activityTypeList={activityTypeList} edit = {this.props.editTeamActivityType} add = {this.props.addTeamActivityType} delete = {this.props.removeTeamActivityType} isTeam={true}/>
       </div> 
     )
   }

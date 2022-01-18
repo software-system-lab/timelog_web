@@ -30,25 +30,47 @@ const tableIcons = {
 class Activity extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      columns: [
-        {
-          title: "Activity Type",
-          field: "name",
-          editComponent: props => (
-              <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
-          )
-        },{
-          title: "Private",
-          field: "private",
-          type: "boolean"
-        },{
-          title: "Enable",
-          field: "enable",
-          type: "boolean",
-          initialEditValue: 'true'
-        }
-      ],
+    if (!props.isTeam) {
+      this.state = {
+        columns: [
+          {
+            title: "Activity Type",
+            field: "name",
+            editComponent: props => (
+                <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+            )
+          },
+          {
+            title: "Private",
+            field: "private",
+            type: "boolean"
+          },
+          {
+            title: "Enable",
+            field: "enable",
+            type: "boolean",
+            initialEditValue: 'true'
+          }
+        ],
+      }
+    } else {
+      this.state = {
+        columns: [
+          {
+            title: "Activity Type",
+            field: "name",
+            editComponent: props => (
+                <Input defaultValue={props.value} onChange={e => props.onChange(e.target.value)} autoFocus/>
+            )
+          },
+          {
+            title: "Enable",
+            field: "enable",
+            type: "boolean",
+            initialEditValue: 'true'
+          }
+        ],
+      }
     }
   }
 

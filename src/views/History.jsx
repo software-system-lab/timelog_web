@@ -138,7 +138,7 @@ class History extends Component {
     if(value.teamName === "Personal") {
       return value.activityTypeName 
     } else {
-      return value.activityTypeName + " / "+value.teamName
+      return `${value.activityTypeName} (${value.teamName})`
     }
     
   }

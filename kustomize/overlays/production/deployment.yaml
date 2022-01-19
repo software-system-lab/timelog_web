@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: timelog-web
+  name: timelog-web-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: timelog-web
+      app: timelog-web-pod
   template:
     metadata:
       labels:
-        app: timelog-web
+        app: timelog-web-pod
     spec:
       containers:
         - name: timelog-web

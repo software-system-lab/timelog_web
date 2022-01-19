@@ -10,7 +10,8 @@ export default {
     var dateFormat = "YYYYMMDD"
     const startDate = moment(localStorage.getItem("startDate")).format(dateFormat)
     const endDate = moment(localStorage.getItem("endDate")).format(dateFormat)
-    const filename = `${startDate}_${endDate}_${teamName}.html`
+    const unitName = teamName ? teamName : localStorage.getItem('givenName')
+    const filename = `${startDate}_${endDate}_${unitName}.html`
     FileSaver.saveAs(blob, filename)
   },
 

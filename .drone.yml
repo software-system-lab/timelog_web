@@ -32,9 +32,12 @@ steps:
   image: node:16
   commands:
   - npm run build
-  # when:
-  #   branch:
-  #   - master
+  when:
+    branch:
+    - master
+    - dev
+    event:
+    - push
 
 - name: Publish
   image: plugins/docker
@@ -45,9 +48,11 @@ steps:
       from_secret: docker_hub_user
     password:
       from_secret: docker_hub_password
-  # when: 
-  #   event:
-  #   - push
+  when: 
+    branch:
+    - master
+    event:
+    - push
 
 trigger:
   branch:
@@ -55,9 +60,6 @@ trigger:
   - dev
   event:
   - push
-
-# depends_on:
-#   - Analysis
 
 ---
 

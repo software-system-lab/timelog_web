@@ -104,9 +104,9 @@ const myMiddleware = store => next => action => {
           username: localStorage.getItem("cn")
         }
         if (data.username === TIMELOG_ADMIN) {
-          axios.get(`${AMS_HOST}/team`).then(response => {
-            // const teamIdList = response.data.map(t => t.team.id)
-            axios.post(`${API_HOST}/activity/all`, { unitIdList: response.data }).then(response => {
+          axios.get(`${AMS_HOST}/teams`).then(response => {
+            const teamIdList = response.data.map(t => t.team.id)
+            axios.post(`${API_HOST}/activity/all`, { unitIdList: teamIdList }).then(response => {
               const teamList = response.data.unitDTOList.map(ele => { return { teamName: ele.unitName, teamID: ele.unitID } });
               action.setGroupList(teamList, store.dispatch);
               action.setOperatedTeam(teamList[0], store.dispatch);
@@ -411,7 +411,7 @@ const myMiddleware = store => next => action => {
   } else if (action.type === "UPDATE_TEAM") {
     const headers = getHeaders(action.token)
     const body = {
-      groupname: action.groupname
+      teamID: action.teamID
     }
     axios.post(API_HOST + '/group', body, { headers: headers })
       .then(response => {

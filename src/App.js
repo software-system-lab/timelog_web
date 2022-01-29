@@ -9,6 +9,8 @@ import moment from 'moment';
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './theme'
+import axios from 'axios'
+import { parseJWT } from './utils'
 
 class App extends Component {
 
@@ -29,25 +31,58 @@ class App extends Component {
     this.updateDates = this.updateDates.bind(this)
   }
 
-  componentDidMount() {
-      const searchParams = new URLSearchParams(this.props.location.search)
-      if (searchParams.get('uid') !== null) {
-        localStorage.setItem('uid', searchParams.get('uid'))
-        localStorage.setItem('cn', searchParams.get('cn'))
-        localStorage.setItem('sn', searchParams.get('sn'))
-        localStorage.setItem('givenName', searchParams.get('givenName'))
-        localStorage.setItem('displayName', searchParams.get('displayName'))
-        localStorage.setItem('mail', searchParams.get('mail'))
-      } else {
-        if (!!!localStorage.getItem('uid')) {
-          var amsURL = process.env.REACT_APP_AMS_LOGIN_URL
-          amsURL += '?' + encodeURIComponent('redirect_url=' + window.location.href)
-          window.location.replace(amsURL)
-          return
-        }
-      }
-      this.props.enterTimelog(localStorage.getItem('uid'), null)
+  async componentDidMount() {
+      // const searchParams = new URLSearchParams(this.props.location.search)
+      // if (searchParams.get('uid') !== null) {
+      //   localStorage.setItem('uid', searchParams.get('uid'))
+      //   localStorage.setItem('cn', searchParams.get('cn'))
+      //   localStorage.setItem('sn', searchParams.get('sn'))
+      //   localStorage.setItem('givenName', searchParams.get('givenName'))
+      //   localStorage.setItem('displayName', searchParams.get('displayName'))
+      //   localStorage.setItem('mail', searchParams.get('mail'))
+      // } else {
+      //   if (!!!localStorage.getItem('uid')) {
+      //     var amsURL = process.env.REACT_APP_AMS_LOGIN_URL
+      //     amsURL += '?' + encodeURIComponent('redirect_url=' + window.location.href)
+      //     window.location.replace(amsURL)
+      //     return
+      //   }
+      // }
+      // this.props.enterTimelog(localStorage.getItem('uid'), null)
+
+
+    const query = new URLSearchParams(decodeURIComponent(window.location.search))
+    const accessToken =
+      query.get('access_token') || localStorage.getItem('access_token')
+  
+    const amsWebUrl = process.env.REACT_APP_AMS_WEB
+    const amsApiUrl = process.env.REACT_APP_AMS_HOST
+    const amsUrl = `${amsWebUrl}/login?${encodeURIComponent('redirect_url=' + window.location.href)}`
+
+    // check if access token valid
+    if (!accessToken || !parseJWT(accessToken)) {
+      window.location.replace(amsUrl)
+      return
     }
+  
+    localStorage.setItem('access_token', accessToken)
+
+    try {
+      const res = await axios.get(`${amsApiUrl}/profile`, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+
+      localStorage.setItem('uid', res.data.userId)
+      localStorage.setItem('cn', res.data.username)
+      localStorage.setItem('displayName', res.data.displayName)
+      localStorage.setItem('mail', res.data.email)
+    } catch (err) {
+      alert('failed to get user profile')  
+      // window.location.replace(amsUrl)
+      return
+    }
+    this.props.enterTimelog(localStorage.getItem('uid'), null)
+  }
 
   handleDrawerToggle () {
     this.setState({

@@ -63,35 +63,35 @@ trigger:
 
 ---
 
-kind: pipeline
-type: kubernetes
-name: Deployment
+# kind: pipeline
+# type: kubernetes
+# name: Deployment
 
-steps:
-- name: Deploy Production
-  image: nightlord851108/kustomize
-  environment:
-    RANCHER_HOST:
-      from_secret:
-        rancher_host
-    CLUSTER_TOKEN:
-      from_secret:
-        rancher_cluster_token
-  commands:
-  - cd kustomize/overlays/production
-  - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-  - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
-  when:
-    branch:
-    - master
-    event:
-    - push
+# steps:
+# - name: Deploy Production
+#   image: nightlord851108/kustomize
+#   environment:
+#     RANCHER_HOST:
+#       from_secret:
+#         rancher_host
+#     CLUSTER_TOKEN:
+#       from_secret:
+#         rancher_cluster_token
+#   commands:
+#   - cd kustomize/overlays/production
+#   - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+#   - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
+#   when:
+#     branch:
+#     - master
+#     event:
+#     - push
 
-trigger:
-  branch:
-  - master
-  event:
-  - push
+# trigger:
+#   branch:
+#   - master
+#   event:
+#   - push
 
-depends_on:
-- Build
+# depends_on:
+# - Build

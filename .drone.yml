@@ -1,20 +1,14 @@
 kind: secret
-name: docker_hub_user
+name: docker_user
 ---
 kind: secret
-name: docker_hub_password
+name: docker_password
 ---
 kind: secret
-name: rancher_cluster_token
+name: cluster_token
 ---
 kind: secret
-name: rancher_host
----
-kind: secret
-name: sonar_host
----
-kind: secret
-name: sonar_project_token
+name: cluster_url
 ---
 
 
@@ -57,7 +51,6 @@ steps:
 trigger:
   branch:
   - master
-  - dev
   event:
   - push
 

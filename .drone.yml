@@ -80,7 +80,7 @@ steps:
   commands:
   - cd kustomize/overlays/production
   - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-  - kustomize build . | kubectl apply --server=$${RANCHER_HOST}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
+  - kustomize build . | kubectl apply --server=$${CLUSTER_URL}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
   when:
     branch:
     - master

@@ -39,9 +39,9 @@ steps:
     repo: ssl1321ois/timelog_web
     tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
     username:
-      from_secret: docker_hub_user
+      from_secret: docker_user
     password:
-      from_secret: docker_hub_password
+      from_secret: docker_password
   when: 
     branch:
     - master
@@ -67,10 +67,10 @@ steps:
   environment:
     RANCHER_HOST:
       from_secret:
-        rancher_host
+        cluster_url
     CLUSTER_TOKEN:
       from_secret:
-        rancher_cluster_token
+        cluster_token
   commands:
   - cd kustomize/overlays/production
   - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}

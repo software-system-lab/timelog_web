@@ -65,7 +65,7 @@ steps:
 - name: Deploy Production
   image: nightlord851108/kustomize
   environment:
-    RANCHER_HOST:
+    CLUSTER_URL:
       from_secret:
         cluster_url
     CLUSTER_TOKEN:

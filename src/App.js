@@ -75,9 +75,10 @@ class App extends Component {
       localStorage.setItem('uid', res.data.userId)
       localStorage.setItem('cn', res.data.username)
       localStorage.setItem('displayName', res.data.displayName)
+      localStorage.setItem('givenName', res.data.displayName.split(' ')[0])
       localStorage.setItem('mail', res.data.email)
     } catch (err) {
-      alert('failed to get user profile')  
+      alert('failed to get user profile')
       // window.location.replace(amsUrl)
       return
     }

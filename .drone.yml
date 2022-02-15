@@ -1,14 +1,14 @@
 kind: secret
-name: docker_hub_user
+name: docker_user
 ---
 kind: secret
-name: docker_hub_password
+name: docker_password
 ---
 kind: secret
-name: rancher_kube_cluster_url
+name: cluster_url
 ---
 kind: secret
-name: rancher_cluster_token
+name: cluster_token
 ---
 
 kind: pipeline
@@ -36,9 +36,9 @@ steps:
         repo: ssl1321ois/timelog_web
         tags: ${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
         username:
-            from_secret: docker_hub_user
+            from_secret: docker_user
         password:
-            from_secret: docker_hub_password
+            from_secret: docker_password
     when: 
         event:
             - push
@@ -58,16 +58,16 @@ steps:
   - name: Deploy Demo
     image: nightlord851108/kustomize
     environment:
-        rancher_kube_cluster_url:
+        cluster_url:
             from_secret:
-                rancher_kube_cluster_url
+                cluster_url
         CLUSTER_TOKEN:
             from_secret:
-                rancher_cluster_token
+                cluster_token
     commands:
         - cd kustomize/overlays/demo
         - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-        - kustomize build . | kubectl apply --server=$${rancher_kube_cluster_url}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-demo -f -
+        - kustomize build . | kubectl apply --server=$${cluster_url}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=ois-demo -f -
     when:
         branch:
           - master

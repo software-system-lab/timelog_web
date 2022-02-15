@@ -12,17 +12,17 @@ name: cluster_token
 ---
 
 kind: pipeline
-type: docker
+type: kubernetes
 name: Build
 
 steps:
   - name: Install node modules
-    image: node:10.16.3
+    image: node:16
     commands:
       - yarn install
 
   - name: Build production web
-    image: node:10.16.3
+    image: node:16
     commands:
       - yarn run build
     when:

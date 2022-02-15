@@ -51,7 +51,7 @@ trigger:
 ---
 
 kind: pipeline
-type: docker
+type: kubernetes
 name: Deployment
 
 steps:

@@ -14,13 +14,13 @@ import {
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
-// import DashboardIcon from '@material-ui/icons/Dashboard';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import HistoryIcon from '@material-ui/icons/History';
 import TimelapseIcon from '@material-ui/icons/Timelapse';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ReportIcon from '@material-ui/icons/Report';
 import TimerIcon from '@material-ui/icons/Timer';
-// import GroupIcon from '@material-ui/icons/Group';
+import GroupIcon from '@material-ui/icons/Group';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
@@ -64,15 +64,15 @@ function Sidebar(props) {
   const [durationOpen, setDurationOpen] = React.useState(false);
   const [stopwatchOpen, setStopwatchOpen] = React.useState(false);
   const [userOpen, setUserOpen] = React.useState(false);
-  // const [teamOpen, setTeamOpen] = React.useState(false);
+  const [teamOpen, setTeamOpen] = React.useState(false);
 
   const handleUser= () => {
     setUserOpen(!userOpen);
   };
 
-  // const handleTeam = () => {
-  //   setTeamOpen(!teamOpen);
-  // };
+  const handleTeam = () => {
+    setTeamOpen(!teamOpen);
+  };
 
   const handleAddLogOpen = (logDuration = 3600) => {
     setAddLogOpen(true);
@@ -101,25 +101,25 @@ function Sidebar(props) {
 
   const history = useHistory();
 
-  // const goToBoard = () => {
-  //   history.push("/board")
-  // };
+  const goToBoard = () => {
+    history.push("/board")
+  };
 
   const goToHistory = () => {
     history.push("/history")
   };
 
-  // const goToTeam = () => {
-  //   history.push("/team")
-  // };
+  const goToTeam = () => {
+    history.push("/team")
+  };
 
   const goToActivity = () => {
     history.push("/userActivity")
   };
 
-  // const goToTeamActivity = () => {
-  //   history.push("/teamActivity")
-  // };
+  const goToTeamActivity = () => {
+    history.push("/teamActivity")
+  };
 
 
   const goToTimebox = () => {
@@ -223,12 +223,12 @@ function Sidebar(props) {
           </ListItem>
         </Slide>
         <Collapse in={userOpen} timeout="auto" unmountOnExit>
-        {/* <Slide className={classes.nested} direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
+        <Slide className={classes.nested} direction="right" in={true} timeout={{appear:1500, enter:1500, exit:1500}}>
           <ListItem button key="Board" onClick={goToBoard}>
             <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
             <ListItemText primary="Board" />
           </ListItem>
-        </Slide> */}
+        </Slide>
         <Slide direction="right" in={true} timeout={{appear:1800, enter:1800, exit:1800}}>
           <ListItem className={classes.nested} button key="History" onClick={goToHistory}>
             <ListItemIcon>{<HistoryIcon />}</ListItemIcon>
@@ -242,7 +242,7 @@ function Sidebar(props) {
           </ListItem>
         </Slide>
         </Collapse>
-        {/* <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
+        <Slide direction="right" in={true} timeout={{appear:2100, enter:2100, exit:2100}}>
           <ListItem button key="Team" onClick={handleTeam}>
             <ListItemIcon>{<GroupIcon />}</ListItemIcon>
             <ListItemText primary="Team" />
@@ -262,7 +262,7 @@ function Sidebar(props) {
             <ListItemText primary="Activity" />
           </ListItem>
         </Slide>
-        </Collapse> */}
+        </Collapse>
         <Slide direction="right" in={true} timeout={{appear:2400, enter:2400, exit:2400}}>
           <ListItem button key="Timebox" onClick={goToTimebox} style={{display:"none"}}>
             <ListItemIcon>{<TimelapseIcon />}</ListItemIcon>

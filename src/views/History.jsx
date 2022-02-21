@@ -133,14 +133,11 @@ class History extends Component {
   }
 
   getDocumentTypeForRow(value) {
-    console.log(value.activityTypeName)
-    console.log(value.teamName)
     if(value.teamName === "Personal") {
       return value.activityTypeName 
     } else {
       return `${value.activityTypeName} (${value.teamName})`
     }
-    
   }
 
   editSubmit(oldData,newData) {

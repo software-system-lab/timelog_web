@@ -38,10 +38,6 @@ class DashBoard extends Component {
 
   render() {
     const white = '#FFFFFF';
-    const cellStyle = {
-      padding: '10px 0px 10px 10px'
-    }
-
     return (
       <div className="board-split">
         <div className="chart">
@@ -69,14 +65,10 @@ class DashBoard extends Component {
             icons={tableIcons}
             columns={[
               this.props.isPersonal ?
-              {
-                headerStyle: { padding: 5, borderRight: '1px solid rgba(224, 224, 224, 1)', maxWidth: '5%' },
-                cellStyle: { padding: 5, borderRight: '1px solid rgba(224, 224, 224, 1)', maxWidth: '5%' },
-                align: 'center',
-                render: rowData => rowData.activityTypeName.includes('(team)') ? this.getGroupIcon() : "" } : { hidden: true },
-              { headerStyle: cellStyle, cellStyle: cellStyle, title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42' },
-              { headerStyle: cellStyle, cellStyle: cellStyle, title: "Spent Time", field: "timeLength", defaultSort: 'desc' },
-              { headerStyle: cellStyle, cellStyle: cellStyle, title: "Percentage", field: "percentage" },
+              { headerStyle: {padding: 5, borderRight: '1px solid rgba(224, 224, 224, 1)', maxWidth: '5%'}, cellStyle: {padding: 5, borderRight: '1px solid rgba(224, 224, 224, 1)', maxWidth: '5%'}, align: 'center', render: rowData => this.state.group.includes(rowData.activityTypeName) ? this.getGroupIcon() : "" } : { hidden: true },
+              { headerStyle: {padding: '10px 0px 10px 10px'}, cellStyle: {padding: '10px 0px 10px 10px'}, title: "Activity Type", field: "activityTypeName", backgroundColor: '#3C3D42' },
+              { headerStyle: {padding: '10px 0px 10px 10px'}, cellStyle: {padding: '10px 0px 10px 10px'}, title: "Spent Time", field: "timeLength", defaultSort: 'desc' },
+              { headerStyle: {padding: '10px 0px 10px 10px'}, cellStyle: {padding: '10px 0px 10px 10px'}, title: "Percentage", field: "percentage" },
             ]}
             data={this.props.tableData}
             sortDirection={"timeLength"}

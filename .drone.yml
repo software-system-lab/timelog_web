@@ -11,7 +11,6 @@ kind: secret
 name: cluster_url
 ---
 
-
 kind: pipeline
 type: kubernetes
 name: Build

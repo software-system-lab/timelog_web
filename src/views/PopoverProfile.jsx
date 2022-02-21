@@ -16,14 +16,14 @@ function PopoverProfile(props) {
     window.location.href = '/';
   }
 
-  const ams = () => {
-    var redirectURL = process.env.REACT_APP_AMS_WEB + "?";
-    redirectURL += "cn=" + username + "&";
-    redirectURL += "displayName=" + displayName + "&"; 
-    redirectURL += "teamName=" + props.operatedTeam.teamName; 
-    window.open(redirectURL);
+  // const ams = () => {
+  //   var redirectURL = process.env.REACT_APP_AMS_WEB + "?";
+  //   redirectURL += "cn=" + username + "&";
+  //   redirectURL += "displayName=" + displayName + "&"; 
+  //   redirectURL += "teamName=" + props.operatedTeam.teamName; 
+  //   window.open(redirectURL);
   
-  }
+  // }
 
   return (
     <center>

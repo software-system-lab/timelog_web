@@ -37,29 +37,44 @@ const useStyles = (theme) => ({
     width: '100%',
     'justify-content': 'space-around',
     'align-items': 'center'
+  },
+  personalActivityFilterList: {
+    padding: '5px'
+  },
+  personalActivityFilterOption: {
+    marginRight: '15px'
+  },
+  btnSubmitFilterArea: {
+    marginBottom: '5px'
+  },
+  btnSubmitFilter: {
+    padding: '5px'
   }
 });
 
 class Board extends Component {
   constructor(props) {
     super(props)
-    this.exportReport = this.exportReport.bind(this)
-    this.render = this.render.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSelectAll = this.handleSelectAll.bind(this);
-    this.submit = this.submit.bind(this)
-    this.initialize = this.initialize.bind(this)
+
     this.state = {
-      anchorEl: null,
+      filterAnchorEl: null,
       open: false,
       activityTypeList: [],
+      selectedActivityTypes: null,
       flag: true,
       filterList: [],
       select: false,
     };
   }
 
-  exportReport() {
+  componentDidMount() {
+    const userId = localStorage.getItem('uid')
+    if (userId) {
+      this.props.loadDashBoard(userId, null)
+    }
+  }
+
+  exportReport = () => {
     let clonedNode = this.reportElement.cloneNode(true)
     let exportButton = clonedNode.firstChild.firstChild
     let selectButton = clonedNode.firstChild.lastChild
@@ -70,53 +85,33 @@ class Board extends Component {
     Export.exportHTML(clonedNode)
   };
 
-  flipOpen = () => this.setState({ ...this.state, open: !this.state.open });
-  handleClick = event => {
-    this.initialize();
-    console.log(event.currentTarget)
-    this.state.anchorEl
-      ? this.setState({ anchorEl: null })
-      : this.setState({ anchorEl: event.currentTarget });
-    this.flipOpen();
-  };
-  handleProfileClose = event => {
-    this.state.anchorEl
-      ? this.setState({ anchorEl: null })
-      : this.setState({ anchorEl: event.currentTarget });
-    this.flipOpen();
-  };
-
-  handleInputChange(event) {
-    for (const each of this.state.activityTypeList) {
-      if (each.name === event.target.value) {
-        each.checked = event.target.checked;
-      }
-      if (each.checked === false) {
-        this.setState({ select: false })
-      }
+  buildFilterList = () => {
+    if (this.state.selectedActivityTypes === null) {
+      this.setState({
+        activityTypeList: this.props.dashBoardData.tableData.map(data => data.activityTypeName),
+        selectedActivityTypes: this.props.dashBoardData.tableData.map(data => data.activityTypeName)
+      })
     }
-    for (const each of this.state.activityTypeList) {
-      if (each.checked === true) {
-        this.setState({ select: true })
-      } else {
-        this.setState({ select: false })
-        break
-      }
-    }
-    this.setState({ activityTypeList: this.state.activityTypeList });
   }
 
-  handleSelectAll(event) {
-    if (this.state.select === false) {
-      for (const each of this.state.activityTypeList) {
-        each.checked = true;
-      }
-      this.setState({ select: true });
+  clickOpenFilter = event => {
+    // set anchor element for popover
+    this.setState({ filterAnchorEl: event.currentTarget })
+
+    // make filter list (concat personal and team)
+    this.buildFilterList()
+  };
+
+  closeSelectFilter = () => {
+    // set anchor element to null
+    this.setState({ filterAnchorEl: null })
+  }
+
+  selectAllFilterOptions = () => {
+    if (this.state.selectedActivityTypes.length < this.state.activityTypeList.length) {
+      this.setState({ selectedActivityTypes: this.state.activityTypeList })
     } else {
-      for (const each of this.state.activityTypeList) {
-        each.checked = false;
-      }
-      this.setState({ select: false });
+      this.setState({ selectedActivityTypes: [] })
     }
     this.setState({ activityTypeList: this.state.activityTypeList });
   }
@@ -128,88 +123,45 @@ class Board extends Component {
     }
   }
 
-  initialize() {
-    if (this.state.activityTypeList.length === 0) {
-      this.setState({ activityTypeList: [] });
-      this.props.activityTypeList.map((activityType) => {
-        return this.props.dashBoardData.tableData.map((data) => {
-          if (data.activityTypeName === activityType.name) {
-            var activityTypeInput = {
-              name: activityType.name,
-              checked: false
-            }
-            this.state.activityTypeList.push(activityTypeInput);
-            return true;
-          }
-          return false;
-        })
-      })
-      this.props.allTeamActivityTypeList.map((team) => {
-        return team.activityTypeList.map((activityType) => {
-          return this.props.dashBoardData.tableData.map((data) => {
-            if (data.activityTypeName === activityType.name) {
-              var activityTypeInput = {
-                name: activityType.name,
-                checked: false
-              }
-              this.state.activityTypeList.push(activityTypeInput);
-              return true;
-            }
-            return false;
-          })
-        })
-      })
-      this.props.groupList.map((team) => {
-        return this.props.dashBoardData.tableData.map((data) => {
-          if (data.activityTypeName === team.teamName) {
-            var activityTypeInput = {
-              name: team.teamName,
-              checked: false
-            }
-            this.state.activityTypeList.push(activityTypeInput);
-            return true;
-          }
-          return false;
-        })
+  selectFilterOption = activityTypeName => {
+    if (this.state.selectedActivityTypes.includes(activityTypeName)) {
+      this.setState({
+        selectedActivityTypes: this.state.selectedActivityTypes.filter(act => act !== activityTypeName)
       })
     } else {
-      for (const each of this.state.activityTypeList) {
-        each.checked = false;
-      }
-      this.setState({ select: false });
+      this.setState({
+        selectedActivityTypes: [activityTypeName, ...this.state.selectedActivityTypes]
+      })
     }
-  };
+  }
 
-  submit() {
-    this.setState({ filterList: [] });
-    for (const each of this.state.activityTypeList) {
-      if (each.checked === true) {
-        this.state.filterList.push(each.name)
-      }
-    }
+  clickSubmitFilter = () => {
     this.props.updateDashBoard(
-      localStorage.getItem("uid"),
+      localStorage.getItem('uid'),
       null,
-      this.state.filterList)
+      this.state.selectedActivityTypes
+    )
+
+    this.setState({ filterAnchorEl: null })
   }
 
   render() {
     const { classes } = this.props;
-    const white = '#FFFFFF';
+
     return (
       <div>
-        <div ref={(element) => { this.reportElement = element }}>
+        <div ref={el => { this.reportElement = el }}>
           <div className={classes.boardHead}>
             <div>
               <div className={classes.exportButton}>
                 <Tooltip
                   title="Zoom the web browser to 100% for better result"
-                  classes={{ popper: { 'font-size': '20px' } }}
+                  // classes={{ popper: { 'font-size': '20px' } }}
                 >
                   <Button startIcon={<GetAppIcon />}
                     onClick={this.exportReport}
                     variant="outlined"
-                    style={{ color: white, borderColor: white }}>
+                    style={{ color: 'white', borderColor: 'white' }}>
                     Export
                   </Button>
                 </Tooltip>
@@ -231,53 +183,61 @@ class Board extends Component {
             <div>
               <div className="selector-button">
                 <Button
-                  onClick={event => this.handleClick(event)}
+                  onClick={event => this.clickOpenFilter(event)}
                   startIcon={<FilterListIcon />}
                   variant="outlined"
-                  style={{ color: white, borderColor: white }}
+                  style={{ color: 'white', borderColor: 'white' }}
                 >
                   Filter
                 </Button>
-                <div className="popover">
-                  <Popover
-                    open={this.state.open}
-                    anchorEl={this.state.anchorEl}
-                    onClose={this.handleProfileClose}
-                    anchorOrigin={{
-                      vertical: 'center',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                    style={{
-                      width: '150%',
-                      height: '150%',
-                    }}
-                  >
-                    <div className="filter-list">
-                      <Checkbox checked={this.state.select} onChange={this.handleSelectAll}></Checkbox>
-                      Select All
+                <Popover
+                  open={!!this.state.filterAnchorEl}
+                  anchorEl={this.state.filterAnchorEl}
+                  onClose={this.closeSelectFilter}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div className={classes.personalActivityFilterList}>
+                    <div className={classes.personalActivityFilterOption}>
+                      <Checkbox
+                        onChange={this.selectAllFilterOptions}
+                        checked={!!this.state.filterAnchorEl && this.state.selectedActivityTypes.length === this.state.activityTypeList.length}
+                      />
+                      <span>Select All</span>
                     </div>
                     {
-                      this.state.activityTypeList.map((activityType, key) => {
+                      this.state.activityTypeList.map((activityType, idx) => {
                         return (
-                          <div className="filter-list">
-                            <Checkbox value={activityType.name} checked={activityType.checked} onChange={this.handleInputChange}></Checkbox>
-                            {activityType.name}
-
+                          <div
+                            className={classes.personalActivityFilterOption}
+                            key={activityType}
+                          >
+                            <Checkbox
+                              onChange={() => this.selectFilterOption(activityType)}
+                              checked={!!this.state.selectedActivityTypes && this.state.selectedActivityTypes.includes(activityType)}
+                            />
+                            <span>{activityType}</span>
                           </div>
                         )
                       })
                     }
-                    <center>
-                      <Button className="filter-btn" onClick={this.submit} color="secondary">
-                        Submit
-                      </Button>
-                    </center>
-                  </Popover>
-                </div>
+                  </div>
+                  <center className={classes.btnSubmitFilterArea}>
+                    <Button
+                      className={classes.btnSubmitFilter}
+                      color="secondary"
+                      onClick={this.clickSubmitFilter}
+                    >
+                      Submit
+                    </Button>
+                  </center>
+                </Popover>
               </div>
             </div>
           </div>

@@ -38,7 +38,7 @@ function PopoverProfile(props) {
         </div>
         <div className="profile-split"></div>
         <div className="btn-div">
-          <Button 
+          {/* <Button 
             className = "ams-btn" 
             variant="contained" 
             color="primary" 
@@ -46,7 +46,7 @@ function PopoverProfile(props) {
             onClick = {ams}
             >
               ACCOUNT
-          </Button>
+          </Button> */}
           <Button 
             className = "logout-btn" 
             variant="contained" 

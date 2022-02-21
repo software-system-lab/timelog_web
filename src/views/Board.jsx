@@ -122,7 +122,10 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    this.props.loadDashBoard(localStorage.getItem("uid"), null);
+    const userId = localStorage.getItem('uid')
+    if (userId) {
+      this.props.loadDashBoard(localStorage.getItem("uid"), null);
+    }
   }
 
   initialize() {

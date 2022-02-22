@@ -5,10 +5,10 @@ kind: secret
 name: docker_password
 ---
 kind: secret
-name: cluster_token
+name: cluster_url
 ---
 kind: secret
-name: cluster_url
+name: cluster_token
 ---
 
 kind: pipeline
@@ -51,8 +51,6 @@ trigger:
   branch:
   - master
   - dev
-  event:
-  - push
 
 ---
 

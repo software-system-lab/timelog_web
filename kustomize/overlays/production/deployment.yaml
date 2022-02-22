@@ -7,15 +7,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: timelog-web-pod
+      app: timelog-web
   template:
     metadata:
       labels:
-        app: timelog-web-pod
+        app: timelog-web
     spec:
       containers:
         - name: timelog-web
-          image: ssl1321ois/timelog_web
+          image: ssl1321ois/timelog_web:master.61c7a75
           imagePullPolicy: Always
           ports:
             - name: timelog-http

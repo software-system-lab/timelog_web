@@ -274,7 +274,8 @@ class Team extends Component {
               this.props.teamDashBoardData.member.map((member, key) => {
                 return (
                   <div className="team-member-board board-title board-text" onClick={() => this.handleChangeTeamUUID(member)}>
-                    <h2>{member.username}'s Dashboard</h2>
+                    <h2>{member.displayName}'s Dashboard</h2>
+                    <h3>{`spent time: ${member.totalTime}`}</h3>
                     <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
                   </div>
                 )

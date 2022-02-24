@@ -312,7 +312,6 @@ const myMiddleware = store => next => action => {
     body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
     axios.post(API_HOST + '/dash-board/team/dashboard', body, { headers: headers })
       .then(response => {
-        console.log(response.data)
         action.setExportExcelData(JSON.parse(JSON.stringify(response.data)), store.dispatch)
         const member = []
         const totalTimeString = response.data.totalTime
@@ -351,6 +350,7 @@ const myMiddleware = store => next => action => {
           const dashboard = {
             unitID: response.data.memberDashboardList[key].unitID,
             username: response.data.memberDashboardList[key].username,
+            displayName: response.data.memberDashboardList[key].displayName,
             totalTime: response.data.memberDashboardList[key].totalTime,
             pieData: pieData,
             tableData: tableData

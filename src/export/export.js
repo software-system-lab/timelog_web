@@ -38,7 +38,7 @@ export default {
             'Activity Type': activityType,
             'Start Time': moment(startTime).format(dateFormat),
             'End Time': moment(endTime).format(dateFormat),
-            'Duration (hours)': (value.timeLength / 60).toFixed(1)
+            'Duration (hours)': (value.timeLength / 60).toFixed(2)
           }
           personalData.push(row)
         })

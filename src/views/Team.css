@@ -45,3 +45,29 @@
     color:#FFFFFF;
 }
 
+.ssl-team-member-board {
+    width: 100%;
+}
+
+.ssl-team-member-board-header {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(27, 28, 49);
+    border: rgb(39, 41, 61) solid 3px;
+    box-shadow: 0 4px 4px -4px white;
+    color: white;
+    font-size: 1.3rem;
+    position: sticky;
+    top: 64px;
+    z-index: 100;
+    left: 0px;
+}
+
+.ssl-team-member-board-dashboard {
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+}

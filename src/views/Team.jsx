@@ -15,7 +15,6 @@ import DashboardExporter from "../components/DashboardExporter";
 
 import "./Team.css";
 import DashBoard from './DashBoard';
-import { setOperatedTeam, getTeam } from 'actions/Team';
 import { updateTeamDashBoard } from 'actions/DashBoard';
 
 const useStyles = (theme) => ({
@@ -62,18 +61,29 @@ const useStyles = (theme) => ({
   }
 });
 
+const allTeams = [
+  {
+    name: 'James',
+    members: ['zoezou9']
+  },
+  {
+    name: 'Team1',
+    members: ['mashu6211', 'Sean', 'test']
+  },
+  {
+    name: 'Team2',
+    members: ['mandy723', 'c20m76z']
+  },
+  {
+    name: 'Team3',
+    members: ['RuiChen']
+  },
+]
+
 class Team extends Component {
   constructor(props) {
     super(props)
-    this.buildReportElement = this.buildReportElement.bind(this)
-    this.handleChangeTeamUUID = this.handleChangeTeamUUID.bind(this)
     this.render = this.render.bind(this)
-    this.clickSelectButton = this.clickSelectButton.bind(this)
-    this.closeSelectFilter = this.closeSelectFilter.bind(this)
-    this.selectAllFilterOptions = this.selectAllFilterOptions.bind(this)
-    this.selectFilterOption = this.selectFilterOption.bind(this)
-    this.clickSubmitFilter = this.clickSubmitFilter.bind(this)
-    this.selectPersonalFilterOptions = this.selectPersonalFilterOptions.bind(this)
 
     this.state = {
       filterAnchorEl: null,
@@ -83,32 +93,18 @@ class Team extends Component {
   }
 
   componentDidMount() {
-    this.props.refreshTeamDashBoard(
-      this.props.operatedTeam.teamID,
-      this.props.memberList,
-      null
-    );
+    if (this.props.operatedTeam.teamID) {
+      this.props.refreshTeamDashboard(
+        this.props.operatedTeam.teamID,
+        this.props.memberList,
+        null,
+        true,
+        this.props.operatedTeam.teamName === 'Software System Lab'
+      );
+    }
   }
 
-  buildReportElement() {
-    // console.log(this.reportElement)
-    // let clonedNode = this.reportElement.cloneNode(true)
-    // clonedNode.parentElement.
-    // let exportButton = clonedNode.firstChild.firstChild
-
-    // clonedNode.firstChild.removeChild(exportButton)
-
-    // return clonedNode
-    // Export.exportHTML(clonedNode)
-  };
-
-  handleChangeTeamUUID(event) {
-    // console.log(event)
-    // this.props.setOperatedTeam([event.username,event.unitID])
-    // this.props.getTeam(event.username,event.unitID,localStorage.getItem("uid"))
-  };
-
-  clickSelectButton(event) {
+  clickSelectButton = (event) => {
     // set anchor for popover
     this.setState({ filterAnchorEl: event.currentTarget })
 
@@ -116,12 +112,12 @@ class Team extends Component {
       this.setState({ selectedFilterList: [...Array(this.props.teamActivityTypeList.length).fill(true)] })
   }
 
-  closeSelectFilter() {
+  closeSelectFilter = () => {
     // set anchor element to null
     this.setState({ filterAnchorEl: null })
   }
 
-  selectAllFilterOptions(event) {
+  selectAllFilterOptions = (event) => {
     // update activity type list
     const atLeastOneNotSelected = this.state.selectedFilterList.some(opt => !opt)
     const newList = this.state.selectedFilterList.map(opt => event.target.checked)
@@ -136,19 +132,19 @@ class Team extends Component {
     }
   }
 
-  selectFilterOption(idx) {
+  selectFilterOption = (idx) => {
     let list = [...this.state.selectedFilterList]
     list[idx] = !this.state.selectedFilterList[idx]
 
     this.setState({ selectedFilterList: list })
   }
 
-  selectPersonalFilterOptions() {
+  selectPersonalFilterOptions = () => {
     const oldState = this.state.isPersonalFilterOptionSelected
     this.setState({ isPersonalFilterOptionSelected: !oldState })
   }
 
-  clickSubmitFilter() {
+  clickSubmitFilter = () => {
     // make filter list (array of string)
     const selectedFilterList = this.state.selectedFilterList
     let filterList = this.props.teamActivityTypeList
@@ -167,8 +163,35 @@ class Team extends Component {
     );
   }
 
-  render() {
+  buildAllMembersLog = () => {
+    let logs = []
+    allTeams.forEach((team, idx) => {
+      logs.push(
+        <div className="ssl-team-member-board-header" key={`header-${idx}`}>
+          <h3>{team.name}</h3>
+        </div>
+      )
+
+      logs.push(
+        this.props.teamDashBoardData.member.map((member, idx) => {
+          return team.members.includes(member.username) ?
+            <div key={`dashboard-${idx}`} className="team-member-board board-title board-text">
+              <h2>{member.displayName}'s Dashboard</h2>
+              <h3>{`spent time: ${member.totalTime}`}</h3>
+              <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
+            </div>
+          :
+            null
+        })
+      )
+    })
+
+    return logs
+  }
+
+  render = () => {
     const { classes } = this.props;
+    const activeTeam = this.props.groupList.filter(group => group.teamID === this.props.operatedTeam.teamID)[0]
 
     return (
       <div>
@@ -181,18 +204,9 @@ class Team extends Component {
               />
             </div>
             <div>
-              {
-                this.props.groupList.map((group, index) => {
-                  if (group.teamID === this.props.operatedTeam.teamID) {
-                    return (
-                      <h1 className="board-title board-text">
-                        {`${group.teamName}'s Dashboard`}
-                      </h1>
-                    )
-                  }
-                  return null
-                })
-              }
+              <h1 className="board-title board-text">
+                { activeTeam ? `${activeTeam.teamName}'s Dashboard` : null }
+              </h1>
               <h2 className="board-duration board-text">
                 {moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")}
                 ~
@@ -202,7 +216,10 @@ class Team extends Component {
                 Spent Time : {this.props.teamDashBoardData.team.totalTime}
               </h3>
             </div>
-            <div>
+            {
+              activeTeam && activeTeam.teamName === 'Software System Lab' ?
+              <div style={{width: '120px'}}></div>
+            :
               <div className="selector-button" id="export-delete">
                 <Button
                   onClick={event => this.clickSelectButton(event)}
@@ -236,7 +253,7 @@ class Team extends Component {
                     {
                       this.props.teamActivityTypeList.map((activityType, idx) => {
                         return (
-                          <div className={classes.teamActivityFilterOption}>
+                          <div key={idx} className={classes.teamActivityFilterOption}>
                             <Checkbox
                               onChange={() => this.selectFilterOption(idx)}
                               checked={this.state.selectedFilterList[idx]}
@@ -265,23 +282,25 @@ class Team extends Component {
                   </center>
                 </Popover>
               </div>
-            </div>
-          </div>
-          <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea={"50vh"} />
-
-          <div>
-            {
-              this.props.teamDashBoardData.member.map((member, key) => {
-                return (
-                  <div className="team-member-board board-title board-text" onClick={() => this.handleChangeTeamUUID(member)}>
-                    <h2>{member.displayName}'s Dashboard</h2>
-                    <h3>{`spent time: ${member.totalTime}`}</h3>
-                    <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
-                  </div>
-                )
-              })
             }
           </div>
+
+          <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea={"50vh"} />
+
+          {
+            activeTeam && activeTeam.teamName === 'Software System Lab' ?
+            this.buildAllMembersLog()
+          :
+            this.props.teamDashBoardData.member.map((member, idx) => {
+              return (
+                <div key={idx} className="team-member-board board-title board-text">
+                  <h2>{member.displayName}'s Dashboard</h2>
+                  <h3>{`spent time: ${member.totalTime}`}</h3>
+                  <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
+                </div>
+              )
+            })
+          }
         </div>
       </div>
     );
@@ -301,9 +320,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshTeamDashBoard: (teamId, memberList, filterList, isPersonal) => dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal)),
-    setOperatedTeam: (team) => dispatch(setOperatedTeam(team)),
-    getTeam: (groupname, teamID, userID, token) => dispatch(getTeam(groupname, teamID, userID, token)),
+    refreshTeamDashboard: (teamId, memberList, filterList, isPersonal, ssl) => dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal, ssl)),
   }
 }
 

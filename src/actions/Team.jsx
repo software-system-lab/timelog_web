@@ -10,7 +10,7 @@ export function getTeam(groupname, teamID, userID, token) {
         setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
         setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-        updateTeamDashBoard: (teamID, memberList, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList)),
+        updateTeamDashBoard: (teamID, memberList, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, groupname === 'Software System Lab'))
     }
 }
 

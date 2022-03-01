@@ -18,7 +18,11 @@ export const isLeaderReducer = (state = [], action) => {
     }
 }
 
-export const operatedTeamReducer = (state = [], action) => {
+const defaultOperatedTeam = {
+    teamID: '',
+    teamName: ''
+}
+export const operatedTeamReducer = (state = defaultOperatedTeam, action) => {
     switch (action.type) {
         case "SET_OPERATED_TEAM": {
             return action.team

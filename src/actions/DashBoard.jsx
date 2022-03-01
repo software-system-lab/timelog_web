@@ -1,5 +1,4 @@
 export function setDashBoard(dashBoardData) {
-  console.log(dashBoardData)
   return {
     type: "SET_DASH_BOARD",
     dashBoardData: dashBoardData

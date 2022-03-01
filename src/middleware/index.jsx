@@ -85,63 +85,68 @@ const myMiddleware = store => next => action => {
   } else if (action.type === "ENTER_TIMELOG") {
     const headers = getHeaders(action.token)
     const body = getBody(action.userID)
-    axios.post(API_HOST + '/login', body, { headers: headers })
-      .then(response => {
-        action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
+    axios.post(`${API_HOST}/login`, body, { headers: headers })
+    .then(response => {
+      action.setActivityTypeList(response.data.activityTypeList, store.dispatch)
 
-        body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
-        body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
+      body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
+      body.endDate = moment(localStorage.getItem("endDate")).format("YYYY/MM/DD")
 
-        axios.post(API_HOST + '/log/history', body, { headers: headers })
-          .then(response => {
-            action.setHistory(response.data.logItemList, store.dispatch);
-          })
-          .catch(err => {
+      axios.post(API_HOST + '/log/history', body, { headers: headers })
+        .then(response => {
+          action.setHistory(response.data.logItemList, store.dispatch);
+        })
+        .catch(err => {
+          console.log(err)
+          alert("Get histroy logs failed");
+        })
+      const data = {
+        username: localStorage.getItem("cn")
+      }
+      if (data.username === TIMELOG_ADMIN) {
+        axios.get(`${AMS_HOST}/teams`).then(response => {
+          const teamIdList = response.data.map(t => t.id)
+          axios.post(`${API_HOST}/activity/all`, { unitIdList: teamIdList }).then(response => {
+            const teamList = response.data.unitDTOList.map(el => { return { teamName: el.unitName, teamID: el.unitID } });
+
+            const JamesIndex = teamList.findIndex(el => el.teamName === 'James')
+            const JamesTeam = teamList.filter(el => el.teamName === 'James')[0]
+            teamList.splice(JamesIndex, 1)
+            teamList.unshift(JamesTeam)
+
+            action.setGroupList(teamList, store.dispatch);
+            action.setOperatedTeam(teamList[0], store.dispatch);
+            action.loadAllTeamActivityTypeList(getTeamIdList(teamList), store.dispatch);
+            action.getTeam(teamList[0].teamName, teamList[0].teamID, action.userID, store.dispatch);
+          }).catch(err => {
             console.log(err)
-            alert("Get histroy logs failed");
           })
-        const data = {
-          username: localStorage.getItem("cn")
-        }
-        if (data.username === TIMELOG_ADMIN) {
-          axios.get(`${AMS_HOST}/teams`).then(response => {
-            const teamIdList = response.data.map(t => t.id)
-            axios.post(`${API_HOST}/activity/all`, { unitIdList: teamIdList }).then(response => {
-              const teamList = response.data.unitDTOList.map(ele => { return { teamName: ele.unitName, teamID: ele.unitID } });
-              action.setGroupList(teamList, store.dispatch);
-              action.setOperatedTeam(teamList[0], store.dispatch);
-              action.loadAllTeamActivityTypeList(getTeamIdList(teamList), store.dispatch);
-              action.getTeam(teamList[0].teamName, teamList[0].teamID, action.userID, store.dispatch);
-            }).catch(err => {
-              console.log(err)
-            })
-          })
-          axios.post(`${API_HOST}/belong`, data).then(response => {
-            action.setBelongingTeams(response.data.teamList, store.dispatch)
-          })
-
-        } else {
-          axios.post(API_HOST + '/belong', data, { headers: headers })
-            .then(response => {
-              action.setGroupList(response.data.teamList, store.dispatch);
-              action.setOperatedTeam(response.data.teamList[0], store.dispatch);
-              action.setBelongingTeams(response.data.teamList, store.dispatch)
-              action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
-              action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
-            })
-            .catch(err => {
-              console.log(err)
-              alert("Get Team failed");
-            })
-        }
+        })
+        axios.post(`${API_HOST}/belong`, data).then(response => {
+          action.setBelongingTeams(response.data.teamList, store.dispatch)
+        })
+      } else {
+        axios.post(`${API_HOST}/belong`, data, { headers: headers })
+        .then(response => {
+          action.setGroupList(response.data.teamList, store.dispatch);
+          action.setOperatedTeam(response.data.teamList[0], store.dispatch);
+          action.setBelongingTeams(response.data.teamList, store.dispatch)
+          action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
+          action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
+        })
+        .catch(err => {
+          console.log(err)
+          alert("Get Team failed");
+        })
+      }
 
 
-        action.loadDashBoard(action.userID, action.token, store.dispatch)
-      })
-      .catch(err => {
-        console.log(err)
-        alert("Login to timelog failed")
-      })
+      action.loadDashBoard(action.userID, action.token, store.dispatch)
+    })
+    .catch(err => {
+      console.log(err)
+      alert("Login to timelog failed")
+    })
   } else if (action.type === "EDIT_ACTIVITY_TYPE") {
     const headers = getHeaders(action.token)
     const body = {

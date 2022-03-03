@@ -28,6 +28,7 @@ steps:
   when:
     branch:
     - master
+    - rc
     - dev
     event:
     - push
@@ -44,34 +45,67 @@ steps:
   when: 
     branch:
     - master
+    - rc
     event:
     - push
 
 trigger:
   branch:
   - master
+  - rc
   - dev
 
 ---
 
 kind: pipeline
 type: kubernetes
-name: Deployment
+name: Deploy Staging
+
+steps:
+- name: Deploy Staging
+  image: nightlord851108/kustomize
+  environment:
+    CLUSTER_URL:
+      from_secret: cluster_url
+    CLUSTER_TOKEN:
+      from_secret: cluster_token
+  commands:
+  - cd kustomize/overlays/rc
+  - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
+  - kustomize build . | kubectl apply --server=$${CLUSTER_URL} --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=rc -f -
+  when:
+    branch:
+    - rc
+    event:
+    - push
+
+trigger:
+  branch:
+  - rc
+  event:
+  - push
+
+depends_on:
+- Build
+
+---
+
+kind: pipeline
+type: kubernetes
+name: Deploy Production
 
 steps:
 - name: Deploy Production
   image: nightlord851108/kustomize
   environment:
     CLUSTER_URL:
-      from_secret:
-        cluster_url
+      from_secret: cluster_url
     CLUSTER_TOKEN:
-      from_secret:
-        cluster_token
+      from_secret: cluster_token
   commands:
   - cd kustomize/overlays/production
   - kustomize edit set image ssl1321ois/timelog_web:${DRONE_COMMIT_BRANCH}.${DRONE_COMMIT_SHA:0:8}
-  - kustomize build . | kubectl apply --server=$${CLUSTER_URL}  --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
+  - kustomize build . | kubectl apply --server=$${CLUSTER_URL} --token=$${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
   when:
     branch:
     - master

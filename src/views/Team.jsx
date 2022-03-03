@@ -61,7 +61,7 @@ const useStyles = (theme) => ({
   }
 });
 
-const allTeams = [
+const allTeams = process.env.NODE_ENV === 'development' ? [
   {
     name: 'James',
     members: ['zoezou9']
@@ -77,6 +77,39 @@ const allTeams = [
   {
     name: 'Team3',
     members: ['RuiChen']
+  },
+] : [
+  {
+    name: 'James',
+    members: ['e8315402']
+  },
+  {
+    name: 'CapstoneRobotTest2',
+    members: ['tan109598112']
+  },
+  {
+    name: 'CrossFunctionalFrontEnd',
+    members: ['bonnie37']
+  },
+  {
+    name: 'CrossFunctionalServer',
+    members: ['wyc1995']
+  },
+  {
+    name: 'dcTrack',
+    members: ['julia166', 'shawn82tw', 'Aaron123', 'larry870322', 'yenwen', 'xie57813', 'bear888660']
+  },
+  {
+    name: 'ezKanban',
+    members: ['yi10235512', 'Ag101022', 'kevin871207', 'a98976537']
+  },
+  {
+    name: 'OIS',
+    members: ['m816866562000', 'mashu6211', 'RuiChen', 'c20m76z', 'nightlord851108']
+  },
+  {
+    name: 'IoT-Dev',
+    members: ['benny870704', 'jn2657', 'ycycchre', 'Zachary672']
   },
 ]
 

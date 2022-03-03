@@ -21,15 +21,23 @@ steps:
   commands:
   - npm install
 
-- name: Build static web files
+- name: Build production
   image: node:16
   commands:
   - npm run build
   when:
     branch:
     - master
+    event:
+    - push
+
+- name: Build rc
+  image: node:16
+  commands:
+  - npm run build-rc
+  when:
+    branch:
     - rc
-    - dev
     event:
     - push
 
@@ -53,7 +61,6 @@ trigger:
   branch:
   - master
   - rc
-  - dev
 
 ---
 

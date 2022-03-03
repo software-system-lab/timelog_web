@@ -32,7 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build-beta": "dotenv -e .env.development react-scripts build",
+    "build-rc": "dotenv -e .env.staging react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -55,9 +55,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(27, 28, 49);
-    border: rgb(39, 41, 61) solid 3px;
-    box-shadow: 0 4px 4px -4px white;
+    background: rgb(128, 128, 128);
+    border-radius: 10px;
+    /* box-shadow: 0 4px 4px -4px white; */
     color: white;
     font-size: 1.3rem;
     position: sticky;

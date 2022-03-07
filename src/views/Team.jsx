@@ -212,7 +212,6 @@ class Team extends Component {
       )
 
       team.members.forEach((username) => {
-        console.log(username)
         logs.push(
           <div key={`dashboard-${idx}`} className="team-member-board board-title board-text">
             <h2>{teamDashboardData[username].displayName}'s Dashboard</h2>

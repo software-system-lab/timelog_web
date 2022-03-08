@@ -1,4 +1,4 @@
-import { updateTeamDashBoard } from './DashBoard'
+import { updateTeamDashBoard, setIsUpdatingTeamDashboard } from './DashBoard'
 
 export function getTeam(groupname, teamID, userID, token) {
     return {
@@ -10,7 +10,8 @@ export function getTeam(groupname, teamID, userID, token) {
         setMemberList: (memberList, dispatch) => dispatch(setMemberList(memberList)),
         setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
-        updateTeamDashBoard: (teamID, memberList, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, groupname === 'Software System Lab'))
+        setIsUpdatingTeamDashboard: (status, dispatch) => dispatch(setIsUpdatingTeamDashboard(status)),
+        updateTeamDashBoard: (teamID, memberList, ssl, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, ssl))
     }
 }
 

@@ -11,6 +11,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './theme'
 import axios from 'axios'
 import { parseJWT } from './utils'
+import { CircularProgress, Dialog } from '@material-ui/core';
 
 class App extends Component {
 
@@ -106,6 +107,15 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <Dialog
+          open={this.props.isUpdatingTeamDashboard}
+          aria-labelledby="loading-team-dashboard-mask"
+        >
+          <div style={{'display': 'flex', 'alignItems': 'center', 'flexDirection': 'column', 'color': 'white'}}>
+            <CircularProgress size={60} />
+            <h2 style={{'background': 'rgba(0, 0, 0, 0.4)'}}>Fetching Data.....</h2>
+          </div>
+        </Dialog>
         <div className="container" style={{maxWidth: '100%'}}>
           <div className="view">
             <Appbar mobileOpen={this.mobileOpen} handleDrawerToggle={this.handleDrawerToggle} />
@@ -121,8 +131,11 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+
+  console.log(state)
   return {
-    activityTypeList: state.activityTypeList
+    activityTypeList: state.activityTypeList,
+    isUpdatingTeamDashboard: state.isUpdatingTeamDashboard,
   }
 }
 

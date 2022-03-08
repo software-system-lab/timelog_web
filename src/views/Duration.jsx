@@ -15,6 +15,7 @@ import {
   DialogActions,
   Grid
 } from '@material-ui/core';
+import { setIsUpdatingTeamDashboard } from '../actions/DashBoard';
 
 class Duration extends Component {
 
@@ -37,7 +38,14 @@ class Duration extends Component {
     this.props.updateDates(this.state.startDate, this.state.endDate)
     this.props.updateHistory(localStorage.getItem("uid"), null)
     this.props.updateDashBoard(localStorage.getItem("uid"), null)
-    this.props.updateTeamDashBoard(this.props.operatedTeam.teamID, this.props.memberList)
+    this.props.setIsUpdatingTeamDashboard(true)
+    this.props.updateTeamDashBoard(
+      this.props.operatedTeam.teamID,
+      this.props.memberList.map(member => member.username),
+      null,
+      true,
+      this.props.operatedTeam.teamName === 'Software System Lab'
+    )
   }
 
   render() {
@@ -104,7 +112,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateDashBoard: (userID, token) => dispatch(loadDashBoard(userID, token)),
-    updateTeamDashBoard: (teamID, memberList) => dispatch(updateTeamDashBoard(teamID, memberList)),
+    updateTeamDashBoard: (teamID, memberList, filterList, personal, ssl) =>
+      dispatch(updateTeamDashBoard(teamID, memberList, filterList, personal, ssl)),
+    setIsUpdatingTeamDashboard: (status) => dispatch(setIsUpdatingTeamDashboard(status)),
     updateHistory: (userID, token) => dispatch(loadLogHistory(userID, token))
   }
 }

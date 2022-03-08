@@ -16,6 +16,7 @@ import DashboardExporter from "../components/DashboardExporter";
 import "./Team.css";
 import DashBoard from './DashBoard';
 import { updateTeamDashBoard } from 'actions/DashBoard';
+import { setIsUpdatingTeamDashboard } from "../actions/DashBoard";
 
 const useStyles = (theme) => ({
   container: {
@@ -127,9 +128,10 @@ class Team extends Component {
 
   componentDidMount() {
     if (this.props.operatedTeam.teamID) {
+      this.props.setIsUpdatingTeamDashboard(true)
       this.props.refreshTeamDashboard(
         this.props.operatedTeam.teamID,
-        this.props.memberList,
+        this.props.memberList.map(member => member.username),
         null,
         true,
         this.props.operatedTeam.teamName === 'Software System Lab'
@@ -250,7 +252,7 @@ class Team extends Component {
               </h3>
             </div>
             {
-              activeTeam && activeTeam.teamName === 'Software System Lab' ?
+              activeTeam ?
               <div style={{width: '120px'}}></div>
             :
               <div className="selector-button" id="export-delete">
@@ -353,7 +355,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshTeamDashboard: (teamId, memberList, filterList, isPersonal, ssl) => dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal, ssl)),
+    refreshTeamDashboard: (teamId, memberList, filterList, isPersonal, ssl) => 
+      dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal, ssl)),
+    setIsUpdatingTeamDashboard: (status) => dispatch(setIsUpdatingTeamDashboard(status))
   }
 }
 

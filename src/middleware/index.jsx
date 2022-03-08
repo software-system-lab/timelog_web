@@ -117,7 +117,12 @@ const myMiddleware = store => next => action => {
             action.setGroupList(teamList, store.dispatch);
             action.setOperatedTeam(teamList[0], store.dispatch);
             action.loadAllTeamActivityTypeList(getTeamIdList(teamList), store.dispatch);
-            action.getTeam(teamList[0].teamName, teamList[0].teamID, action.userID, store.dispatch);
+            action.getTeam(
+              teamList[0].teamName,
+              teamList[0].teamID,
+              action.userID,
+              store.dispatch
+            );
           }).catch(err => {
             console.log(err)
           })
@@ -215,9 +220,13 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        if (action.userID !== action.unitID && action.operatedTeam.teamID === action.unitID) {
-          action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
-        }
+        action.setIsUpdatingTeamDashboard(true, store.dispatch)
+        action.updateTeamDashBoard(
+          action.operatedTeam.teamID,
+          action.memberList,
+          action.operatedTeam.teamName === 'Software System Lab',
+          store.dispatch
+        )
       })
       .catch(err => {
         console.log(err)
@@ -368,6 +377,7 @@ const myMiddleware = store => next => action => {
           member: member
         }
         action.setTeamDashBoard(result, store.dispatch)
+        action.setIsUpdatingTeamDashboard(false, store.dispatch)
       })
       .catch(err => {
         console.log(err)
@@ -383,7 +393,11 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
+        // action.updateTeamDashBoard(
+        //   action.operatedTeam.teamID,
+        //   action.memberList,
+        //   store.dispatch
+        // )
       })
       .catch(err => {
         console.log(err)
@@ -405,10 +419,11 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        if (action.userID !== action.unitID) {
-          action.updateTeamDashBoard(action.unitID, action.memberList, action.token, store.dispatch)
-        }
-
+        // action.updateTeamDashBoard(
+        //   action.operatedTeam.teamID,
+        //   action.memberList,
+        //   store.dispatch
+        // )
       })
       .catch(err => {
         console.log(err)
@@ -423,7 +438,13 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.setMemberList(response.data.memberList, store.dispatch)
         action.loadTeamActivityTypeList(action.teamID, action.token, store.dispatch)
-        action.updateTeamDashBoard(action.teamID, response.data.memberList, store.dispatch)
+        action.setIsUpdatingTeamDashboard(true, store.dispatch)
+        action.updateTeamDashBoard(
+          action.teamID,
+          response.data.memberList.map(member => member.username),
+          action.groupname === 'Software System Lab',
+          store.dispatch
+        )
       })
       .catch(err => {
         console.log(err)

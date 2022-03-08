@@ -62,7 +62,8 @@ const useStyles = (theme) => ({
   }
 });
 
-const allTeams = process.env.NODE_ENV === 'development' ? [
+// const allTeams = process.env.NODE_ENV === 'development' ? [
+const allTeams = process.env.REACT_APP_ENV === 'development' ? [
   {
     name: 'James',
     members: ['zoezou9']
@@ -106,7 +107,7 @@ const allTeams = process.env.NODE_ENV === 'development' ? [
   },
   {
     name: 'OIS',
-    members: ['m816866562000', 'mashu6211', 'RuiChen', 'c20m76z', 'nightlord851108']
+    members: ['mandy723', 'mashu6211', 'RuiChen', 'c20m76z', 'nightlord851108']
   },
   {
     name: 'IoT-Dev',

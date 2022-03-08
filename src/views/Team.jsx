@@ -80,36 +80,36 @@ const allTeams = process.env.NODE_ENV === 'development' ? [
   },
 ] : [
   {
-    name: "James",
-    members: ["e8315402"]
+    name: 'James',
+    members: ['e8315402']
   },
   {
-    name: "CapstoneRobotTest2",
-    members: ["tan109598112"]
+    name: 'CapstoneRobotTest2',
+    members: ['tan109598112']
   },
   {
-    name: "CrossFunctionalFrontEnd",
-    members: ["bonnie37"]
+    name: 'CrossFunctionalFrontEnd',
+    members: ['bonnie37']
   },
   {
-    name: "CrossFunctionalServer",
-    members: ["wyc1995"]
+    name: 'CrossFunctionalServer',
+    members: ['wyc1995']
   },
   {
-    name: "dcTrack",
-    members: ["julia166", "shawn82tw", "Aaron123", "larry870322", "yenwen", "xie57813", "bear888660"]
+    name: 'dcTrack',
+    members: ['julia166', 'shawn82tw', 'Aaron123', 'larry870322', 'yenwen', 'xie57813', 'bear888660']
   },
   {
-    name: "ezKanban",
-    members: ["yi10235512", "Ag101022", "kevin871207", "a98976537"]
+    name: 'ezKanban',
+    members: ['yi10235512', 'Ag101022', 'kevin871207', 'a98976537']
   },
   {
-    name: "OIS",
-    members: ["nightlord851108", "c20m76z", "mashu6211", "RuiChen", "m816866562000"]
+    name: 'OIS',
+    members: ['m816866562000', 'mashu6211', 'RuiChen', 'c20m76z', 'nightlord851108']
   },
   {
-    name: "IoT-Dev",
-    members: ["benny870704", "ycycchre", "Zachary672", "jn2657"]
+    name: 'IoT-Dev',
+    members: ['benny870704', 'jn2657', 'ycycchre', 'Zachary672']
   },
 ]
 
@@ -197,13 +197,7 @@ class Team extends Component {
   }
 
   buildAllMembersLog = () => {
-    if (this.props.teamDashBoardData.member.length === 0) return null
-
     let logs = []
-    const teamDashboardData = Object.assign({}, ...this.props.teamDashBoardData.member.map((member, idx) => (
-      { [member.username]: member }
-    )))
-
     allTeams.forEach((team, idx) => {
       logs.push(
         <div className="ssl-team-member-board-header" key={`header-${idx}`}>
@@ -211,15 +205,18 @@ class Team extends Component {
         </div>
       )
 
-      team.members.forEach((username) => {
-        logs.push(
-          <div key={`dashboard-${idx}`} className="team-member-board board-title board-text">
-            <h2>{teamDashboardData[username].displayName}'s Dashboard</h2>
-            <h3>{`spent time: ${teamDashboardData[username].totalTime}`}</h3>
-            <DashBoard isPersonal={false} pieData={teamDashboardData[username].pieData} tableData={teamDashboardData[username].tableData} chartArea={"25vh"} />
-          </div>
-        ) 
-      })
+      logs.push(
+        this.props.teamDashBoardData.member.map((member, idx) => {
+          return team.members.includes(member.username) ?
+            <div key={`dashboard-${idx}`} className="team-member-board board-title board-text">
+              <h2>{member.displayName}'s Dashboard</h2>
+              <h3>{`spent time: ${member.totalTime}`}</h3>
+              <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
+            </div>
+          :
+            null
+        })
+      )
     })
 
     return logs

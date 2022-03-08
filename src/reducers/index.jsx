@@ -1,10 +1,22 @@
 import activityTypeListReducer from './activityTypeList'
 import HistoryReducer from './History'
-import { DashBoardReducer, ExportExcelReducer, TeamDashBoardReducer} from './DashBoard'
+import {
+    DashBoardReducer,
+    ExportExcelReducer,
+    TeamDashBoardReducer,
+    IsUpdatingTeamDashboardReducer    
+} from './DashBoard'
 import StopWatchReducer from './StopWatch'
 import { combineReducers } from 'redux'
 import groupListReducer from './groupList'
-import { memberListReducer, isLeaderReducer, teamActivityTypeListReducer, operatedTeamReducer, allTeamActivityTypeListReducer, myTeamsReducer } from './team'
+import {
+    memberListReducer,
+    isLeaderReducer,
+    teamActivityTypeListReducer,
+    operatedTeamReducer,
+    allTeamActivityTypeListReducer,
+    myTeamsReducer
+} from './team'
 
 const rootReducer = combineReducers({
     activityTypeList: activityTypeListReducer,
@@ -19,6 +31,7 @@ const rootReducer = combineReducers({
     allTeamActivityTypeList: allTeamActivityTypeListReducer,
     myTeams: myTeamsReducer,
     teamDashBoardData: TeamDashBoardReducer,
+    isUpdatingTeamDashboard: IsUpdatingTeamDashboardReducer,
     exportExcelData: ExportExcelReducer
 })
 

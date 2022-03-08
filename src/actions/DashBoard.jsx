@@ -33,7 +33,15 @@ export function updateTeamDashBoard(teamID, memberList, filterList = null, perso
     personal: personal,
     ssl: ssl,
     setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData)),
+    setIsUpdatingTeamDashboard: (status, dispatch) => dispatch(setIsUpdatingTeamDashboard(status)),
     setExportExcelData: (exportData, dispatch) => dispatch(setExportExcelData(exportData)),
+  }
+}
+
+export function setIsUpdatingTeamDashboard(status) {
+  return {
+    type: "SET_UPDATE_TEAM_DASHBOARD_STATUS",
+    isUpdatingTeamDashboard: status
   }
 }
 

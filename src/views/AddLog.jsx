@@ -105,7 +105,7 @@ class AddLog extends Component {
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
         this.state.team.teamID,
-        this.props.memberList,
+        this.props.memberList.map(member => member.username),
         this.props.operatedTeam
       )
     } else{
@@ -118,7 +118,8 @@ class AddLog extends Component {
         moment(this.state.endTime).format(dateFormat),
         this.state.description,
         localStorage.getItem("uid"),
-        this.props.memberList
+        this.props.memberList.map(member => member.username),
+        this.props.operatedTeam
       )
     }
     this.setState({

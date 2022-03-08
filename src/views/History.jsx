@@ -152,7 +152,8 @@ class History extends Component {
           moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
           null,
           localStorage.getItem("uid"),
-          this.props.memberList
+          this.props.memberList.map(member => member.username),
+          this.props.operatedTeam
         )
     } else {
         this.props.editLog(
@@ -165,7 +166,8 @@ class History extends Component {
           moment(newData.endTime).format("YYYY/MM/DD HH:mm"),
           null,
           this.state.selectTeam.unitID,
-          this.props.memberList
+          this.props.memberList.map(member => member.username),
+          this.props.operatedTeam
         )
     }
   }
@@ -190,7 +192,8 @@ class History extends Component {
                 null,
                 oldData.id,
                 this.props.operatedTeam.teamID,
-                this.props.memberList
+                this.props.memberList.map(member => member.username),
+                this.props.operatedTeam
               )
               resolve();
             }),
@@ -230,11 +233,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeLog: (userID, token, logID, unitID, memberList) => {
-      dispatch(removeLog(userID, token, logID, unitID, memberList))
+    removeLog: (userID, token, logID, unitID, memberList, operatedTeam) => {
+      dispatch(removeLog(userID, token, logID, unitID, memberList, operatedTeam))
     },
-    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList)=> {
-      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList))
+    editLog: (userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList, operatedTeam) => {
+      dispatch(editLog(userID, token, logID, title, activityTypeName, startTime, endTime, description, unitID, memberList, operatedTeam))
     },
   }
 }

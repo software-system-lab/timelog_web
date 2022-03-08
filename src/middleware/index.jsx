@@ -220,13 +220,15 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.loadLogHistory(action.userID, action.token, store.dispatch)
         action.loadDashBoard(action.userID, action.token, store.dispatch)
-        action.setIsUpdatingTeamDashboard(true, store.dispatch)
-        action.updateTeamDashBoard(
-          action.operatedTeam.teamID,
-          action.memberList,
-          action.operatedTeam.teamName === 'Software System Lab',
-          store.dispatch
-        )
+        if (window.location.pathname === '/team') {
+          action.setIsUpdatingTeamDashboard(true, store.dispatch)
+          action.updateTeamDashBoard(
+            action.operatedTeam.teamID,
+            action.memberList,
+            action.operatedTeam.teamName === 'Software System Lab',
+            store.dispatch
+          )
+        }
       })
       .catch(err => {
         console.log(err)

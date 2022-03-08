@@ -131,8 +131,6 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-
-  console.log(state)
   return {
     activityTypeList: state.activityTypeList,
     isUpdatingTeamDashboard: state.isUpdatingTeamDashboard,

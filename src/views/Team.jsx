@@ -62,8 +62,8 @@ const useStyles = (theme) => ({
   }
 });
 
-// const allTeams = process.env.NODE_ENV === 'development' ? [
-const allTeams = process.env.REACT_APP_ENV === 'development' ? [
+const allTeams = process.env.NODE_ENV === 'development' ? [
+// const allTeams = process.env.REACT_APP_ENV === 'development' ? [
   {
     name: 'James',
     members: ['zoezou9']

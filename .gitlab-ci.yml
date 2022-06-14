@@ -47,7 +47,7 @@ deploy:
     refs:
     - master
   script:
-  - cd deployment/overlay/production
+  - cd kustomize/overlay/production
   - kustomize edit set image ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA}
   - kustomize build . | kubectl apply --server=${CLUSTER_URL} --token=${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
 

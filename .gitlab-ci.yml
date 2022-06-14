@@ -1,0 +1,57 @@
+variables:
+  # variables for docker service to build image during CI
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+
+# service of dind to build image during CI
+services:
+  - docker:19.03.13-dind
+  
+
+build static:
+  stage: build:static
+  image: node:16
+  script:
+  - npm i
+  - npm run build
+  only:
+    refs:
+    - dev
+    - rc
+    - master
+  artifacts:
+    paths:
+    - build/
+
+build image:
+  stage: build:image
+  image: docker:19.03.13
+  dependencies:
+  - build static
+  script:
+  - docker build -f ci/Dockerfile -t ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA} .
+  - docker login -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
+  - docker push ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA}
+  only:
+    refs:
+    - dev
+    - rc
+    - master
+
+deploy:
+  stage: deploy
+  image: nightlord851108/kustomize
+  only:
+    refs:
+    - master
+  script:
+  - cd deployment/overlay/production
+  - kustomize edit set image ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA}
+  - kustomize build . | kubectl apply --server=${CLUSTER_URL} --token=${CLUSTER_TOKEN} --insecure-skip-tls-verify=true --namespace=production -f -
+
+stages:
+- build:static
+- build:image
+- deploy

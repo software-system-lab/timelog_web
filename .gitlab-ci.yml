@@ -31,7 +31,7 @@ build image:
   dependencies:
   - build static
   script:
-  - docker build -f ci/Dockerfile -t ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA} .
+  - docker build -t ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA} .
   - docker login -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
   - docker push ssl1321ois/timelog_web:${CI_COMMIT_BRANCH}.${CI_COMMIT_SHORT_SHA}
   only:

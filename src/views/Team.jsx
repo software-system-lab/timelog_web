@@ -103,11 +103,11 @@ const allTeams = process.env.REACT_APP_ENV === 'development' ? [
   },
   {
     name: 'ezKanban',
-    members: ['yi10235512', 'Ag101022', 'kevin871207', 'a98976537']
+    members: ['nightlord851108', 'c20m76z', 'yi10235512', 'Ag101022', 'mandy723', 'kevin871207', 'a98976537', 'fiveman0830']
   },
   {
     name: 'OIS',
-    members: ['mandy723', 'mashu6211', 'RuiChen', 'c20m76z', 'nightlord851108']
+    members: ['mashu6211', 'RuiChen' ]
   },
   {
     name: 'IoT-Dev',

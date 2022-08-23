@@ -65,7 +65,7 @@ const useStyles = (theme) => ({
 // const allTeams = process.env.NODE_ENV === 'development' ? [
 const allTeams = process.env.REACT_APP_ENV === 'development' ? [
   {
-    name: 'James',
+    name: 'Team0',
     members: ['zoezou9']
   },
   {
@@ -90,28 +90,20 @@ const allTeams = process.env.REACT_APP_ENV === 'development' ? [
     members: ['tan109598112']
   },
   {
-    name: 'CrossFunctionalFrontEnd',
-    members: ['bonnie37']
-  },
-  {
-    name: 'CrossFunctionalServer',
-    members: ['wyc1995']
-  },
-  {
     name: 'dcTrack',
-    members: ['julia166', 'shawn82tw', 'Aaron123', 'larry870322', 'yenwen', 'xie57813', 'bear888660', '110598109', 't107590020', 'selinafu']
+    members: ['xie57813', 'bear888660', '110598109', 't107590020', 'sam981431', 'yenwen']
   },
   {
     name: 'ezKanban',
-    members: ['nightlord851108', 'c20m76z', 'yi10235512', 'Ag101022', 'mandy723', 'kevin871207', 'a98976537', 'fiveman0830']
+    members: ['nightlord851108', 'mandy723', 'kevin871207', 'a98976537', 'fiveman0830']
   },
   {
     name: 'OIS',
-    members: ['mashu6211', 'RuiChen' ]
+    members: ['RuiChen' ]
   },
   {
     name: 'IoT-Dev',
-    members: ['benny870704', 'jn2657', 'ycycchre', 'Zachary672']
+    members: ['benny870704', 'ycycchre', 'Zachary672', 'jn2657']
   },
 ]
 
@@ -209,15 +201,19 @@ class Team extends Component {
       )
 
       logs.push(
-        this.props.teamDashBoardData.member.map((member, idx) => {
-          return team.members.includes(member.username) ?
-            <div key={`dashboard-${idx}`} className="team-member-board board-title board-text">
+        team.members.map((username) => {
+          let member = this.props.teamDashBoardData.member.find(m => m.username === username)
+          if (!!! member) {
+            return null
+          }
+
+          return (
+            <div key={`dashboard-${username}`} className="team-member-board board-title board-text">
               <h2>{member.displayName}'s Dashboard</h2>
               <h3>{`spent time: ${member.totalTime}`}</h3>
               <DashBoard isPersonal={false} pieData={member.pieData} tableData={member.tableData} chartArea={"25vh"} />
             </div>
-          :
-            null
+          )
         })
       )
     })

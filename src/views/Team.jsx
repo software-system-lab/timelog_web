@@ -91,7 +91,7 @@ const allTeams = process.env.REACT_APP_ENV === 'development' ? [
   },
   {
     name: 'dcTrack',
-    members: ['xie57813', 'bear888660', '110598109', 't107590020', 'sam981431', 'yenwen']
+    members: ['xie57813', 'bear888660', '110598109', 't107590020', 'sam981431', 'angeleeee123', 'yenwen']
   },
   {
     name: 'ezKanban',

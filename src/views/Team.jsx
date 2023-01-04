@@ -63,7 +63,7 @@ const useStyles = (theme) => ({
 });
 
 // const allTeams = process.env.NODE_ENV === 'development' ? [
-const allTeams = process.env.REACT_APP_ENV === 'development' ? [
+const sslTeams = process.env.REACT_APP_ENV === 'development' ? [
   {
     name: 'Team0',
     members: ['zoezou9']
@@ -95,16 +95,36 @@ const allTeams = process.env.REACT_APP_ENV === 'development' ? [
   },
   {
     name: 'ezKanban',
-    members: ['nightlord851108', 'mandy723', 'kevin871207', 'a98976537', 'fiveman0830']
-  },
-  {
-    name: 'OIS',
-    members: ['RuiChen' ]
+    members: ['nightlord851108', 'ycycchre', 'mandy723', 'kevin871207', 'a98976537', 'fiveman0830', 'eddie0818']
   },
   {
     name: 'IoT-Dev',
-    members: ['benny870704', 'ycycchre', 'Zachary672', 'jn2657']
+    members: ['benny870704', 'Zachary672', 'jn2657']
   },
+]
+
+const sunbirdTeams = [
+  {
+      name: "dcTrack", // 7
+      members: ["yenwen", "xie57813", "bear888660", "110598109", "t107590020", "sam981431", "angeleeee123"]
+  },
+  {
+      name: "CapstoneRobotTest1", // 9
+      members: ["Lwj0310", "remi30789", "ming119", "kazuya1208", "wakandaforever2022", "JimboMachine", "jennifer779", "Thaoma2509", "henry111598031"]
+  }, 
+  {
+      name: "CapstoneRobotTest2",  // 7 多了一個
+      members: ["fly990314", "tan109598112", "kanapui", "tree1109", "t108590006", "Jeff0829", "weber"]
+  },
+  {
+      name: "CrossFunctionalServer", // 10
+      members: ["ireneezheng", "shawn578597", "Ken0820", "starvian7", "matti2905", "hung61601", "weikeup", "109590006", "store604218", "asdf456753123"]
+
+  },
+  {
+      name: "CrossFunctionalFrontEnd", // 6 少三個人 對
+      members: ["karma1827", "shiow620412", "peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "aa681577", "kerueilin9"]
+  }
 ]
 
 class Team extends Component {
@@ -127,7 +147,7 @@ class Team extends Component {
         this.props.memberList.map(member => member.username),
         null,
         true,
-        this.props.operatedTeam.teamName === 'Software System Lab'
+        this.props.operatedTeam.teamName
       );
     }
   }
@@ -193,6 +213,12 @@ class Team extends Component {
 
   buildAllMembersLog = () => {
     let logs = []
+    let allTeams = []
+    if (this.props.operatedTeam.teamName === "Software System Lab") {
+      allTeams = sslTeams
+    } else if (this.props.operatedTeam.teamName === "Sunbird") {
+      allTeams = sunbirdTeams
+    }
     allTeams.forEach((team, idx) => {
       logs.push(
         <div className="ssl-team-member-board-header" key={`header-${idx}`}>
@@ -320,7 +346,7 @@ class Team extends Component {
           <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea={"50vh"} />
 
           {
-            activeTeam && activeTeam.teamName === 'Software System Lab' ?
+            activeTeam && (activeTeam.teamName === 'Software System Lab' || activeTeam.teamName === 'Sunbird') ?
             this.buildAllMembersLog()
           :
             this.props.teamDashBoardData.member.map((member, idx) => {
@@ -352,8 +378,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    refreshTeamDashboard: (teamId, memberList, filterList, isPersonal, ssl) => 
-      dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal, ssl)),
+    refreshTeamDashboard: (teamId, memberList, filterList, isPersonal, teamName) => 
+      dispatch(updateTeamDashBoard(teamId, memberList, filterList, isPersonal, teamName)),
     setIsUpdatingTeamDashboard: (status) => dispatch(setIsUpdatingTeamDashboard(status))
   }
 }

@@ -44,7 +44,7 @@ class Duration extends Component {
       this.props.memberList.map(member => member.username),
       null,
       true,
-      this.props.operatedTeam.teamName === 'Software System Lab'
+      this.props.operatedTeam.teamName
     )
   }
 
@@ -112,8 +112,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateDashBoard: (userID, token) => dispatch(loadDashBoard(userID, token)),
-    updateTeamDashBoard: (teamID, memberList, filterList, personal, ssl) =>
-      dispatch(updateTeamDashBoard(teamID, memberList, filterList, personal, ssl)),
+    updateTeamDashBoard: (teamID, memberList, filterList, personal, teamName) =>
+      dispatch(updateTeamDashBoard(teamID, memberList, filterList, personal, teamName)),
     setIsUpdatingTeamDashboard: (status) => dispatch(setIsUpdatingTeamDashboard(status)),
     updateHistory: (userID, token) => dispatch(loadLogHistory(userID, token))
   }

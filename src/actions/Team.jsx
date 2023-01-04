@@ -11,7 +11,7 @@ export function getTeam(groupname, teamID, userID, token) {
         setLeader: (leader, dispatch) => dispatch(setLeader(leader)),
         loadTeamActivityTypeList: (teamID, token, dispatch) => dispatch(loadTeamActivityTypeList(teamID, token)),
         setIsUpdatingTeamDashboard: (status, dispatch) => dispatch(setIsUpdatingTeamDashboard(status)),
-        updateTeamDashBoard: (teamID, memberList, ssl, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, ssl))
+        updateTeamDashBoard: (teamID, memberList, teamName, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, teamName))
     }
 }
 

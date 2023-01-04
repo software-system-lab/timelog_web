@@ -225,7 +225,7 @@ const myMiddleware = store => next => action => {
           action.updateTeamDashBoard(
             action.operatedTeam.teamID,
             action.memberList,
-            action.operatedTeam.teamName === 'Software System Lab',
+            action.operatedTeam.teamName,
             store.dispatch
           )
         }
@@ -322,7 +322,7 @@ const myMiddleware = store => next => action => {
       memberList: action.memberList,
       filterList: action.filterList,
       personal: action.personal,
-      ssl: action.ssl
+      teamName: action.teamName
     }
 
     body.startDate = moment(localStorage.getItem("startDate")).format("YYYY/MM/DD")
@@ -444,7 +444,7 @@ const myMiddleware = store => next => action => {
         action.updateTeamDashBoard(
           action.teamID,
           response.data.memberList.map(member => member.username),
-          action.groupname === 'Software System Lab',
+          action.groupname,
           store.dispatch
         )
       })

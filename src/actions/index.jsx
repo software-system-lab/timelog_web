@@ -95,7 +95,7 @@ export function newLog(userID, token, title, activityTypeName, startTime, endTim
     loadLogHistory: (userID, token, dispatch) => dispatch(loadLogHistory(userID, token)),
     loadDashBoard: (userID, token, dispatch) => dispatch(loadDashBoard(userID, token)),
     setIsUpdatingTeamDashboard: (status, dispatch) => dispatch(setIsUpdatingTeamDashboard(status)),
-    updateTeamDashBoard: (teamID, memberList, ssl, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, ssl)),
+    updateTeamDashBoard: (teamID, memberList, teamName, dispatch) => dispatch(updateTeamDashBoard(teamID, memberList, null, true, teamName)),
   }
 }
 

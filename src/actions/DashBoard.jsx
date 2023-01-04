@@ -24,14 +24,14 @@ export function updateDashBoard(userID, token, filterList) {
   }
 }
 
-export function updateTeamDashBoard(teamID, memberList, filterList = null, personal = true, ssl = false) {
+export function updateTeamDashBoard(teamID, memberList, filterList = null, personal = true, teamName = false) {
   return {
     type: "UPDATE_TEAM_DASH_BOARD",
     teamID: teamID,
     memberList: memberList,
     filterList: filterList,
     personal: personal,
-    ssl: ssl,
+    teamName: teamName,
     setTeamDashBoard: (teamDashBoardData, dispatch) => dispatch(setTeamDashBoard(teamDashBoardData)),
     setIsUpdatingTeamDashboard: (status, dispatch) => dispatch(setIsUpdatingTeamDashboard(status)),
     setExportExcelData: (exportData, dispatch) => dispatch(setExportExcelData(exportData)),

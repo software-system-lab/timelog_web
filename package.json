@@ -18,7 +18,7 @@
     "jquery": "^3.5.1",
     "js-base64": "^3.7.2",
     "js-cookie": "^2.2.1",
-    "material-table": "^1.61.0",
+    "material-table": "^1.69.3",
     "moment": "^2.25.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

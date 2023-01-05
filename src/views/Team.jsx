@@ -117,13 +117,36 @@ const sunbirdTeams = [
       members: ["fly990314", "tan109598112", "kanapui", "tree1109", "t108590006", "Jeff0829", "weber"]
   },
   {
+      name: "CrossFunctionalFrontEnd", // 6 少三個人 對
+      members: ["karma1827", "shiow620412", "peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "aa681577", "kerueilin9"]
+  },
+  {
       name: "CrossFunctionalServer", // 10
       members: ["ireneezheng", "shawn578597", "Ken0820", "starvian7", "matti2905", "hung61601", "weikeup", "109590006", "store604218", "asdf456753123"]
 
+  }
+]
+
+const sunbirdMaster = [
+  {
+    name: "dcTrack",
+    members: ["yenwen", "xie57813", "bear888660", "110598109", "t107590020", "sam981431", "angeleeee123"]
   },
   {
-      name: "CrossFunctionalFrontEnd", // 6 少三個人 對
-      members: ["karma1827", "shiow620412", "peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "aa681577", "kerueilin9"]
+      name: "CapstoneRobotTest1",
+      members: ["kazuya1208", "wakandaforever2022", "henry111598031"]
+  },
+  {
+      name: "CapstoneRobotTest2",
+      members: ["tan109598112", "Jeff0829", "weber"]
+  },
+  {
+      name: "CrossFunctionalFrontEnd", 
+      members: ["peter110", "timno1"]
+  },
+  {
+      name: "CrossFunctionalServer",
+      members: ["hung61601", "weikeup"]
   }
 ]
 
@@ -218,6 +241,8 @@ class Team extends Component {
       allTeams = sslTeams
     } else if (this.props.operatedTeam.teamName === "Sunbird") {
       allTeams = sunbirdTeams
+    } else if (this.props.operatedTeam.teamName === "Sunbird Master") {
+      allTeams = sunbirdMaster
     }
     allTeams.forEach((team, idx) => {
       logs.push(
@@ -346,7 +371,9 @@ class Team extends Component {
           <DashBoard pieData={this.props.teamDashBoardData.team.pieData} tableData={this.props.teamDashBoardData.team.tableData} chartArea={"50vh"} />
 
           {
-            activeTeam && (activeTeam.teamName === 'Software System Lab' || activeTeam.teamName === 'Sunbird') ?
+            activeTeam && (activeTeam.teamName === 'Software System Lab' || 
+                            activeTeam.teamName === 'Sunbird' || 
+                            activeTeam.teamName === 'Sunbird Master') ?
             this.buildAllMembersLog()
           :
             this.props.teamDashBoardData.member.map((member, idx) => {

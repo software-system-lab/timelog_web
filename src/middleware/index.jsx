@@ -107,8 +107,8 @@ const myMiddleware = store => next => action => {
         axios.get(`${AMS_HOST}/teams`).then(response => {
           const teamIdList = response.data.map(t => t.id)
           axios.post(`${API_HOST}/activity/all`, { unitIdList: teamIdList }).then(response => {
-            const teamList = response.data.unitDTOList.map(el => { return { teamName: el.unitName, teamID: el.unitID } });
-
+            const teamList = response.data.unitDTOList
+                                      .map(el => { return { teamName: el.unitName, teamID: el.unitID } })
             const JamesIndex = teamList.findIndex(el => el.teamName === 'James')
             const JamesTeam = teamList.filter(el => el.teamName === 'James')[0]
             teamList.splice(JamesIndex, 1)
@@ -133,11 +133,20 @@ const myMiddleware = store => next => action => {
       } else {
         axios.post(`${API_HOST}/belong`, data, { headers: headers })
         .then(response => {
-          action.setGroupList(response.data.teamList, store.dispatch);
-          action.setOperatedTeam(response.data.teamList[0], store.dispatch);
-          action.setBelongingTeams(response.data.teamList, store.dispatch)
-          action.loadAllTeamActivityTypeList(getTeamIdList(response.data.teamList), store.dispatch);
-          action.getTeam(response.data.teamList[0].teamName, response.data.teamList[0].teamID, action.userID, store.dispatch);
+
+          function compare(a, b) {
+            if (a.teamName === 'Software System Lab' || a.teamName === 'Sunbird' || a.teamName === 'Sunbird Master') {
+              return 1
+            }
+            return -1
+          }
+          const teamList = response.data.teamList.sort(compare)
+          console.log("*********", teamList)
+          action.setGroupList(teamList, store.dispatch);
+          action.setOperatedTeam(teamList[0], store.dispatch);
+          action.setBelongingTeams(teamList, store.dispatch)
+          action.loadAllTeamActivityTypeList(getTeamIdList(teamList), store.dispatch);
+          action.getTeam(teamList[0].teamName, teamList[0].teamID, action.userID, store.dispatch);
         })
         .catch(err => {
           console.log(err)
@@ -331,15 +340,32 @@ const myMiddleware = store => next => action => {
       .then(response => {
         action.setExportExcelData(JSON.parse(JSON.stringify(response.data)), store.dispatch)
         const member = []
+
+        /////// Region HARD CODE for SUNBIRD
+        var personalLabProjectTimes = 0;
+
+        // if (action.teamName === 'Sunbird') {
+          response.data.memberDashboardList.forEach((mem, idx) => {
+            const personalLabProject = mem.dataMap["LabProject (Personal)"]
+            if (!!personalLabProject) {
+              personalLabProjectTimes += personalLabProject.endTime - personalLabProject.startTime
+            }
+          })
+        // }
+        ////// END Region
+
         const totalTimeString = response.data.totalTime
-        const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1])
+        const totalTime = parseInt(totalTimeString.split(":")[0]) * 60 + parseInt(totalTimeString.split(":")[1]) + personalLabProjectTimes
         const pieData = [
           ['Task', 'Hours per Project']
         ]
         const tableData = []
         const dataMap = response.data.dataMap
         Object.keys(dataMap).forEach((key) => {
-          const timeLength = dataMap[key].timeLength
+          var timeLength = dataMap[key].timeLength
+          if (key === 'LabProject') {
+            timeLength += personalLabProjectTimes
+          }
           const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
           pieData.push([key, timeLength])
           tableData.push({ activityTypeName: key, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %" })

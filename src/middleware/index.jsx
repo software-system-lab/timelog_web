@@ -141,7 +141,6 @@ const myMiddleware = store => next => action => {
             return -1
           }
           const teamList = response.data.teamList.sort(compare)
-          console.log("*********", teamList)
           action.setGroupList(teamList, store.dispatch);
           action.setOperatedTeam(teamList[0], store.dispatch);
           action.setBelongingTeams(teamList, store.dispatch)
@@ -346,9 +345,16 @@ const myMiddleware = store => next => action => {
 
         // if (action.teamName === 'Sunbird') {
           response.data.memberDashboardList.forEach((mem, idx) => {
+
+            if (action.teamName === 'Sunbird' || action.teamName === 'Sunbird Master') {
+              if (mem.username === 'benny878704' || mem.username === 'nightlord851108' || mem.username === 'ycycchre') {
+                return
+              }
+            }
+
             const personalLabProject = mem.dataMap["LabProject (Personal)"]
             if (!!personalLabProject) {
-              personalLabProjectTimes += personalLabProject.endTime - personalLabProject.startTime
+              personalLabProjectTimes += personalLabProject.timeLength
             }
           })
         // }
@@ -367,11 +373,19 @@ const myMiddleware = store => next => action => {
             timeLength += personalLabProjectTimes
           }
           const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
+
           pieData.push([key, timeLength])
           tableData.push({ activityTypeName: key, timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %" })
         })
+        if (!!! dataMap['LabProject']) {
+          var timeLength = personalLabProjectTimes
+          const percentage = totalTime === 0 ? 0 : (timeLength / totalTime * 100).toFixed(2).toString()
+
+          pieData.push(['LabProject', timeLength])
+          tableData.push({ activityTypeName: 'LabProject', timeLength: getHour(timeLength) + " : " + getMinute(timeLength), percentage: percentage.toString() + " %" })
+        }
         const team = {
-          totalTime: response.data.totalTime,
+          totalTime: getHour(totalTime).toString() + ":" + getMinute(totalTime).toString(),
           pieData: pieData,
           tableData: tableData
         }

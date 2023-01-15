@@ -114,7 +114,7 @@ const sunbirdTeams = [
   }, 
   {
       name: "CapstoneRobotTest2",  // 7 多了一個
-      members: ["fly990314", "tan109598112", "tree1109", "t108590006", "Jeff0829", "weber"]
+      members: ["tan109598112", "tree1109", "t108590006", "Jeff0829", "weber", "bernadette451"]
   },
   {
       name: "CrossFunctionalFrontEnd", // 6 少三個人 對
@@ -154,7 +154,7 @@ const sunbirdMaster = [
   },
   {
     name: "Left",
-    members: ["wakandaforever2022"]
+    members: ["julia166", "shawn82tw", "Aaron123", "larry870322", "fly990314", "wyc1995", "bonnie37", "wakandaforever2022"]
   }
 ]
 

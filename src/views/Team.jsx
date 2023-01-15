@@ -110,20 +110,24 @@ const sunbirdTeams = [
   },
   {
       name: "CapstoneRobotTest1", // 9
-      members: ["Lwj0310", "remi30789", "ming119", "kazuya1208", "wakandaforever2022", "JimboMachine", "jennifer779", "Thaoma2509", "henry111598031"]
+      members: ["kazuya1208", "JimboMachine", "jennifer779", "Thaoma2509", "henry111598031"]
   }, 
   {
       name: "CapstoneRobotTest2",  // 7 多了一個
-      members: ["fly990314", "tan109598112", "kanapui", "tree1109", "t108590006", "Jeff0829", "weber"]
+      members: ["fly990314", "tan109598112", "tree1109", "t108590006", "Jeff0829", "weber"]
   },
   {
       name: "CrossFunctionalFrontEnd", // 6 少三個人 對
-      members: ["karma1827", "shiow620412", "peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "aa681577", "kerueilin9"]
+      members: ["peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "kerueilin9"]
   },
   {
       name: "CrossFunctionalServer", // 10
-      members: ["ireneezheng", "shawn578597", "Ken0820", "starvian7", "matti2905", "hung61601", "weikeup", "109590006", "store604218", "asdf456753123"]
+      members: ["ireneezheng", "matti2905", "hung61601", "weikeup", "109590006", "store604218", "asdf456753123"]
 
+  },
+  {
+    name: "Left",
+    members: ["wakandaforever2022", "Lwj0310", "remi30789", "ming119", "kanapui", "shiow620412", "karma1827", "aa681577", "shawn578597", "Ken0820", "starvian7"]
   }
 ]
 
@@ -134,7 +138,7 @@ const sunbirdMaster = [
   },
   {
       name: "CapstoneRobotTest1",
-      members: ["kazuya1208", "wakandaforever2022", "henry111598031"]
+      members: ["kazuya1208", "henry111598031"]
   },
   {
       name: "CapstoneRobotTest2",
@@ -147,6 +151,10 @@ const sunbirdMaster = [
   {
       name: "CrossFunctionalServer",
       members: ["hung61601", "weikeup"]
+  },
+  {
+    name: "Left",
+    members: ["wakandaforever2022"]
   }
 ]
 

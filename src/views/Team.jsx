@@ -110,7 +110,7 @@ const sunbirdTeams = [
   },
   {
       name: "CapstoneRobotTest1", // 9
-      members: ["kazuya1208", "JimboMachine", "jennifer779", "Thaoma2509", "henry111598031"]
+      members: ["kazuya1208", "JimboMachine", "jennifer779", "Thaoma2509", "henry111598031", "ntut_tommy"]
   }, 
   {
       name: "CapstoneRobotTest2",  // 7 多了一個

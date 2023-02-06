@@ -82,10 +82,6 @@ const sslTeams = process.env.REACT_APP_ENV === 'development' ? [
   },
 ] : [
   {
-    name: 'James',
-    members: ['e8315402']
-  },
-  {
     name: 'CapstoneRobotTest2',
     members: ['tan109598112']
   },

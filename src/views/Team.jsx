@@ -114,7 +114,7 @@ const sunbirdTeams = [
   },
   {
       name: "CrossFunctionalFrontEnd", // 6 少三個人 對
-      members: ["peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "kerueilin9"]
+      members: ["peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "kerueilin9", "kyl0213lee"]
   },
   {
       name: "CrossFunctionalServer", // 10
@@ -142,7 +142,7 @@ const sunbirdMaster = [
   },
   {
       name: "CrossFunctionalFrontEnd", 
-      members: ["peter110", "timno1"]
+      members: ["peter110", "timno1", "kyl0213lee"]
   },
   {
       name: "CrossFunctionalServer",

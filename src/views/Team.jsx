@@ -114,16 +114,16 @@ const sunbirdTeams = [
   },
   {
       name: "CrossFunctionalFrontEnd", // 6 少三個人 對
-      members: ["peter110", "t109590042", "yuanhao91", "Lau0108", "timno1", "kerueilin9", "kyl0213lee"]
+      members: ["t109590042", "yuanhao91", "Lau0108", "timno1", "kerueilin9", "kyl0213lee"]
   },
   {
       name: "CrossFunctionalServer", // 10
-      members: ["ireneezheng", "matti2905", "hung61601", "weikeup", "109590006", "store604218", "asdf456753123"]
+      members: ["hung61601", "weikeup", "109590006", "store604218", "asdf456753123"]
 
   },
   {
     name: "Left",
-    members: ["wakandaforever2022", "Lwj0310", "remi30789", "ming119", "kanapui", "shiow620412", "karma1827", "aa681577", "shawn578597", "Ken0820", "starvian7"]
+    members: ["wakandaforever2022", "Lwj0310", "remi30789", "ming119", "kanapui", "shiow620412", "karma1827", "aa681577", "shawn578597", "Ken0820", "starvian7", "peter110", "matti2905", "ireneezheng"]
   }
 ]
 
@@ -142,7 +142,7 @@ const sunbirdMaster = [
   },
   {
       name: "CrossFunctionalFrontEnd", 
-      members: ["peter110", "timno1", "kyl0213lee"]
+      members: ["timno1", "kyl0213lee"]
   },
   {
       name: "CrossFunctionalServer",
@@ -150,7 +150,7 @@ const sunbirdMaster = [
   },
   {
     name: "Left",
-    members: ["julia166", "shawn82tw", "Aaron123", "larry870322", "fly990314", "wyc1995", "bonnie37", "wakandaforever2022"]
+    members: ["julia166", "shawn82tw", "Aaron123", "larry870322", "fly990314", "wyc1995", "bonnie37", "wakandaforever2022", "peter110"]
   }
 ]
 
